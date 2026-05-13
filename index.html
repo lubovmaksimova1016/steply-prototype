@@ -806,7 +806,9 @@ function stopRecording() {
 /* ── S4: TASK INPUT ── */
 function buildTaskList() {
   const list = document.getElementById('task-list');
-  const allTasks = ['3 client meetings', 'send contract', 'follow up 2 leads', "prep for tomorrow's viewing", 'reply to manager'];
+  const allTasks = state.activeMode === 'pick one task for me'
+    ? ['call back Marina', 'send the invoice', 'prep the brief']
+    : ['3 client meetings', 'send contract', 'follow up 2 leads', "prep for tomorrow's viewing", 'reply to manager'];
   list.innerHTML = '';
   allTasks.forEach(t => {
     if (state.deletedTasks.has(t)) return;
@@ -881,12 +883,12 @@ function buildPlanInline() {
     planDiv.innerHTML = `
       <div class="featured-card">
         <div class="featured-label">do this now</div>
-        <div class="featured-title">send contract</div>
+        <div class="featured-title">send the invoice</div>
         <div class="featured-meta">30 min · highest impact before your next client</div>
       </div>
-      <div class="remaining-row"><span class="remaining-label">call back Marina</span><span class="status-tag">defer</span></div>
-      <div class="remaining-row"><span class="remaining-label">prep the brief</span><span class="status-tag">after lunch</span></div>`;
-    state.todayTasks = [{ id: 'contract', title: 'send contract', meta: '30m · before 12pm', locked: false }];
+      <div class="remaining-row"><span class="remaining-label">call back Marina</span><span class="status-tag">later</span></div>
+      <div class="remaining-row"><span class="remaining-label">prep the brief</span><span class="status-tag">later</span></div>`;
+    state.todayTasks = [{ id: 'invoice', title: 'send the invoice', meta: '30m · before next client', locked: false }];
     state.tomorrowTasks = [];
   } else {
     const rows = document.querySelectorAll('#task-list .task-row');
@@ -1016,7 +1018,7 @@ function syncPlan() {
 /* ── DONE INLINE (continues S4 chat) ── */
 function buildDoneInline() {
   const tasks = state.activeMode === 'pick one task for me'
-    ? [{ title: 'send contract', meta: '→ 30m · before 12pm', first: true, locked: false }]
+    ? [{ title: 'send the invoice', meta: '→ 30m · before next client', first: true, locked: false }]
     : state.todayTasks.map((t, i) => ({ title: t.title, meta: t.meta ? '→ ' + t.meta : '', first: i === 0, locked: t.locked }));
 
   const chat = document.getElementById('s4-chat');
