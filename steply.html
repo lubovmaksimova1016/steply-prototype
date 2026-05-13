@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steply</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #EEEDF8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.phone {
+  width: 390px;
+  height: 844px;
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.06);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  transform-origin: center center;
+}
+
+@media (max-width: 430px) {
+  body { align-items: flex-start; }
+  .phone { width: 100vw; height: 100vh; border-radius: 0; box-shadow: none; transform: none !important; }
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  overflow: hidden;
+}
+.screen.active { display: flex; }
+.screen.visible { opacity: 1; }
+
+/* ── SHARED COMPONENTS ── */
+.tag-logo {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; color: #6B6ECC; display: block;
+}
+.home-h1 {
+  font-size: 24px; font-weight: 700; line-height: 1.2;
+  color: #0A0A12; margin-bottom: 6px;
+}
+.home-subtitle { font-size: 14px; color: #888; }
+
+.btn-primary {
+  background: #0A0A12; color: #fff;
+  border: none; border-radius: 14px;
+  padding: 14px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px; font-weight: 500;
+  cursor: pointer; width: 100%;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-primary:not(:disabled):active { transform: scale(0.98); }
+
+.btn-ghost {
+  background: transparent; color: #0A0A12;
+  border: 1.5px solid rgba(0,0,0,0.15);
+  border-radius: 14px; padding: 14px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px; font-weight: 500;
+  cursor: pointer; width: 100%;
+  transition: border-color 0.15s, transform 0.1s;
+}
+.btn-ghost:active { transform: scale(0.98); }
+
+.connected-apps-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px; flex-wrap: nowrap;
+}
+.connected-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.8px;
+  text-transform: uppercase; color: #aaa; white-space: nowrap;
+}
+.connected-pills-wrap { display: flex; gap: 6px; flex-wrap: nowrap; overflow-x: auto; }
+.app-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 8px 3px 4px; height: 26px;
+  background: #fff; border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 20px; font-size: 11px; font-weight: 600;
+  color: #0A0A12; white-space: nowrap;
+}
+.pill-badge {
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: #fff;
+}
+
+.mode-chips { display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex; align-items: center;
+  padding: 8px 14px;
+  border: 1.5px solid rgba(0,0,0,0.15); border-radius: 24px;
+  font-size: 13px; font-weight: 500; color: #444;
+  cursor: pointer; background: #fff; white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.chip.selected { border-color: #6B6ECC; color: #6B6ECC; }
+
+.mic-btn {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, #7B7EE8, #5558C8);
+  border: none; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 4px 20px rgba(107,110,204,0.4);
+  transition: box-shadow 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent; flex-shrink: 0;
+}
+.mic-btn:active { transform: scale(0.94); }
+.mic-btn i { font-size: 26px; color: #fff; }
+.mic-btn.pulsing { animation: micPulse 1.4s ease-in-out infinite; }
+@keyframes micPulse {
+  0%,100% { box-shadow: 0 4px 20px rgba(107,110,204,0.4); }
+  50% { box-shadow: 0 4px 32px rgba(107,110,204,0.75), 0 0 0 10px rgba(107,110,204,0.12); }
+}
+.mic-hint { font-size: 12px; color: #888; margin-top: 10px; }
+
+/* ══ SCREEN 1 — ONBOARDING ══ */
+#s1 { background: #fff; }
+
+.s1-body {
+  flex: 1; overflow: hidden;
+  padding: 32px 20px 0;
+  display: flex; flex-direction: column;
+}
+.s1-logo { margin-bottom: 12px; }
+.s1-h1 { font-size: 22px; font-weight: 700; color: #0A0A12; line-height: 1.25; margin-bottom: 6px; }
+.s1-sub { font-size: 13px; color: #888; line-height: 1.4; margin-bottom: 20px; }
+
+.app-cards { display: flex; flex-direction: column; gap: 8px; }
+.app-card {
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; border: 1.5px solid rgba(0,0,0,0.09);
+  border-radius: 14px; padding: 12px 14px;
+  cursor: pointer; transition: border-color 0.15s;
+  user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.app-card:active { transform: scale(0.99); }
+.app-card.selected { border-color: #0A0A12; }
+.app-card.disabled { opacity: 0.35; pointer-events: none; }
+
+.app-icon {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.icon-notion { background: #0A0A12; }
+.icon-todoist { background: #db4035; }
+.icon-gcal { background: #4285f4; }
+.icon-fresh { background: #888; font-size: 16px; }
+
+.app-info { flex: 1; }
+.app-name { font-size: 13px; font-weight: 600; color: #0A0A12; }
+.app-desc { font-size: 11px; color: #888; margin-top: 1px; }
+
+.app-check {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid #ccc;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.15s, border-color 0.15s;
+  color: transparent; font-size: 12px;
+}
+.app-card.selected .app-check { background: #0A0A12; border-color: #0A0A12; color: #fff; }
+
+.s1-cta { padding: 16px 20px 32px; flex-shrink: 0; }
+
+/* ══ SCREEN 2 — HOME FIRST VISIT ══ */
+#s2 { background: #EEEDF8; padding: 32px 20px 24px; }
+
+/* ══ SCREEN 3 — LISTENING ══ */
+#s3 { background: #0A0A12; padding: 48px 20px 32px; }
+
+.s3-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
+.mode-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 99px; padding: 7px 14px;
+  font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85);
+  margin-bottom: 20px;
+}
+.mode-dot { width: 7px; height: 7px; border-radius: 50%; background: #6B6ECC; flex-shrink: 0; }
+
+.transcript-area { flex: 1; overflow-y: auto; scrollbar-width: none; }
+.transcript-area::-webkit-scrollbar { display: none; }
+.transcript-text { font-size: 20px; font-weight: 400; color: #fff; line-height: 1.55; min-height: 80px; }
+.cursor {
+  display: inline-block; width: 2px; height: 1.1em;
+  background: #6B6ECC; vertical-align: text-bottom; margin-left: 2px;
+  animation: blink 0.9s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.s3-bottom { display: flex; flex-direction: column; align-items: center; padding-top: 20px; gap: 10px; }
+.recording-hint { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; }
+.tap-stop-hint { font-size: 12px; color: rgba(255,255,255,0.35); }
+
+/* ══ SCREEN 4 — UNIFIED CHAT (Confirm + Plan) ══ */
+#s4 { background: #EEEDF8; }
+
+.chat-topbar {
+  padding: 32px 20px 10px;
+  background: #EEEDF8; flex-shrink: 0;
+  display: flex; align-items: center; gap: 10px;
+}
+.chat-mode-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(0,0,0,0.06); border-radius: 99px;
+  padding: 4px 10px;
+  font-size: 11px; font-weight: 500; color: #555;
+}
+.chat-mode-dot { width: 6px; height: 6px; border-radius: 50%; background: #6B6ECC; flex-shrink: 0; }
+
+.chat-area {
+  flex: 1; overflow-y: auto;
+  padding: 10px 20px 10px;
+  display: flex; flex-direction: column; gap: 10px;
+  scrollbar-width: none;
+}
+.chat-area::-webkit-scrollbar { display: none; }
+
+.bubble {
+  max-width: 280px; padding: 11px 14px;
+  border-radius: 16px; font-size: 14px; line-height: 1.5; color: #0A0A12;
+}
+.bubble-bot {
+  background: rgba(255,255,255,0.9); border: 1px solid rgba(0,0,0,0.07);
+  align-self: flex-start; border-bottom-left-radius: 4px;
+}
+.bubble-user {
+  background: #0A0A12; color: #fff;
+  align-self: flex-end; border-bottom-right-radius: 4px;
+}
+
+.task-card {
+  background: #fff; border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px; padding: 14px; max-width: 290px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); align-self: flex-start;
+}
+.task-card-header {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #888; margin-bottom: 10px;
+}
+.task-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: opacity 0.2s, max-height 0.25s; overflow: hidden; max-height: 48px;
+}
+.task-row:last-child { border-bottom: none; }
+.task-row.removing { opacity: 0; max-height: 0; padding: 0; border-bottom: none; pointer-events: none; }
+.task-dot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid #ccc; flex-shrink: 0; }
+.task-label { flex: 1; font-size: 14px; color: #0A0A12; }
+.task-del {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.18); background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 11px; color: #888;
+  transition: background 0.15s, color 0.15s, border-color 0.15s; flex-shrink: 0;
+}
+.task-del:hover, .task-del:active { background: #0A0A12; color: #fff; border-color: #0A0A12; }
+
+.chat-bottom { background: #EEEDF8; padding: 8px 20px 28px; flex-shrink: 0; }
+
+.add-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.add-input {
+  flex: 1; background: #fff; border: 1.5px solid rgba(0,0,0,0.1);
+  border-radius: 12px; padding: 11px 14px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; color: #0A0A12;
+  outline: none; transition: border-color 0.15s;
+}
+.add-input:focus { border-color: #6B6ECC; }
+.add-input::placeholder { color: #bbb; }
+.add-btn {
+  background: #0A0A12; color: #fff; border: none;
+  border-radius: 12px; padding: 11px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer;
+}
+.two-btns { display: flex; gap: 8px; }
+.two-btns .btn-ghost, .two-btns .btn-primary { flex: 1; }
+
+#s4-plan-bottom { display: none; flex-direction: column; gap: 8px; }
+#s4-done-bottom { display: none; flex-direction: column; gap: 8px; }
+
+.focus-summary-card {
+  background: #fff; border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px; padding: 14px;
+  width: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  align-self: flex-start;
+}
+.focus-summary-header {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #888; margin-bottom: 10px;
+}
+
+.warning-msg {
+  background: #fff3cd; border: 1px solid #ffc107;
+  border-radius: 10px; padding: 10px 14px;
+  font-size: 13px; color: #856404; display: none;
+}
+.warning-msg.visible { display: block; }
+.warning-msg.shake { animation: shake 0.4s ease; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+}
+
+/* ── INLINE PLAN (inside chat) ── */
+.plan-section-label {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #888; margin: 12px 0 8px; width: 100%;
+}
+.plan-section-label::after { content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.1); }
+.section-badge {
+  background: #0A0A12; color: #fff; border-radius: 99px;
+  padding: 2px 8px; font-size: 10px; font-weight: 600;
+}
+
+.plan-card {
+  background: #fff; border: 1.5px solid rgba(0,0,0,0.08);
+  border-radius: 14px; padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+  cursor: grab; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  transition: box-shadow 0.15s, opacity 0.15s, border-color 0.15s;
+  user-select: none; width: 100%;
+}
+.plan-card:active { cursor: grabbing; }
+.plan-card.locked { cursor: default; }
+.plan-card.dragging { opacity: 0.35; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.plan-card.drag-over { border-color: #6B6ECC; border-style: dashed; }
+.plan-card.dimmed { opacity: 0.5; }
+
+.grip { display: flex; flex-direction: column; gap: 3px; flex-shrink: 0; width: 14px; }
+.grip span { display: block; width: 14px; height: 2px; background: #ccc; border-radius: 2px; }
+.plan-card.locked .grip span { background: transparent; }
+
+.plan-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #0A0A12; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.plan-info { flex: 1; min-width: 0; }
+.plan-title { font-size: 14px; font-weight: 600; color: #0A0A12; }
+.plan-meta { font-size: 12px; color: #888; margin-top: 2px; }
+
+.lock-btn {
+  background: none; border: none; font-size: 16px;
+  cursor: pointer; padding: 4px; flex-shrink: 0; transition: transform 0.15s;
+}
+.lock-btn:active { transform: scale(0.85); }
+
+.lock-hint { text-align: center; font-size: 12px; font-style: italic; color: #aaa; margin: 2px 0 10px; width: 100%; }
+
+.featured-card {
+  background: #fff; border: 2px solid #0A0A12;
+  border-radius: 16px; padding: 18px; margin-bottom: 10px; width: 100%;
+}
+.featured-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6B6ECC; margin-bottom: 8px; }
+.featured-title { font-size: 22px; font-weight: 700; color: #0A0A12; margin-bottom: 6px; }
+.featured-meta { font-size: 13px; color: #888; }
+
+.remaining-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 0; border-bottom: 1px solid rgba(0,0,0,0.06); width: 100%;
+}
+.remaining-row:last-child { border-bottom: none; }
+.remaining-label { font-size: 14px; color: #aaa; }
+.status-tag {
+  font-size: 11px; font-weight: 500; background: rgba(0,0,0,0.05);
+  border-radius: 99px; padding: 3px 10px; color: #888;
+}
+
+/* ══ SCREEN 6 — DONE ══ */
+#s6 { background: #EEEDF8; padding: 32px 20px 28px; }
+
+.s6-divider { height: 1px; background: rgba(0,0,0,0.1); margin: 16px 0 10px; }
+.focus-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #888; margin-bottom: 12px;
+}
+.focus-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.focus-row:last-child { border-bottom: none; }
+.focus-dot-filled { width: 9px; height: 9px; border-radius: 50%; background: #0A0A12; flex-shrink: 0; }
+.focus-dot-empty { width: 9px; height: 9px; border-radius: 50%; border: 2px solid #ccc; flex-shrink: 0; }
+.focus-info { flex: 1; }
+.focus-title { font-size: 14px; font-weight: 500; color: #0A0A12; }
+.focus-meta { font-size: 12px; color: #aaa; margin-top: 1px; }
+.sync-note { text-align: center; font-size: 11px; color: #aaa; margin-bottom: 14px; }
+
+/* ══ SCREEN 7 — HOME RETURN ══ */
+#s7 { background: #EEEDF8; padding: 32px 20px 24px; }
+
+.focus-block {
+  border: 1.5px solid rgba(0,0,0,0.1); border-radius: 16px;
+  background: #fff; overflow: hidden; margin-bottom: 16px;
+}
+.focus-block-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.focus-block-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
+.chevron { font-size: 16px; color: #888; transition: transform 0.2s; }
+.chevron.open { transform: rotate(180deg); }
+
+.focus-block-body { padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+.focus-block-body.open { max-height: 260px; padding: 0 16px 12px; }
+
+.history-link { display: block; font-size: 13px; color: #6B6ECC; margin-top: 10px; cursor: pointer; }
+.history-link:active { opacity: 0.7; }
+
+/* History overlay */
+.history-overlay {
+  position: absolute; inset: 0; background: #fff; z-index: 100;
+  transform: translateX(100%); transition: transform 0.25s ease;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.history-overlay.open { transform: translateX(0); }
+.history-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 48px 20px 16px; border-bottom: 1px solid rgba(0,0,0,0.07); flex-shrink: 0;
+}
+.back-btn {
+  background: none; border: none; font-size: 15px; font-weight: 500;
+  color: #6B6ECC; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  display: flex; align-items: center; gap: 4px;
+}
+.history-title { font-size: 16px; font-weight: 600; color: #0A0A12; }
+.history-scroll { flex: 1; overflow-y: auto; padding: 20px; scrollbar-width: none; }
+.history-scroll::-webkit-scrollbar { display: none; }
+.history-date { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 12px; }
+.history-task { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 14px; color: #0A0A12; }
+.history-task:last-child { border-bottom: none; }
+.history-section { margin-bottom: 24px; }
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+
+  <!-- ══ SCREEN 1: ONBOARDING ══ -->
+  <div class="screen" id="s1">
+    <div class="s1-body">
+      <span class="tag-logo s1-logo">steply</span>
+      <div class="s1-h1">your tasks are already somewhere. let's go get them.</div>
+      <p class="s1-sub">pick your apps — we'll handle the reading. no re-entering anything.</p>
+
+      <div class="app-cards">
+        <div class="app-card" data-app="notion" onclick="toggleApp(this)">
+          <div class="app-icon icon-notion">N</div>
+          <div class="app-info"><div class="app-name">Notion</div><div class="app-desc">docs &amp; notes</div></div>
+          <div class="app-check"><i class="ti ti-check" style="font-size:11px;"></i></div>
+        </div>
+        <div class="app-card" data-app="todoist" onclick="toggleApp(this)">
+          <div class="app-icon icon-todoist">T</div>
+          <div class="app-info"><div class="app-name">Todoist</div><div class="app-desc">tasks &amp; projects</div></div>
+          <div class="app-check"><i class="ti ti-check" style="font-size:11px;"></i></div>
+        </div>
+        <div class="app-card" data-app="gcal" onclick="toggleApp(this)">
+          <div class="app-icon icon-gcal">G</div>
+          <div class="app-info"><div class="app-name">Google Calendar</div><div class="app-desc">schedule &amp; time blocks</div></div>
+          <div class="app-check"><i class="ti ti-check" style="font-size:11px;"></i></div>
+        </div>
+        <div class="app-card" data-app="fresh" onclick="toggleApp(this)">
+          <div class="app-icon icon-fresh">✦</div>
+          <div class="app-info"><div class="app-name">i don't use any apps</div><div class="app-desc">start fresh — just tell me what's on your mind</div></div>
+          <div class="app-check"><i class="ti ti-check" style="font-size:11px;"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="s1-cta">
+      <button class="btn-primary" id="letsgo-btn" disabled onclick="goToS2()">let's go</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 2: HOME FIRST VISIT ══ -->
+  <div class="screen" id="s2">
+    <span class="tag-logo" style="margin-bottom:14px;">steply</span>
+    <div id="s2-connected-row" class="connected-apps-row" style="display:none;">
+      <span class="connected-label">connected apps</span>
+      <div class="connected-pills-wrap" id="s2-pills"></div>
+    </div>
+    <h1 class="home-h1">hey, Luba. what's on your plate today?</h1>
+    <p class="home-subtitle" style="margin-bottom:18px;">pick a mode or just hit record</p>
+
+    <div class="mode-chips" id="s2-chips">
+      <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s2')">too much on my plate</div>
+      <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s2')">pick one task for me</div>
+      <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s2')">my day went sideways</div>
+      <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s2')">help me plan tomorrow</div>
+    </div>
+
+    <div style="flex:1;"></div>
+
+    <div style="display:flex; flex-direction:column; align-items:center; padding-top:20px; padding-bottom:4px;">
+      <button class="mic-btn" onclick="goToS3FromMic()"><i class="ti ti-microphone"></i></button>
+      <span class="mic-hint">tap to record</span>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 3: LISTENING ══ -->
+  <div class="screen" id="s3">
+    <div class="s3-tag">steply listening</div>
+    <div class="mode-badge">
+      <span class="mode-dot"></span>
+      <span id="s3-mode-label">too much on my plate</span>
+    </div>
+    <div class="transcript-area">
+      <p class="transcript-text" id="transcript-text"><span class="cursor"></span></p>
+    </div>
+    <div class="s3-bottom">
+      <span class="recording-hint">recording...</span>
+      <button class="mic-btn pulsing" id="s3-mic" onclick="stopRecording()"><i class="ti ti-microphone"></i></button>
+      <span class="tap-stop-hint">tap to stop</span>
+    </div>
+    <div style="height:32px;flex-shrink:0;"></div>
+  </div>
+
+  <!-- ══ SCREEN 4: UNIFIED CHAT ══ -->
+  <div class="screen" id="s4">
+    <div class="chat-topbar">
+      <span class="tag-logo">steply</span>
+      <div class="chat-mode-pill">
+        <span class="chat-mode-dot"></span>
+        <span id="chat-mode-label">too much on my plate</span>
+      </div>
+    </div>
+
+    <div class="chat-area" id="s4-chat">
+      <div class="bubble bubble-bot" id="s4-intro-bubble">i pulled tasks from your apps and voice note.</div>
+      <div class="task-card" id="s4-task-card">
+        <div class="task-card-header">tasks i picked up</div>
+        <div id="task-list">
+          <div class="task-row" data-task="3 client meetings"><div class="task-dot"></div><span class="task-label">3 client meetings</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="send contract"><div class="task-dot"></div><span class="task-label">send contract</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="follow up 2 leads"><div class="task-dot"></div><span class="task-label">follow up 2 leads</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="prep for tomorrow's viewing"><div class="task-dot"></div><span class="task-label">prep for tomorrow's viewing</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="reply to manager"><div class="task-dot"></div><span class="task-label">reply to manager</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+        </div>
+      </div>
+      <div class="bubble bubble-bot">anything missing? add it below — then confirm when ready.</div>
+    </div>
+
+    <div class="chat-bottom">
+      <!-- Task input state -->
+      <div id="s4-task-bottom">
+        <div class="add-row">
+          <input class="add-input" id="add-input" type="text" placeholder="add a task...">
+          <button class="add-btn" onclick="addTask()">add</button>
+        </div>
+        <div class="two-btns">
+          <button class="btn-ghost" onclick="goTo('s2')">← back</button>
+          <button class="btn-primary" onclick="confirmTasks()">that's everything →</button>
+        </div>
+      </div>
+      <!-- Plan action state -->
+      <div id="s4-plan-bottom">
+        <div class="warning-msg" id="plan-warning">today has more than 3 tasks — drag something to tomorrow so the day stays manageable.</div>
+        <button class="btn-primary" onclick="syncPlan()">looks good — sync it</button>
+        <button class="btn-ghost" onclick="adjustPlan()">actually, let me adjust</button>
+      </div>
+      <!-- Done state -->
+      <div id="s4-done-bottom">
+        <p class="sync-note" id="inline-sync-note">synced to your apps</p>
+        <button class="btn-primary" onclick="goTo('s7')">done for now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 6: DONE ══ -->
+  <div class="screen" id="s6">
+    <span class="tag-logo" style="margin-bottom:14px;">steply</span>
+    <div class="bubble bubble-bot" style="max-width:100%; background:rgba(255,255,255,0.9);">cleared some space. let's see how today goes.</div>
+    <div class="s6-divider"></div>
+    <div class="focus-label">your focus today</div>
+    <div id="s6-tasks"></div>
+    <div style="flex:1;"></div>
+    <p class="sync-note" id="s6-sync-note">synced to your apps</p>
+    <button class="btn-primary" onclick="goTo('s7')">done for now</button>
+  </div>
+
+  <!-- ══ SCREEN 7: HOME RETURN ══ -->
+  <div class="screen" id="s7">
+    <span class="tag-logo" style="margin-bottom:14px;">steply</span>
+    <div id="s7-connected-row" class="connected-apps-row" style="display:none;">
+      <span class="connected-label">connected apps</span>
+      <div class="connected-pills-wrap" id="s7-pills"></div>
+    </div>
+    <h1 class="home-h1" style="margin-bottom:6px;">welcome back, Luba.</h1>
+    <p class="home-subtitle" style="margin-bottom:16px;">pick up where you left off, or start fresh</p>
+
+    <div class="focus-block">
+      <div class="focus-block-header" onclick="toggleFocusBlock()">
+        <span class="focus-block-title">your focus today</span>
+        <i class="ti ti-chevron-down chevron open" id="focus-chevron"></i>
+      </div>
+      <div class="focus-block-body open" id="focus-block-body">
+        <div id="s7-focus-tasks"></div>
+        <span class="history-link" onclick="openHistory()">view session history →</span>
+      </div>
+    </div>
+
+    <div class="mode-chips" style="margin-bottom:0;">
+      <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s7')">too much on my plate</div>
+      <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s7')">pick one task for me</div>
+      <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s7')">my day went sideways</div>
+      <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s7')">help me plan tomorrow</div>
+    </div>
+
+    <div style="flex:1;"></div>
+
+    <div style="display:flex; flex-direction:column; align-items:center; padding-top:16px; padding-bottom:4px;">
+      <button class="mic-btn" onclick="goToS3FromMic()"><i class="ti ti-microphone"></i></button>
+      <span class="mic-hint">tap to record</span>
+    </div>
+
+    <!-- History Overlay -->
+    <div class="history-overlay" id="history-overlay">
+      <div class="history-header">
+        <button class="back-btn" onclick="closeHistory()"><i class="ti ti-arrow-left"></i> back</button>
+        <span class="history-title">session history</span>
+      </div>
+      <div class="history-scroll">
+        <div class="history-section">
+          <div class="history-date">today · may 12</div>
+          <div id="history-today"></div>
+        </div>
+        <div class="history-section">
+          <div class="history-date">yesterday · may 11</div>
+          <div class="history-task"><span style="width:8px;height:8px;background:#0A0A12;border-radius:50%;flex-shrink:0;display:inline-block;"></span> finish client proposal</div>
+          <div class="history-task"><span style="width:8px;height:8px;border:2px solid #ccc;border-radius:50%;flex-shrink:0;display:inline-block;"></span> team check-in call</div>
+          <div class="history-task"><span style="width:8px;height:8px;border:2px solid #ccc;border-radius:50%;flex-shrink:0;display:inline-block;"></span> send weekly report</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+const state = {
+  selectedApps: new Set(),
+  freshStart: false,
+  activeMode: 'too much on my plate',
+  todayTasks: [],
+  tomorrowTasks: [],
+  deletedTasks: new Set(),
+  transcriptTimer: null,
+  planBuilt: false,
+};
+
+const TRANSCRIPTS = {
+  'too much on my plate': "I've got 3 clients today, need to send a contract, follow up with two leads, prep for tomorrow's viewing, and my manager keeps calling... I don't even know where to start honestly",
+  'pick one task for me': "I have 40 minutes before my next client. I need to either call back Marina, send the invoice, or prep the brief — I can't do all three. what's actually the most important one right now",
+  'my day went sideways': "okay so the morning completely fell apart — first client was late, then I got an urgent call from a supplier, and now I have a pile of things I was supposed to do before lunch that I haven't touched. I need to figure out what's still salvageable today",
+  'help me plan tomorrow': "tomorrow I have two client calls in the morning, need to finish the deck, pick up some stuff on the way, and I also promised to send feedback on the contract by end of day. feels like a lot already and I haven't even thought about the gym",
+};
+
+/* ── TRANSITIONS ── */
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('visible'));
+  setTimeout(() => {
+    document.querySelectorAll('.screen').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
+    const next = document.getElementById(id);
+    next.style.display = 'flex';
+    next.classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => next.classList.add('visible')));
+  }, 200);
+}
+
+/* ── S1: ONBOARDING ── */
+function toggleApp(card) {
+  const app = card.dataset.app;
+  if (app === 'fresh') {
+    if (card.classList.contains('selected')) {
+      card.classList.remove('selected');
+      state.selectedApps.delete('fresh');
+      state.freshStart = false;
+      document.querySelectorAll('.app-card:not([data-app="fresh"])').forEach(c => c.classList.remove('disabled'));
+    } else {
+      card.classList.add('selected');
+      state.selectedApps.clear();
+      state.selectedApps.add('fresh');
+      state.freshStart = true;
+      document.querySelectorAll('.app-card:not([data-app="fresh"])').forEach(c => { c.classList.remove('selected'); c.classList.add('disabled'); });
+    }
+  } else {
+    if (state.freshStart) return;
+    card.classList.toggle('selected');
+    if (card.classList.contains('selected')) state.selectedApps.add(app);
+    else state.selectedApps.delete(app);
+  }
+  document.getElementById('letsgo-btn').disabled = state.selectedApps.size === 0;
+}
+
+function goToS2() {
+  buildConnectedApps();
+  goTo('s2');
+}
+
+function buildConnectedApps() {
+  const appDefs = {
+    notion: { label: 'Notion', bg: '#0A0A12', letter: 'N' },
+    todoist: { label: 'Todoist', bg: '#db4035', letter: 'T' },
+    gcal: { label: 'Google Calendar', bg: '#4285f4', letter: 'G' },
+  };
+  ['s2', 's7'].forEach(sid => {
+    const row = document.getElementById(sid + '-connected-row');
+    const pillsEl = document.getElementById(sid + '-pills');
+    if (!pillsEl) return;
+    pillsEl.innerHTML = '';
+    const hasReal = [...state.selectedApps].some(a => a !== 'fresh');
+    if (hasReal) {
+      [...state.selectedApps].filter(a => a !== 'fresh').forEach(app => {
+        const d = appDefs[app]; if (!d) return;
+        const pill = document.createElement('div');
+        pill.className = 'app-pill';
+        pill.innerHTML = `<div class="pill-badge" style="background:${d.bg};">${d.letter}</div>${d.label}`;
+        pillsEl.appendChild(pill);
+      });
+      row.style.display = 'flex';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+  document.getElementById('s4-intro-bubble').textContent = state.freshStart
+    ? "based on what you told me, here's what I picked up."
+    : "i pulled tasks from your apps and voice note.";
+  document.getElementById('s6-sync-note').textContent = state.freshStart
+    ? 'saved to steply · no external apps' : 'synced to your apps';
+}
+
+/* ── CHIP SELECT ── */
+function selectMode(chip, screen) {
+  document.querySelectorAll('#' + screen + ' .chip').forEach(c => c.classList.remove('selected'));
+  chip.classList.add('selected');
+  state.activeMode = chip.dataset.mode;
+  if (screen === 's2' || screen === 's7') setTimeout(() => goToS3(), 150);
+}
+
+/* ── S3: LISTENING ── */
+function goToS3FromMic() { goToS3(); }
+
+function goToS3() {
+  document.getElementById('s3-mode-label').textContent = state.activeMode;
+  document.getElementById('transcript-text').innerHTML = '<span class="cursor"></span>';
+  goTo('s3');
+  setTimeout(startTranscript, 400);
+}
+
+function startTranscript() {
+  const text = TRANSCRIPTS[state.activeMode] || TRANSCRIPTS['too much on my plate'];
+  const words = text.split(' ');
+  const el = document.getElementById('transcript-text');
+  el.innerHTML = '<span class="cursor"></span>';
+  let i = 0;
+  state.transcriptTimer = setInterval(() => {
+    if (i >= words.length) { clearInterval(state.transcriptTimer); return; }
+    const cursor = el.querySelector('.cursor');
+    const span = document.createElement('span');
+    span.textContent = (i === 0 ? '' : ' ') + words[i];
+    el.insertBefore(span, cursor);
+    i++;
+  }, 110);
+}
+
+function stopRecording() {
+  if (state.transcriptTimer) { clearInterval(state.transcriptTimer); state.transcriptTimer = null; }
+  const cursor = document.querySelector('#transcript-text .cursor');
+  if (cursor) cursor.remove();
+
+  // Reset chat to fresh task-input state
+  state.planBuilt = false;
+  state.deletedTasks = new Set();
+  document.getElementById('chat-mode-label').textContent = state.activeMode;
+
+  // Remove all injected chat elements from previous session
+  document.querySelectorAll('#s4-chat .bubble-user, #s4-chat .plan-bot-msg, #s4-chat .bot-confirm, #s4-chat .done-bot-msg, #s4-chat #inline-plan, #s4-chat .focus-summary-card').forEach(el => el.remove());
+
+  buildTaskList();
+  document.getElementById('s4-task-bottom').style.display = 'block';
+  document.getElementById('s4-plan-bottom').style.display = 'none';
+  document.getElementById('s4-done-bottom').style.display = 'none';
+  document.getElementById('plan-warning').classList.remove('visible');
+  goTo('s4');
+}
+
+/* ── S4: TASK INPUT ── */
+function buildTaskList() {
+  const list = document.getElementById('task-list');
+  const allTasks = ['3 client meetings', 'send contract', 'follow up 2 leads', "prep for tomorrow's viewing", 'reply to manager'];
+  list.innerHTML = '';
+  allTasks.forEach(t => {
+    if (state.deletedTasks.has(t)) return;
+    const row = document.createElement('div');
+    row.className = 'task-row'; row.dataset.task = t;
+    row.innerHTML = `<div class="task-dot"></div><span class="task-label">${t}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
+    list.appendChild(row);
+  });
+}
+
+function deleteTask(btn) {
+  const row = btn.closest('.task-row');
+  state.deletedTasks.add(row.dataset.task);
+  row.classList.add('removing');
+  setTimeout(() => row.remove(), 280);
+}
+
+function addTask() {
+  const input = document.getElementById('add-input');
+  let raw = input.value.trim(); if (!raw) return;
+  raw = raw.replace(/^(oh i also need to|i also need to|i need to|i should|don't forget to|also|oh and|i forgot to)\s+/i, '');
+  const taskName = raw.charAt(0).toUpperCase() + raw.slice(1);
+  input.value = '';
+
+  const list = document.getElementById('task-list');
+  const row = document.createElement('div');
+  row.className = 'task-row'; row.dataset.task = taskName;
+  row.innerHTML = `<div class="task-dot"></div><span class="task-label">${taskName}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
+  list.appendChild(row);
+
+  const chat = document.getElementById('s4-chat');
+  const existing = chat.querySelector('.bot-confirm');
+  if (existing) existing.remove();
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble bubble-bot bot-confirm';
+  bubble.textContent = `got it — added as ${taskName}`;
+  chat.appendChild(bubble);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+document.getElementById('add-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+function confirmTasks() {
+  if (state.planBuilt) return;
+  const chat = document.getElementById('s4-chat');
+  const userBubble = document.createElement('div');
+  userBubble.className = 'bubble bubble-user';
+  userBubble.textContent = "that's everything 👍";
+  chat.appendChild(userBubble);
+  chat.scrollTop = chat.scrollHeight;
+  setTimeout(buildPlanInline, 400);
+}
+
+/* ── S4→PLAN: INLINE BUILD ── */
+function buildPlanInline() {
+  state.planBuilt = true;
+  const chat = document.getElementById('s4-chat');
+  const isSingle = state.activeMode === 'pick one task for me';
+
+  const botMsg = document.createElement('div');
+  botMsg.className = 'bubble bubble-bot plan-bot-msg';
+  botMsg.textContent = isSingle
+    ? "you've got 40 minutes. one thing matters right now:"
+    : "here's what fits today. i'd keep it to 3 tasks max — that's what actually gets done. drag to reprioritize, tap the lock to fix a task in place.";
+  chat.appendChild(botMsg);
+
+  const planDiv = document.createElement('div');
+  planDiv.id = 'inline-plan';
+  planDiv.style.cssText = 'width:100%;display:flex;flex-direction:column;';
+
+  if (isSingle) {
+    planDiv.innerHTML = `
+      <div class="featured-card">
+        <div class="featured-label">do this now</div>
+        <div class="featured-title">send contract</div>
+        <div class="featured-meta">30 min · highest impact before your next client</div>
+      </div>
+      <div class="remaining-row"><span class="remaining-label">call back Marina</span><span class="status-tag">defer</span></div>
+      <div class="remaining-row"><span class="remaining-label">prep the brief</span><span class="status-tag">after lunch</span></div>`;
+    state.todayTasks = [{ id: 'contract', title: 'send contract', meta: '30m · before 12pm', locked: false }];
+    state.tomorrowTasks = [];
+  } else {
+    const rows = document.querySelectorAll('#task-list .task-row');
+    const allTasks = [...rows].map(r => r.dataset.task);
+    const metaMap = {
+      '3 client meetings': { meta: '', locked: true },
+      'send contract': { meta: '30m · before 12pm', locked: false },
+      'follow up 2 leads': { meta: '20m · between meetings', locked: false },
+    };
+    state.todayTasks = []; state.tomorrowTasks = [];
+    allTasks.forEach((t, i) => {
+      const m = metaMap[t] || { meta: '', locked: false };
+      if (i < 3) state.todayTasks.push({ id: t, title: t, meta: m.meta, locked: m.locked });
+      else state.tomorrowTasks.push({ id: t, title: t, meta: '', locked: false });
+    });
+    planDiv.innerHTML = `
+      <div class="plan-section-label" id="today-label">today</div>
+      <div id="today-zone"></div>
+      <p class="lock-hint">tap 🔓 to lock a task in place</p>
+      <div class="plan-section-label">tomorrow <span class="section-badge" id="tomorrow-badge">0</span></div>
+      <div id="tomorrow-zone"></div>`;
+  }
+
+  chat.appendChild(planDiv);
+  if (!isSingle) renderPlanCards();
+
+  chat.scrollTop = chat.scrollHeight;
+
+  document.getElementById('s4-task-bottom').style.display = 'none';
+  document.getElementById('s4-plan-bottom').style.display = 'flex';
+}
+
+function adjustPlan() {
+  state.planBuilt = false;
+  const planDiv = document.getElementById('inline-plan');
+  if (planDiv) planDiv.remove();
+  document.querySelectorAll('#s4-chat .plan-bot-msg, #s4-chat .bubble-user').forEach(el => el.remove());
+  document.getElementById('s4-task-bottom').style.display = 'block';
+  document.getElementById('s4-plan-bottom').style.display = 'none';
+  document.getElementById('plan-warning').classList.remove('visible');
+  const taskCard = document.getElementById('s4-task-card');
+  if (taskCard) taskCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── PLAN CARDS ── */
+function renderPlanCards() {
+  renderZone('today-zone', state.todayTasks, false);
+  renderZone('tomorrow-zone', state.tomorrowTasks, true);
+  const tb = document.getElementById('tomorrow-badge');
+  if (tb) tb.textContent = state.tomorrowTasks.length;
+  updateTodayLabel();
+}
+
+function renderZone(zoneId, tasks, dimmed) {
+  const zone = document.getElementById(zoneId); if (!zone) return;
+  zone.innerHTML = '';
+  tasks.forEach((task, idx) => {
+    const card = document.createElement('div');
+    card.className = 'plan-card' + (task.locked ? ' locked' : '') + (dimmed ? ' dimmed' : '');
+    card.dataset.id = task.id; card.dataset.zone = zoneId;
+    card.draggable = !task.locked;
+    card.innerHTML = `
+      <div class="grip">${task.locked ? '' : '<span></span><span></span><span></span>'}</div>
+      <div class="plan-num">${dimmed ? '·' : idx + 1}</div>
+      <div class="plan-info">
+        <div class="plan-title">${task.title}</div>
+        ${task.meta ? `<div class="plan-meta">${task.meta}</div>` : ''}
+      </div>
+      <button class="lock-btn" onclick="toggleLock('${task.id}','${zoneId}')">${task.locked ? '🔒' : '🔓'}</button>`;
+    attachDrag(card, zoneId);
+    zone.appendChild(card);
+  });
+}
+
+function toggleLock(taskId, zoneId) {
+  const arr = zoneId === 'today-zone' ? state.todayTasks : state.tomorrowTasks;
+  const task = arr.find(t => t.id === taskId);
+  if (task) { task.locked = !task.locked; renderPlanCards(); }
+}
+
+function updateTodayLabel() {
+  const label = document.getElementById('today-label');
+  if (label) label.innerHTML = `today <span class="section-badge">${state.todayTasks.length}</span>`;
+}
+
+let dragSrc = null, dragSrcZone = null;
+
+function attachDrag(card, zoneId) {
+  card.addEventListener('dragstart', e => {
+    dragSrc = card; dragSrcZone = zoneId;
+    setTimeout(() => card.classList.add('dragging'), 0);
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
+    document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('drag-over'));
+    dragSrc = null;
+  });
+  card.addEventListener('dragover', e => { e.preventDefault(); if (dragSrc && dragSrc !== card) card.classList.add('drag-over'); });
+  card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+  card.addEventListener('drop', e => {
+    e.preventDefault(); card.classList.remove('drag-over');
+    if (!dragSrc || dragSrc === card) return;
+    const srcArr = dragSrcZone === 'today-zone' ? state.todayTasks : state.tomorrowTasks;
+    const dstArr = zoneId === 'today-zone' ? state.todayTasks : state.tomorrowTasks;
+    const srcIdx = srcArr.findIndex(t => t.id === dragSrc.dataset.id);
+    const dstIdx = dstArr.findIndex(t => t.id === card.dataset.id);
+    if (srcIdx === -1) return;
+    const [moved] = srcArr.splice(srcIdx, 1);
+    moved.locked = false;
+    dstArr.splice(dstIdx === -1 ? dstArr.length : dstIdx, 0, moved);
+    renderPlanCards();
+  });
+}
+
+function syncPlan() {
+  if (state.activeMode !== 'pick one task for me' && state.todayTasks.length > 3) {
+    const warn = document.getElementById('plan-warning');
+    warn.classList.add('visible');
+    warn.classList.remove('shake');
+    requestAnimationFrame(() => requestAnimationFrame(() => warn.classList.add('shake')));
+    return;
+  }
+  buildDoneInline();
+}
+
+/* ── DONE INLINE (continues S4 chat) ── */
+function buildDoneInline() {
+  const tasks = state.activeMode === 'pick one task for me'
+    ? [{ title: 'send contract', meta: '→ 30m · before 12pm', first: true, locked: false }]
+    : state.todayTasks.map((t, i) => ({ title: t.title, meta: t.meta ? '→ ' + t.meta : '', first: i === 0, locked: t.locked }));
+
+  const chat = document.getElementById('s4-chat');
+
+  // Bot message
+  const botMsg = document.createElement('div');
+  botMsg.className = 'bubble bubble-bot done-bot-msg';
+  botMsg.textContent = 'cleared some space. let\'s see how today goes.';
+  chat.appendChild(botMsg);
+
+  // Focus summary card
+  const card = document.createElement('div');
+  card.className = 'focus-summary-card done-bot-msg';
+  const headerText = 'your focus today';
+  card.innerHTML = `<div class="focus-summary-header">${headerText}</div>`;
+  tasks.forEach(t => {
+    const row = document.createElement('div'); row.className = 'focus-row';
+    row.innerHTML = `
+      <div class="${t.first ? 'focus-dot-filled' : 'focus-dot-empty'}"></div>
+      <div class="focus-info">
+        <div class="focus-title">${t.title}${t.locked ? ' 🔒' : ''}</div>
+        ${t.meta ? `<div class="focus-meta">${t.meta}</div>` : ''}
+      </div>`;
+    card.appendChild(row);
+  });
+  chat.appendChild(card);
+  chat.scrollTop = chat.scrollHeight;
+
+  // Sync note text
+  document.getElementById('inline-sync-note').textContent = state.freshStart
+    ? 'saved to steply · no external apps' : 'synced to your apps';
+
+  // Swap bottom
+  document.getElementById('s4-plan-bottom').style.display = 'none';
+  document.getElementById('s4-done-bottom').style.display = 'flex';
+
+  buildS7Focus(tasks);
+}
+
+/* ── S7: HOME RETURN ── */
+function buildS7Focus(tasks) {
+  buildConnectedApps();
+  const el = document.getElementById('s7-focus-tasks'); el.innerHTML = '';
+  const histEl = document.getElementById('history-today'); histEl.innerHTML = '';
+  tasks.forEach(t => {
+    const row = document.createElement('div'); row.className = 'focus-row';
+    row.innerHTML = `
+      <div class="${t.first ? 'focus-dot-filled' : 'focus-dot-empty'}"></div>
+      <div class="focus-info">
+        <div class="focus-title">${t.title}${t.locked ? ' 🔒' : ''}</div>
+        ${t.meta ? `<div class="focus-meta">${t.meta}</div>` : ''}
+      </div>`;
+    el.appendChild(row);
+    const hr = document.createElement('div'); hr.className = 'history-task';
+    hr.innerHTML = `<span style="width:8px;height:8px;${t.first ? 'background:#0A0A12;' : 'border:2px solid #ccc;'}border-radius:50%;flex-shrink:0;display:inline-block;margin-right:2px;"></span>${t.title}`;
+    histEl.appendChild(hr);
+  });
+}
+
+function toggleFocusBlock() {
+  document.getElementById('focus-block-body').classList.toggle('open');
+  document.getElementById('focus-chevron').classList.toggle('open');
+}
+function openHistory() { document.getElementById('history-overlay').classList.add('open'); }
+function closeHistory() { document.getElementById('history-overlay').classList.remove('open'); }
+
+/* ── SCALE TO FIT VIEWPORT ── */
+function scalePhone() {
+  const phone = document.getElementById('phone');
+  const pad = 24;
+  const sx = (window.innerWidth - pad) / 390;
+  const sy = (window.innerHeight - pad) / 844;
+  const s = Math.min(1, sx, sy);
+  phone.style.transform = s < 1 ? `scale(${s.toFixed(4)})` : '';
+}
+scalePhone();
+window.addEventListener('resize', scalePhone);
+
+/* ── INIT ── */
+(function() {
+  const s1 = document.getElementById('s1');
+  s1.style.display = 'flex'; s1.classList.add('active');
+  requestAnimationFrame(() => requestAnimationFrame(() => s1.classList.add('visible')));
+})();
+</script>
+</body>
+</html>
