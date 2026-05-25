@@ -423,8 +423,8 @@ body {
 .achievement-emoji { font-size: 20px; line-height: 1; }
 .achievement-title { font-size: 16px; font-weight: 700; color: #0A0A12; }
 .achievement-sub { font-size: 12px; color: #888; line-height: 1.5; margin-bottom: 14px; }
-.achievement-dots { display: flex; gap: 8px; }
-.achievement-dot { width: 10px; height: 10px; border-radius: 50%; background: #6B6ECC; }
+.achievement-dots { display: flex; gap: 6px; }
+.achievement-dot { width: 8px; height: 8px; border-radius: 50%; background: #6B6ECC; }
 
 /* ══ SCREEN 7 — HOME RETURN ══ */
 #s7 { background: #EEEDF8; padding: 32px 20px 24px; }
@@ -843,11 +843,16 @@ function stopRecording() {
 }
 
 /* ── S4: TASK INPUT ── */
+const TASK_LISTS = {
+  'too much on my plate':  ['3 client meetings', 'send contract', 'follow up 2 leads', "prep for tomorrow's viewing", 'reply to manager'],
+  'pick one task for me':  ['call back Marina', 'send the invoice', 'prep the brief'],
+  'my day went sideways':  ['reschedule late client', 'follow up with supplier', 'finish morning task list', "check what's still salvageable today"],
+  'help me plan tomorrow': ['2 client calls (morning)', 'finish the deck', 'send contract feedback', 'pick up stuff on the way', 'block time for gym'],
+};
+
 function buildTaskList() {
   const list = document.getElementById('task-list');
-  const allTasks = state.activeMode === 'pick one task for me'
-    ? ['call back Marina', 'send the invoice', 'prep the brief']
-    : ['3 client meetings', 'send contract', 'follow up 2 leads', "prep for tomorrow's viewing", 'reply to manager'];
+  const allTasks = TASK_LISTS[state.activeMode] || TASK_LISTS['too much on my plate'];
   list.innerHTML = '';
   allTasks.forEach(t => {
     if (state.deletedTasks.has(t)) return;
@@ -1065,25 +1070,26 @@ function buildDoneInline() {
   // Bot message
   const botMsg = document.createElement('div');
   botMsg.className = 'bubble bubble-bot done-bot-msg';
-  botMsg.textContent = 'cleared some space. let\'s see how today goes.';
+  botMsg.textContent = "done. you've got this.";
   chat.appendChild(botMsg);
 
-  // Focus summary card
-  const card = document.createElement('div');
-  card.className = 'focus-summary-card done-bot-msg';
-  const headerText = 'your focus today';
-  card.innerHTML = `<div class="focus-summary-header">${headerText}</div>`;
-  tasks.forEach(t => {
-    const row = document.createElement('div'); row.className = 'focus-row';
-    row.innerHTML = `
-      <div class="${t.first ? 'focus-dot-filled' : 'focus-dot-empty'}"></div>
-      <div class="focus-info">
-        <div class="focus-title">${t.title}${t.locked ? ' 🔒' : ''}</div>
-        ${t.meta ? `<div class="focus-meta">${t.meta}</div>` : ''}
-      </div>`;
-    card.appendChild(row);
-  });
-  chat.appendChild(card);
+  // Achievement card
+  const achieveCard = document.createElement('div');
+  achieveCard.className = 'achievement-card done-bot-msg';
+  achieveCard.innerHTML = `
+    <div class="achievement-header">
+      <span class="achievement-emoji">🔥</span>
+      <span class="achievement-title">week 1 done.</span>
+    </div>
+    <p class="achievement-sub">you prioritized 12 tasks and didn't let the chaos win. that's the whole point.</p>
+    <div class="achievement-dots">
+      <div class="achievement-dot"></div>
+      <div class="achievement-dot"></div>
+      <div class="achievement-dot"></div>
+      <div class="achievement-dot"></div>
+      <div class="achievement-dot"></div>
+    </div>`;
+  chat.appendChild(achieveCard);
   chat.scrollTop = chat.scrollHeight;
 
   // Sync note text
