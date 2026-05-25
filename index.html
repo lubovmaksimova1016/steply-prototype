@@ -617,20 +617,6 @@ body {
   <div class="screen" id="s6">
     <span class="tag-logo" style="margin-bottom:14px;">steply</span>
     <div class="bubble bubble-bot" style="max-width:100%; background:rgba(255,255,255,0.9);">done. you've got this.</div>
-    <div class="achievement-card">
-      <div class="achievement-header">
-        <span class="achievement-emoji">🔥</span>
-        <span class="achievement-title">week 1 done.</span>
-      </div>
-      <p class="achievement-sub">you prioritized 12 tasks and didn't let the chaos win. that's the whole point.</p>
-      <div class="achievement-dots">
-        <div class="achievement-dot"></div>
-        <div class="achievement-dot"></div>
-        <div class="achievement-dot"></div>
-        <div class="achievement-dot"></div>
-        <div class="achievement-dot"></div>
-      </div>
-    </div>
     <div style="flex:1;"></div>
     <p class="sync-note" id="s6-sync-note">synced to your apps</p>
     <button class="btn-primary" onclick="goTo('s7')">done for now</button>
@@ -654,6 +640,21 @@ body {
       <div class="focus-block-body open" id="focus-block-body">
         <div id="s7-focus-tasks"></div>
         <span class="history-link" onclick="openHistory()">view session history →</span>
+      </div>
+    </div>
+
+    <div class="achievement-card" style="margin-bottom:16px;">
+      <div class="achievement-header">
+        <span class="achievement-emoji">🔥</span>
+        <span class="achievement-title">week 1 done.</span>
+      </div>
+      <p class="achievement-sub">you prioritized 12 tasks and didn't let the chaos win. that's the whole point.</p>
+      <div class="achievement-dots">
+        <div class="achievement-dot"></div>
+        <div class="achievement-dot"></div>
+        <div class="achievement-dot"></div>
+        <div class="achievement-dot"></div>
+        <div class="achievement-dot"></div>
       </div>
     </div>
 
@@ -1073,23 +1074,6 @@ function buildDoneInline() {
   botMsg.textContent = "done. you've got this.";
   chat.appendChild(botMsg);
 
-  // Achievement card
-  const achieveCard = document.createElement('div');
-  achieveCard.className = 'achievement-card done-bot-msg';
-  achieveCard.innerHTML = `
-    <div class="achievement-header">
-      <span class="achievement-emoji">🔥</span>
-      <span class="achievement-title">week 1 done.</span>
-    </div>
-    <p class="achievement-sub">you prioritized 12 tasks and didn't let the chaos win. that's the whole point.</p>
-    <div class="achievement-dots">
-      <div class="achievement-dot"></div>
-      <div class="achievement-dot"></div>
-      <div class="achievement-dot"></div>
-      <div class="achievement-dot"></div>
-      <div class="achievement-dot"></div>
-    </div>`;
-  chat.appendChild(achieveCard);
   chat.scrollTop = chat.scrollHeight;
 
   // Sync note text
