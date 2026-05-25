@@ -407,6 +407,25 @@ body {
 .focus-meta { font-size: 12px; color: #aaa; margin-top: 1px; }
 .sync-note { text-align: center; font-size: 11px; color: #aaa; margin-bottom: 14px; }
 
+/* ══ SCREEN 0 — WELCOME ══ */
+#s0 { background: #EEEDF8; padding: 32px 24px 36px; }
+.s0-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.s0-wordmark { font-size: 32px; font-weight: 700; color: #6B6ECC; margin-bottom: 14px; }
+.s0-tagline { font-size: 15px; color: #888; max-width: 280px; line-height: 1.5; }
+
+/* ══ ACHIEVEMENT CARD ══ */
+.achievement-card {
+  background: #fff; border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px; padding: 16px; margin-top: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.achievement-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.achievement-emoji { font-size: 20px; line-height: 1; }
+.achievement-title { font-size: 16px; font-weight: 700; color: #0A0A12; }
+.achievement-sub { font-size: 12px; color: #888; line-height: 1.5; margin-bottom: 14px; }
+.achievement-dots { display: flex; gap: 8px; }
+.achievement-dot { width: 10px; height: 10px; border-radius: 50%; background: #6B6ECC; }
+
 /* ══ SCREEN 7 — HOME RETURN ══ */
 #s7 { background: #EEEDF8; padding: 32px 20px 24px; }
 
@@ -455,6 +474,15 @@ body {
 </head>
 <body>
 <div class="phone" id="phone">
+
+  <!-- ══ SCREEN 0: WELCOME ══ -->
+  <div class="screen" id="s0">
+    <div class="s0-center">
+      <div class="s0-wordmark">steply</div>
+      <p class="s0-tagline">just talk. we'll figure out what actually matters today.</p>
+    </div>
+    <button class="btn-primary" onclick="goTo('s1')">get started</button>
+  </div>
 
   <!-- ══ SCREEN 1: ONBOARDING ══ -->
   <div class="screen" id="s1">
@@ -588,10 +616,21 @@ body {
   <!-- ══ SCREEN 6: DONE ══ -->
   <div class="screen" id="s6">
     <span class="tag-logo" style="margin-bottom:14px;">steply</span>
-    <div class="bubble bubble-bot" style="max-width:100%; background:rgba(255,255,255,0.9);">cleared some space. let's see how today goes.</div>
-    <div class="s6-divider"></div>
-    <div class="focus-label">your focus today</div>
-    <div id="s6-tasks"></div>
+    <div class="bubble bubble-bot" style="max-width:100%; background:rgba(255,255,255,0.9);">done. you've got this.</div>
+    <div class="achievement-card">
+      <div class="achievement-header">
+        <span class="achievement-emoji">🔥</span>
+        <span class="achievement-title">week 1 done.</span>
+      </div>
+      <p class="achievement-sub">you prioritized 12 tasks and didn't let the chaos win. that's the whole point.</p>
+      <div class="achievement-dots">
+        <div class="achievement-dot"></div>
+        <div class="achievement-dot"></div>
+        <div class="achievement-dot"></div>
+        <div class="achievement-dot"></div>
+        <div class="achievement-dot"></div>
+      </div>
+    </div>
     <div style="flex:1;"></div>
     <p class="sync-note" id="s6-sync-note">synced to your apps</p>
     <button class="btn-primary" onclick="goTo('s7')">done for now</button>
@@ -1099,9 +1138,9 @@ window.addEventListener('resize', scalePhone);
 
 /* ── INIT ── */
 (function() {
-  const s1 = document.getElementById('s1');
-  s1.style.display = 'flex'; s1.classList.add('active');
-  requestAnimationFrame(() => requestAnimationFrame(() => s1.classList.add('visible')));
+  const s0 = document.getElementById('s0');
+  s0.style.display = 'flex'; s0.classList.add('active');
+  requestAnimationFrame(() => requestAnimationFrame(() => s0.classList.add('visible')));
 })();
 </script>
 </body>
