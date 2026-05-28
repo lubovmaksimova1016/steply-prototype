@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Steply</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -408,10 +409,28 @@ body {
 .sync-note { text-align: center; font-size: 11px; color: #aaa; margin-bottom: 14px; }
 
 /* ══ SCREEN 0 — WELCOME ══ */
-#s0 { background: #EEEDF8; padding: 32px 24px 36px; }
-.s0-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-.s0-wordmark { font-size: 32px; font-weight: 700; color: #6B6ECC; margin-bottom: 14px; }
-.s0-tagline { font-size: 15px; color: #888; max-width: 280px; line-height: 1.5; }
+#s0 { background: transparent; padding: 0; }
+.s0-top { background: #F5F0E8; padding: 32px 20px 20px; flex-shrink: 0; }
+.s0-heading {
+  font-family: 'Bricolage Grotesque', "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600; font-size: 134px; letter-spacing: -6px;
+  line-height: 1; color: #4A6FD4;
+}
+.s0-tagline {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 24px; letter-spacing: 0px;
+  line-height: 1; color: #4A6FD4; margin-top: 8px;
+}
+.s0-middle { flex: 1; overflow: hidden; }
+.s0-middle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.s0-bottom { background: #F5F0E8; padding: 20px; flex-shrink: 0; }
+.s0-btn {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500; font-size: 24px; letter-spacing: 0px;
+  color: #4A6FD4; background: #FFFFFF; border: none;
+  border-radius: 12px; width: 100%; padding: 16px 24px;
+  cursor: pointer; display: block; text-align: center;
+}
 
 /* ══ ACHIEVEMENT CARD ══ */
 .achievement-card {
@@ -477,11 +496,16 @@ body {
 
   <!-- ══ SCREEN 0: WELCOME ══ -->
   <div class="screen" id="s0">
-    <div class="s0-center">
-      <div class="s0-wordmark">steply</div>
+    <div class="s0-top">
+      <div class="s0-heading">Steply</div>
       <p class="s0-tagline">just talk. we'll figure out what actually matters today.</p>
     </div>
-    <button class="btn-primary" onclick="goTo('s1')">get started</button>
+    <div class="s0-middle">
+      <img src="chaos-desk.jpg" alt="">
+    </div>
+    <div class="s0-bottom">
+      <button class="s0-btn" onclick="goTo('s1')">get started</button>
+    </div>
   </div>
 
   <!-- ══ SCREEN 1: ONBOARDING ══ -->
