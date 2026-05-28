@@ -186,10 +186,10 @@ body {
   font-family: 'Bricolage Grotesque', "Helvetica Neue", Arial, sans-serif;
   font-weight: 700; font-size: 16px; color: #FFFFFF;
 }
-.icon-notion { background: #000000; }
-.icon-todoist { background: #DB4035; }
-.icon-gcal { background: #4285F4; }
 .icon-fresh { background: #888888; }
+.app-logo {
+  width: 36px; height: 36px; object-fit: contain; display: block;
+}
 
 .app-name {
   font-family: 'Bricolage Grotesque', "Helvetica Neue", Arial, sans-serif;
@@ -560,7 +560,7 @@ body {
     <div class="s1-divider"></div>
     <div class="s1-apps">
       <div class="app-card" data-app="notion" onclick="toggleApp(this)">
-        <div class="app-col-icon"><div class="app-icon icon-notion">N</div></div>
+        <div class="app-col-icon"><img class="app-logo" src="Notion-logo.svg" alt="Notion"></div>
         <div class="app-col-divider"></div>
         <div class="app-col-info">
           <div class="app-name">Notion</div>
@@ -570,7 +570,7 @@ body {
         <div class="app-col-radio"><div class="app-check"><div class="app-check-dot"></div></div></div>
       </div>
       <div class="app-card" data-app="todoist" onclick="toggleApp(this)">
-        <div class="app-col-icon"><div class="app-icon icon-todoist">T</div></div>
+        <div class="app-col-icon"><img class="app-logo" src="todoist.svg" alt="Todoist"></div>
         <div class="app-col-divider"></div>
         <div class="app-col-info">
           <div class="app-name">Todoist</div>
@@ -580,7 +580,7 @@ body {
         <div class="app-col-radio"><div class="app-check"><div class="app-check-dot"></div></div></div>
       </div>
       <div class="app-card" data-app="gcal" onclick="toggleApp(this)">
-        <div class="app-col-icon"><div class="app-icon icon-gcal">G</div></div>
+        <div class="app-col-icon"><img class="app-logo" src="Google_Calendar_icon_(2020).svg" alt="Google Calendar"></div>
         <div class="app-col-divider"></div>
         <div class="app-col-info">
           <div class="app-name">Google Calendar</div>
