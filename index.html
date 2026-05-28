@@ -596,7 +596,7 @@ body {
   <div class="screen" id="s0">
     <div class="s0-top">
       <div class="s0-heading">Steply</div>
-      <p class="s0-tagline">Just talk. We'll figure out what actually matters today.</p>
+      <p class="s0-tagline">Just talk. We'll figure out what actually matters today</p>
     </div>
     <div class="s0-middle">
       <img src="chaos-desk.jpg" alt="">
@@ -610,8 +610,8 @@ body {
   <div class="screen" id="s1">
     <div class="s1-top">
       <span class="s1-tag">Steply</span>
-      <div class="s1-h1">Choose your planning apps.</div>
-      <p class="s1-sub">We'll read your tasks and get a picture of your day.</p>
+      <div class="s1-h1">Choose your planning apps</div>
+      <p class="s1-sub">We'll read your tasks and get a picture of your day</p>
     </div>
     <div class="s1-divider"></div>
     <div class="s1-apps">
@@ -720,7 +720,7 @@ body {
     </div>
 
     <div class="chat-area" id="s4-chat">
-      <div class="bubble bubble-bot" id="s4-intro-bubble">I pulled tasks from your apps and voice note.</div>
+      <div class="bubble bubble-bot" id="s4-intro-bubble">I pulled tasks from your apps and voice note</div>
       <div class="task-card" id="s4-task-card">
         <div class="task-card-header">Tasks I picked up</div>
         <div id="task-list">
@@ -731,7 +731,7 @@ body {
           <div class="task-row" data-task="reply to manager"><div class="task-dot"></div><span class="task-label">reply to manager</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
         </div>
       </div>
-      <div class="bubble bubble-bot">Anything missing? Add it below — then confirm when ready.</div>
+      <div class="bubble bubble-bot">Anything missing? Add it below — then confirm when ready</div>
     </div>
 
     <div class="chat-bottom">
@@ -748,7 +748,7 @@ body {
       </div>
       <!-- Plan action state -->
       <div id="s4-plan-bottom">
-        <div class="warning-msg" id="plan-warning">Today has more than 3 tasks — drag something to tomorrow so the day stays manageable.</div>
+        <div class="warning-msg" id="plan-warning">Today has more than 3 tasks — drag something to tomorrow so the day stays manageable</div>
         <button class="btn-primary" onclick="syncPlan()">Looks Good — Sync It</button>
         <button class="btn-ghost" onclick="adjustPlan()">Actually, Let Me Adjust</button>
       </div>
@@ -793,9 +793,9 @@ body {
     <div class="achievement-card" style="margin-bottom:16px;">
       <div class="achievement-header">
         <span class="achievement-emoji">🔥</span>
-        <span class="achievement-title">week 1 done.</span>
+        <span class="achievement-title">week 1 done</span>
       </div>
-      <p class="achievement-sub">You prioritized 12 tasks and didn't let the chaos win. That's the whole point.</p>
+      <p class="achievement-sub">You prioritized 12 tasks and didn't let the chaos win. That's the whole point</p>
       <div class="achievement-dots">
         <div class="achievement-dot"></div>
         <div class="achievement-dot"></div>
@@ -951,8 +951,8 @@ function buildConnectedApps() {
   }
 
   document.getElementById('s4-intro-bubble').textContent = state.freshStart
-    ? "Based on what you told me, here's what I picked up."
-    : "I pulled tasks from your apps and voice note.";
+    ? "Based on what you told me, here's what I picked up"
+    : "I pulled tasks from your apps and voice note";
   document.getElementById('s6-sync-note').textContent = state.freshStart
     ? 'Saved to steply · no external apps' : 'Synced to your apps';
 }
@@ -1086,7 +1086,7 @@ function buildPlanInline() {
   botMsg.className = 'bubble bubble-bot plan-bot-msg';
   botMsg.textContent = isSingle
     ? "You've got 40 minutes. One thing matters right now:"
-    : "Here's what fits today. I'd keep it to 3 tasks max — that's what actually gets done. Drag to reprioritize, tap the lock to fix a task in place.";
+    : "Here's what fits today. I'd keep it to 3 tasks max — that's what actually gets done. Drag to reprioritize, tap the lock to fix a task in place";
   chat.appendChild(botMsg);
 
   const planDiv = document.createElement('div');
@@ -1240,7 +1240,7 @@ function buildDoneInline() {
   // Bot message
   const botMsg = document.createElement('div');
   botMsg.className = 'bubble bubble-bot done-bot-msg';
-  botMsg.textContent = "Done. You've got this.";
+  botMsg.textContent = "Done. You've got this";
   chat.appendChild(botMsg);
 
   chat.scrollTop = chat.scrollHeight;
