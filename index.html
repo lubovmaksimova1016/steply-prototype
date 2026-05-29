@@ -581,16 +581,45 @@ body {
 }
 
 /* ══ ACHIEVEMENT CARD ══ */
-.achievement-card {
-  background: #EEF2FC; border: 1.5px solid #D4E0F7;
-  border-radius: 0; padding: 16px; margin-top: 12px;
+.streak-banner {
+  flex-shrink: 0;
+  height: 140px;
+  background: #F6F4F1;
+  border-top: 3px solid #6394ED;
+  border-bottom: 3px solid #6394ED;
+  position: relative;
+  overflow: hidden;
 }
-.achievement-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.achievement-emoji { font-size: 20px; line-height: 1; }
-.achievement-title { font-size: 14px; font-weight: 700; color: #6394ED; }
-.achievement-sub { font-size: 12px; color: #8AAADE; line-height: 1.5; margin-bottom: 14px; }
-.achievement-dots { display: flex; gap: 6px; }
-.achievement-dot { width: 8px; height: 8px; border-radius: 0; background: #6394ED; }
+.streak-banner-text {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 55%;
+}
+.streak-banner-headline {
+  font-family: 'Bricolage Grotesque', "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #6394ED;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.streak-banner-body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #8AAADE;
+}
+.streak-banner-img {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+}
 
 /* ══ SCREEN 7 — HOME RETURN ══ */
 #s7 { background: #F6F4F1; padding: 0; }
@@ -1001,20 +1030,15 @@ body {
         </div>
       </div>
 
-      <div class="achievement-card">
-        <div class="achievement-header">
-          <span class="achievement-emoji">🔥</span>
-          <span class="achievement-title">week 1 done</span>
-        </div>
-        <p class="achievement-sub">You prioritized 12 tasks and didn't let the chaos win. That's the whole point</p>
-        <div class="achievement-dots">
-          <div class="achievement-dot"></div>
-          <div class="achievement-dot"></div>
-          <div class="achievement-dot"></div>
-          <div class="achievement-dot"></div>
-          <div class="achievement-dot"></div>
-        </div>
+    </div>
+
+    <!-- Streak banner (full-bleed, between focus block and mode grid) -->
+    <div class="streak-banner">
+      <div class="streak-banner-text">
+        <div class="streak-banner-headline">1 Week Done!</div>
+        <p class="streak-banner-body">You prioritized 12 tasks and didn't let the chaos win. That's the whole point</p>
       </div>
+      <img class="streak-banner-img" src="hill-figure.png" alt="">
     </div>
 
     <!-- 2×2 mode grid — same component as first-visit -->
