@@ -334,7 +334,7 @@ body {
 @keyframes eq-bounce { 0%,100%{ transform: scaleY(1); } 50%{ transform: scaleY(0.15); } }
 
 /* Zone 3 — controls */
-.eq-zone3 { flex-shrink: 0; padding: 20px 20px 36px; display: flex; gap: 12px; }
+.eq-zone3 { flex-shrink: 0; padding: 0; display: flex; gap: 1.5px; background: var(--blue-eq); }
 .eq-btn-restart, .eq-btn-stop {
   flex: 1; height: 72px; border-radius: 0; border: none; cursor: pointer;
   display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end;
@@ -342,10 +342,10 @@ body {
 }
 .eq-btn-restart { background: #F6F4F1; }
 .eq-btn-stop { background: var(--blue-eq); }
-.eq-btn-icon { font-size: 22px; line-height: 1; }
+.eq-btn-icon { font-size: 20px; line-height: 1; }
 .eq-btn-restart .eq-btn-icon, .eq-btn-restart .eq-btn-label { color: #6394ED; }
 .eq-btn-stop .eq-btn-icon, .eq-btn-stop .eq-btn-label { color: #fff; }
-.eq-btn-label { font-size: 11px; font-weight: 600; letter-spacing: 0.3px; }
+.eq-btn-label { font-size: 20px; font-weight: 500; letter-spacing: 0; }
 
 /* ══ SCREEN 4 — UNIFIED CHAT (Confirm + Plan) ══ */
 #s4 { background: #F6F4F1; }
