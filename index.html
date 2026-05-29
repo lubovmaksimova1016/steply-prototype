@@ -290,32 +290,50 @@ body {
 }
 .s2-mic-btn i { font-size: 28px; color: #fff; }
 
-/* ══ SCREEN 3 — LISTENING ══ */
-#s3 { background: #0A0A12; padding: 48px 20px 32px; }
+/* ══ SCREEN 3 — LISTENING (redesign) ══ */
+:root { --blue-eq: #6394ED; }
+#s3 { background: #F6F4F1; padding: 0; }
 
-.s3-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
-.mode-badge {
+/* Zone 1 — transcription */
+.eq-zone1 { flex: 1; overflow: hidden; padding: 44px 20px 20px; display: flex; flex-direction: column; }
+.eq-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--blue-eq); margin-bottom: 12px; }
+.eq-badge {
   display: inline-flex; align-items: center; gap: 7px;
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 99px; padding: 7px 14px;
-  font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85);
-  margin-bottom: 20px;
+  border: 1.5px solid var(--blue-eq); border-radius: 20px;
+  padding: 5px 13px; font-size: 13px; font-weight: 500; color: var(--blue-eq);
 }
-.mode-dot { width: 7px; height: 7px; border-radius: 50%; background: #6B6ECC; flex-shrink: 0; }
+.eq-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue-eq); flex-shrink: 0; }
+.eq-transcript { font-size: 18px; font-weight: 400; line-height: 1.7; color: #0a0a0a; margin-top: 16px; }
 
-.transcript-area { flex: 1; overflow-y: auto; scrollbar-width: none; }
-.transcript-area::-webkit-scrollbar { display: none; }
-.transcript-text { font-size: 20px; font-weight: 400; color: #fff; line-height: 1.55; min-height: 80px; }
+/* Cursor (kept — referenced by JS) */
 .cursor {
   display: inline-block; width: 2px; height: 1.1em;
-  background: #6B6ECC; vertical-align: text-bottom; margin-left: 2px;
+  background: var(--blue-eq); vertical-align: text-bottom; margin-left: 2px;
   animation: blink 0.9s step-end infinite;
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-.s3-bottom { display: flex; flex-direction: column; align-items: center; padding-top: 20px; gap: 10px; }
-.recording-hint { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; }
-.tap-stop-hint { font-size: 12px; color: rgba(255,255,255,0.35); }
+/* Zone divider */
+.eq-divider { height: 1px; background: var(--blue-eq); flex-shrink: 0; }
+
+/* Zone 2 — equalizer */
+.eq-zone2 { height: 100px; flex-shrink: 0; padding: 0 20px; display: flex; align-items: center; }
+.eq-bars { display: flex; align-items: center; gap: 5px; width: 100%; }
+.eq-bar { width: 3px; border-radius: 3px; background: var(--blue-eq); animation-name: eq-bounce; animation-timing-function: ease-in-out; animation-iteration-count: infinite; transform-origin: center; }
+@keyframes eq-bounce { 0%,100%{ transform: scaleY(1); } 50%{ transform: scaleY(0.15); } }
+
+/* Zone 3 — controls */
+.eq-zone3 { flex-shrink: 0; padding: 20px 20px 36px; display: flex; gap: 12px; }
+.eq-btn-restart, .eq-btn-stop {
+  flex: 1; height: 72px; border-radius: 12px; border: none; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+}
+.eq-btn-restart { background: #f2f2f2; }
+.eq-btn-stop { background: var(--blue-eq); }
+.eq-btn-icon { font-size: 22px; line-height: 1; }
+.eq-btn-restart .eq-btn-icon, .eq-btn-restart .eq-btn-label { color: #555; }
+.eq-btn-stop .eq-btn-icon, .eq-btn-stop .eq-btn-label { color: #fff; }
+.eq-btn-label { font-size: 11px; }
 
 /* ══ SCREEN 4 — UNIFIED CHAT (Confirm + Plan) ══ */
 #s4 { background: #F6F4F1; }
@@ -703,20 +721,59 @@ body {
 
   <!-- ══ SCREEN 3: LISTENING ══ -->
   <div class="screen" id="s3">
-    <div class="s3-tag">steply listening</div>
-    <div class="mode-badge">
-      <span class="mode-dot"></span>
-      <span id="s3-mode-label">too much on my plate</span>
+    <!-- Zone 1: Transcription -->
+    <div class="eq-zone1">
+      <div class="eq-label">steply listening</div>
+      <div class="eq-badge">
+        <span class="eq-dot"></span>
+        <span id="s3-mode-label">too much on my plate</span>
+      </div>
+      <p class="eq-transcript" id="transcript-text"><span class="cursor"></span></p>
     </div>
-    <div class="transcript-area">
-      <p class="transcript-text" id="transcript-text"><span class="cursor"></span></p>
+    <!-- Divider -->
+    <div class="eq-divider"></div>
+    <!-- Zone 2: Equalizer bars -->
+    <div class="eq-zone2">
+      <div class="eq-bars">
+        <div class="eq-bar" style="height:16px;animation-duration:0.70s;animation-delay:0.00s"></div>
+        <div class="eq-bar" style="height:28px;animation-duration:0.73s;animation-delay:0.03s"></div>
+        <div class="eq-bar" style="height:42px;animation-duration:0.76s;animation-delay:0.05s"></div>
+        <div class="eq-bar" style="height:36px;animation-duration:0.79s;animation-delay:0.08s"></div>
+        <div class="eq-bar" style="height:48px;animation-duration:0.82s;animation-delay:0.10s"></div>
+        <div class="eq-bar" style="height:22px;animation-duration:0.85s;animation-delay:0.13s"></div>
+        <div class="eq-bar" style="height:38px;animation-duration:0.88s;animation-delay:0.16s"></div>
+        <div class="eq-bar" style="height:46px;animation-duration:0.91s;animation-delay:0.18s"></div>
+        <div class="eq-bar" style="height:20px;animation-duration:0.94s;animation-delay:0.21s"></div>
+        <div class="eq-bar" style="height:44px;animation-duration:0.97s;animation-delay:0.23s"></div>
+        <div class="eq-bar" style="height:32px;animation-duration:1.00s;animation-delay:0.26s"></div>
+        <div class="eq-bar" style="height:48px;animation-duration:1.03s;animation-delay:0.29s"></div>
+        <div class="eq-bar" style="height:18px;animation-duration:1.06s;animation-delay:0.31s"></div>
+        <div class="eq-bar" style="height:40px;animation-duration:1.09s;animation-delay:0.34s"></div>
+        <div class="eq-bar" style="height:30px;animation-duration:1.12s;animation-delay:0.36s"></div>
+        <div class="eq-bar" style="height:46px;animation-duration:1.15s;animation-delay:0.39s"></div>
+        <div class="eq-bar" style="height:24px;animation-duration:1.18s;animation-delay:0.42s"></div>
+        <div class="eq-bar" style="height:42px;animation-duration:1.21s;animation-delay:0.44s"></div>
+        <div class="eq-bar" style="height:36px;animation-duration:1.24s;animation-delay:0.47s"></div>
+        <div class="eq-bar" style="height:48px;animation-duration:1.27s;animation-delay:0.49s"></div>
+        <div class="eq-bar" style="height:20px;animation-duration:1.30s;animation-delay:0.52s"></div>
+        <div class="eq-bar" style="height:34px;animation-duration:1.33s;animation-delay:0.55s"></div>
+        <div class="eq-bar" style="height:44px;animation-duration:1.36s;animation-delay:0.57s"></div>
+        <div class="eq-bar" style="height:18px;animation-duration:1.40s;animation-delay:0.60s"></div>
+      </div>
     </div>
-    <div class="s3-bottom">
-      <span class="recording-hint">Recording...</span>
-      <button class="mic-btn pulsing" id="s3-mic" onclick="stopRecording()"><i class="ti ti-microphone"></i></button>
-      <span class="tap-stop-hint">Tap to stop</span>
+    <!-- Divider -->
+    <div class="eq-divider"></div>
+    <!-- Zone 3: Controls -->
+    <div class="eq-zone3">
+      <button class="eq-btn-restart" onclick="restartTranscript()">
+        <span class="eq-btn-icon">↺</span>
+        <span class="eq-btn-label">restart</span>
+      </button>
+      <button class="eq-btn-stop" onclick="stopRecording()">
+        <span class="eq-btn-icon">⏸</span>
+        <span class="eq-btn-label">tap to stop</span>
+      </button>
     </div>
-    <div style="height:32px;flex-shrink:0;"></div>
   </div>
 
   <!-- ══ SCREEN 4: UNIFIED CHAT ══ -->
@@ -999,6 +1056,12 @@ function startTranscript() {
     el.insertBefore(span, cursor);
     i++;
   }, 110);
+}
+
+function restartTranscript() {
+  if (state.transcriptTimer) { clearInterval(state.transcriptTimer); state.transcriptTimer = null; }
+  document.getElementById('transcript-text').innerHTML = '<span class="cursor"></span>';
+  setTimeout(startTranscript, 100);
 }
 
 function stopRecording() {
