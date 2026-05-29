@@ -341,6 +341,7 @@ body {
 
 /* Zone divider */
 .eq-divider { height: 2px; background: var(--blue-eq); flex-shrink: 0; }
+.eq-divider--top { height: 1px; }
 
 /* Zone 2 — equalizer */
 .eq-zone2 { height: 100px; flex-shrink: 0; padding: 0; display: flex; align-items: center; }
@@ -865,7 +866,7 @@ body {
       <p class="eq-transcript" id="transcript-text"><span class="cursor"></span></p>
     </div>
     <!-- Divider -->
-    <div class="eq-divider"></div>
+    <div class="eq-divider eq-divider--top"></div>
     <!-- Zone 2: Equalizer bars -->
     <div class="eq-zone2">
       <div class="eq-bars">
