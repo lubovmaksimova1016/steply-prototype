@@ -189,6 +189,7 @@ body {
   font-weight: 700; font-size: 16px; color: #FFFFFF;
 }
 .icon-fresh { background: transparent; color: #6394ED; font-size: 22px; }
+.app-card.selected[data-app="fresh"] .icon-fresh { color: #F6F4F1; }
 .app-logo {
   width: 36px; height: 36px; object-fit: contain; display: block;
 }
@@ -265,15 +266,21 @@ body {
 }
 .s2-grid .chip {
   background: #F6F4F1; border: none; border-radius: 0;
-  padding: 10px 12px; height: 80px;
+  padding: 0 16px 14px 16px; height: 80px;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-weight: 500; font-size: 13px; color: #6394ED;
-  display: flex; align-items: center; justify-content: space-between;
-  cursor: pointer; white-space: normal; line-height: 1.3;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  cursor: pointer; line-height: 1.3;
   -webkit-tap-highlight-color: transparent;
   transition: background 0.15s, color 0.15s;
+  position: relative;
 }
 .s2-grid .chip.selected { background: #6394ED; color: #FFFFFF; }
+.chip-row {
+  display: flex; align-items: center;
+  justify-content: space-between; width: 100%;
+  white-space: normal;
+}
 .chip-arrow {
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-weight: 400; font-size: 16px;
@@ -694,19 +701,21 @@ body {
 .s7-mic-btn i { font-size: 24px; color: #fff; }
 
 .focus-block {
-  border: 1.5px solid #D4E0F7; border-radius: 0;
-  background: #fff; overflow: hidden; margin-bottom: 16px;
+  border-top: 1.5px solid #D4E0F7; border-bottom: 1.5px solid #D4E0F7;
+  border-left: none; border-right: none;
+  border-radius: 0; background: #fff;
+  margin: 0 -20px 0 -20px;
 }
 .focus-block-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 13px 16px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  padding: 13px 36px 13px 36px; cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 .focus-block-title { font-size: 10px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: #6394ED; }
 .chevron { font-size: 16px; color: #6394ED; transition: transform 0.2s; }
 .chevron.open { transform: rotate(180deg); }
 
-.focus-block-body { padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
-.focus-block-body.open { max-height: 260px; padding: 0 16px 12px; }
+.focus-block-body { padding: 0 36px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+.focus-block-body.open { max-height: none; height: auto; overflow: visible; padding: 0 36px 14px; }
 
 .history-link { display: block; font-size: 13px; color: #6394ED; margin-top: 10px; cursor: pointer; }
 .history-link:active { opacity: 0.7; }
@@ -830,10 +839,10 @@ body {
     <!-- Mode grid -->
     <div class="s2-grid-wrap">
       <div class="s2-grid" id="s2-chips">
-        <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s2')">Too much on my plate<span class="chip-arrow">→</span></div>
-        <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s2')">Pick one task for me<span class="chip-arrow">→</span></div>
-        <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s2')">My day went sideways<span class="chip-arrow">→</span></div>
-        <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s2')">Help me plan tomorrow<span class="chip-arrow">→</span></div>
+        <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s2')"><div class="chip-row"><span>Too much on my plate</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s2')"><div class="chip-row"><span>Pick one task for me</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s2')"><div class="chip-row"><span>My day went sideways</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s2')"><div class="chip-row"><span>Help me plan tomorrow</span><span class="chip-arrow">→</span></div></div>
       </div>
     </div>
     <div class="s2-divider"></div>
@@ -1055,10 +1064,10 @@ body {
     <div class="s2-divider"></div>
     <div class="s2-grid-wrap">
       <div class="s2-grid" id="s7-chips">
-        <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s7')">Too much on my plate<span class="chip-arrow">→</span></div>
-        <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s7')">Pick one task for me<span class="chip-arrow">→</span></div>
-        <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s7')">My day went sideways<span class="chip-arrow">→</span></div>
-        <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s7')">Help me plan tomorrow<span class="chip-arrow">→</span></div>
+        <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s7')"><div class="chip-row"><span>Too much on my plate</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s7')"><div class="chip-row"><span>Pick one task for me</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s7')"><div class="chip-row"><span>My day went sideways</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s7')"><div class="chip-row"><span>Help me plan tomorrow</span><span class="chip-arrow">→</span></div></div>
       </div>
     </div>
 
@@ -1523,7 +1532,8 @@ function buildS7Focus(tasks) {
   }
   const el = document.getElementById('s7-focus-tasks'); el.innerHTML = '';
   const histEl = document.getElementById('history-today'); histEl.innerHTML = '';
-  tasks.forEach(t => {
+  tasks.forEach((t, idx) => {
+    if (idx >= 2) return; // show max 2 tasks to prevent content cutoff
     const row = document.createElement('div'); row.className = 'focus-row';
     row.innerHTML = `
       <div class="${t.first ? 'focus-dot-filled' : 'focus-dot-empty'}"></div>
