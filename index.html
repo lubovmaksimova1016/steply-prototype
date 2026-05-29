@@ -387,26 +387,22 @@ body {
 .chat-area::-webkit-scrollbar { display: none; }
 
 .bubble {
-  max-width: 280px; padding: 10px 13px;
-  border-radius: 0; font-size: 13px; line-height: 1.5;
+  max-width: 100%; padding: 16px 18px;
+  border-radius: 0; font-size: 15px; line-height: 1.5;
 }
 .bubble-bot {
-  background: #EEF2FC; border: 1px solid #D4E0F7;
+  background: #EEF2FC; border: 1.5px solid #D4E0F7;
   align-self: flex-start; color: #6394ED;
 }
 .bubble-user {
   background: #6394ED; color: #fff;
-  align-self: flex-end;
+  align-self: flex-end; padding: 14px 18px;
 }
 
-.task-card {
-  background: #fff; border: 1.5px solid #D4E0F7;
-  border-radius: 0; padding: 12px 16px; max-width: 290px;
-  align-self: flex-start;
-}
-.task-card-header {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.4px;
-  text-transform: uppercase; color: #6394ED; margin-bottom: 10px;
+.task-list-label {
+  font-family: "Helvetica Neue", Arial, sans-serif; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.4px; color: #8AAADE;
+  margin-top: 14px; margin-bottom: 8px;
 }
 .task-row {
   display: flex; align-items: center; gap: 10px;
@@ -415,16 +411,15 @@ body {
 }
 .task-row:last-child { border-bottom: none; }
 .task-row.removing { opacity: 0; max-height: 0; padding: 0; border-bottom: none; pointer-events: none; }
-.task-dot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid #6394ED; flex-shrink: 0; }
-.task-label { flex: 1; font-size: 13px; color: #6394ED; }
+.task-grip { color: #8AAADE; font-size: 14px; flex-shrink: 0; }
+.task-label { flex: 1; font-size: 15px; color: #6394ED; }
 .task-del {
-  width: 18px; height: 18px; border-radius: 0;
-  border: 1.5px solid #D4E0F7; background: transparent;
+  background: transparent; border: none;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; font-size: 11px; color: #6394ED;
-  transition: background 0.15s, color 0.15s, border-color 0.15s; flex-shrink: 0;
+  cursor: pointer; font-size: 14px; color: #8AAADE;
+  flex-shrink: 0; padding: 0; line-height: 1;
 }
-.task-del:hover, .task-del:active { background: #6394ED; color: #fff; border-color: #6394ED; }
+.task-del:hover, .task-del:active { color: #6394ED; }
 
 .chat-bottom { background: #F6F4F1; padding: 0; flex-shrink: 0; }
 
@@ -453,6 +448,8 @@ body {
   font-size: 20px; font-weight: 500; padding: 0; width: auto;
 }
 
+#s4 .two-btns .btn-primary { border-top: 2px solid #6394ED; }
+#s4 .two-btns .btn-ghost { border-top: 1.5px solid #6394ED; }
 #s4-plan-bottom { display: none; flex-direction: column; gap: 0; }
 #s4-done-bottom { display: none; flex-direction: column; gap: 0; }
 #s4-plan-bottom .btn-primary, #s4-plan-bottom .btn-ghost,
@@ -967,18 +964,18 @@ body {
     </div>
 
     <div class="chat-area" id="s4-chat">
-      <div class="bubble bubble-bot" id="s4-intro-bubble">I pulled tasks from your apps and voice note</div>
-      <div class="task-card" id="s4-task-card">
-        <div class="task-card-header">Tasks I picked up</div>
+      <div class="bubble bubble-bot" id="s4-task-card">
+        I pulled tasks from your apps and voice note
+        <div class="task-list-label">Tasks I picked up</div>
         <div id="task-list">
-          <div class="task-row" data-task="3 client meetings"><div class="task-dot"></div><span class="task-label">3 client meetings</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
-          <div class="task-row" data-task="send contract"><div class="task-dot"></div><span class="task-label">send contract</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
-          <div class="task-row" data-task="follow up 2 leads"><div class="task-dot"></div><span class="task-label">follow up 2 leads</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
-          <div class="task-row" data-task="prep for tomorrow's viewing"><div class="task-dot"></div><span class="task-label">prep for tomorrow's viewing</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
-          <div class="task-row" data-task="reply to manager"><div class="task-dot"></div><span class="task-label">reply to manager</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="3 client meetings"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">3 client meetings</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="send contract"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">send contract</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="follow up 2 leads"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">follow up 2 leads</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="prep for tomorrow's viewing"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">prep for tomorrow's viewing</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="reply to manager"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">reply to manager</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
         </div>
+        <div style="margin-top: 14px; font-size: 15px; line-height: 1.5; color: #8AAADE;">Anything missing? Add it below — then confirm when ready</div>
       </div>
-      <div class="bubble bubble-bot">Anything missing? Add it below — then confirm when ready</div>
     </div>
 
     <div class="chat-bottom">
@@ -1293,7 +1290,7 @@ function buildTaskList() {
     if (state.deletedTasks.has(t)) return;
     const row = document.createElement('div');
     row.className = 'task-row'; row.dataset.task = t;
-    row.innerHTML = `<div class="task-dot"></div><span class="task-label">${t}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
+    row.innerHTML = `<i class="ti ti-grip-vertical task-grip"></i><span class="task-label">${t}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
     list.appendChild(row);
   });
 }
@@ -1315,7 +1312,7 @@ function addTask() {
   const list = document.getElementById('task-list');
   const row = document.createElement('div');
   row.className = 'task-row'; row.dataset.task = taskName;
-  row.innerHTML = `<div class="task-dot"></div><span class="task-label">${taskName}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
+  row.innerHTML = `<i class="ti ti-grip-vertical task-grip"></i><span class="task-label">${taskName}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
   list.appendChild(row);
 
   const chat = document.getElementById('s4-chat');
