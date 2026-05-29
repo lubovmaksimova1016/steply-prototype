@@ -593,7 +593,69 @@ body {
 .achievement-dot { width: 8px; height: 8px; border-radius: 0; background: #6394ED; }
 
 /* ══ SCREEN 7 — HOME RETURN ══ */
-#s7 { background: #F6F4F1; padding: 32px 20px 24px; }
+#s7 { background: #F6F4F1; padding: 0; }
+
+.s7-topbar { padding: 28px 20px 0; flex-shrink: 0; }
+.s7-app-tags { display: flex; flex-direction: row; gap: 8px; flex-wrap: wrap; }
+.s7-app-tag {
+  background: transparent; border: 1.5px solid #6394ED; border-radius: 0;
+  padding: 5px 10px 5px 5px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600; font-size: 11px; color: #6394ED;
+}
+.s7-tag-badge {
+  background: #6394ED; color: #fff;
+  width: 16px; height: 16px; border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; flex-shrink: 0;
+}
+.s7-topbar-divider { height: 1.5px; background: #6394ED; margin-top: 12px; }
+
+.s7-heading { padding: 20px 20px 0; flex-shrink: 0; }
+.s7-h1 {
+  font-family: 'Bricolage Grotesque', "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800; font-size: 32px; color: #6394ED; line-height: 1.15;
+}
+.s7-sub {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500; font-size: 18px; color: #8AAADE;
+  line-height: 1.4; margin-top: 8px;
+}
+.s7-upper { flex: 1; overflow-y: auto; padding: 16px 20px 16px; scrollbar-width: none; }
+.s7-upper::-webkit-scrollbar { display: none; }
+
+.s7-divider { height: 1.5px; background: #6394ED; flex-shrink: 0; }
+.s7-grid-wrap { flex-shrink: 0; }
+.s7-grid {
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 88px 88px;
+  gap: 1.5px; background: #6394ED;
+}
+.s7-grid .chip {
+  background: #F6F4F1; border: none; border-radius: 0;
+  padding: 18px 16px; height: 88px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500; font-size: 20px; color: #6394ED;
+  display: flex; align-items: flex-end; cursor: pointer;
+  white-space: normal; line-height: 1.3; text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s;
+}
+.s7-grid .chip.selected { background: #6394ED; color: #fff; }
+
+.s7-mic-bottom { flex-shrink: 0; }
+.s7-mic-hint {
+  display: block; text-align: center; padding: 10px 20px 8px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 12px; color: #8AAADE;
+}
+.s7-mic-btn {
+  width: 100%; height: 64px; border-radius: 0;
+  background: #6394ED; border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.s7-mic-btn i { font-size: 24px; color: #fff; }
 
 .focus-block {
   border: 1.5px solid #D4E0F7; border-radius: 0;
@@ -913,52 +975,64 @@ body {
 
   <!-- ══ SCREEN 7: HOME RETURN ══ -->
   <div class="screen" id="s7">
-    <span class="tag-logo" style="margin-bottom:14px;">steply</span>
-    <div id="s7-connected-row" class="connected-apps-row" style="display:none;">
-      <span class="connected-label">connected apps</span>
-      <div class="connected-pills-wrap" id="s7-pills"></div>
-    </div>
-    <h1 class="home-h1" style="margin-bottom:6px;">Welcome back, Luba.</h1>
-    <p class="home-subtitle" style="margin-bottom:16px;">Pick up where you left off, or start fresh</p>
 
-    <div class="focus-block">
-      <div class="focus-block-header" onclick="toggleFocusBlock()">
-        <span class="focus-block-title">Your focus today</span>
-        <i class="ti ti-chevron-down chevron open" id="focus-chevron"></i>
-      </div>
-      <div class="focus-block-body open" id="focus-block-body">
-        <div id="s7-focus-tasks"></div>
-        <span class="history-link" onclick="openHistory()">View session history →</span>
-      </div>
+    <!-- Connected app tags (hidden when no real apps) -->
+    <div class="s7-topbar" id="s7-topbar" style="display:none;">
+      <div class="s7-app-tags" id="s7-app-tags"></div>
+      <div class="s7-topbar-divider"></div>
     </div>
 
-    <div class="achievement-card" style="margin-bottom:16px;">
-      <div class="achievement-header">
-        <span class="achievement-emoji">🔥</span>
-        <span class="achievement-title">week 1 done</span>
+    <!-- Heading -->
+    <div class="s7-heading">
+      <h1 class="s7-h1">Welcome back, Luba.</h1>
+      <p class="s7-sub">Pick up where you left off, or start fresh</p>
+    </div>
+
+    <!-- Scrollable section: focus block + achievement card -->
+    <div class="s7-upper">
+      <div class="focus-block">
+        <div class="focus-block-header" onclick="toggleFocusBlock()">
+          <span class="focus-block-title">Your focus today</span>
+          <i class="ti ti-chevron-down chevron open" id="focus-chevron"></i>
+        </div>
+        <div class="focus-block-body open" id="focus-block-body">
+          <div id="s7-focus-tasks"></div>
+          <span class="history-link" onclick="openHistory()">View session history →</span>
+        </div>
       </div>
-      <p class="achievement-sub">You prioritized 12 tasks and didn't let the chaos win. That's the whole point</p>
-      <div class="achievement-dots">
-        <div class="achievement-dot"></div>
-        <div class="achievement-dot"></div>
-        <div class="achievement-dot"></div>
-        <div class="achievement-dot"></div>
-        <div class="achievement-dot"></div>
+
+      <div class="achievement-card">
+        <div class="achievement-header">
+          <span class="achievement-emoji">🔥</span>
+          <span class="achievement-title">week 1 done</span>
+        </div>
+        <p class="achievement-sub">You prioritized 12 tasks and didn't let the chaos win. That's the whole point</p>
+        <div class="achievement-dots">
+          <div class="achievement-dot"></div>
+          <div class="achievement-dot"></div>
+          <div class="achievement-dot"></div>
+          <div class="achievement-dot"></div>
+          <div class="achievement-dot"></div>
+        </div>
       </div>
     </div>
 
-    <div class="mode-chips" style="margin-bottom:0;">
-      <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s7')">Too much on my plate</div>
-      <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s7')">Pick one task for me</div>
-      <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s7')">My day went sideways</div>
-      <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s7')">Help me plan tomorrow</div>
+    <!-- 2×2 mode grid (full-bleed) -->
+    <div class="s7-divider"></div>
+    <div class="s7-grid-wrap">
+      <div class="s7-grid" id="s7-chips">
+        <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s7')">Too much on my plate</div>
+        <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s7')">Pick one task for me</div>
+        <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s7')">My day went sideways</div>
+        <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s7')">Help me plan tomorrow</div>
+      </div>
     </div>
 
-    <div style="flex:1;"></div>
-
-    <div style="display:flex; flex-direction:column; align-items:center; padding-top:16px; padding-bottom:4px;">
-      <button class="mic-btn" onclick="goToS3FromMic()"><i class="ti ti-microphone"></i></button>
-      <span class="mic-hint">Tap to record</span>
+    <!-- Full-width mic button -->
+    <div class="s7-divider"></div>
+    <div class="s7-mic-bottom">
+      <span class="s7-mic-hint">Tap to record</span>
+      <button class="s7-mic-btn" onclick="goToS3FromMic()"><i class="ti ti-microphone"></i></button>
     </div>
 
     <!-- History Overlay -->
@@ -1073,22 +1147,22 @@ function buildConnectedApps() {
     }
   }
 
-  // s7: existing pill format
-  const s7row = document.getElementById('s7-connected-row');
-  const s7pills = document.getElementById('s7-pills');
-  if (s7pills) {
-    s7pills.innerHTML = '';
+  // s7: new tag format matching first-visit style
+  const s7topbar = document.getElementById('s7-topbar');
+  const s7tags = document.getElementById('s7-app-tags');
+  if (s7tags) {
+    s7tags.innerHTML = '';
     if (hasReal) {
       realApps.forEach(app => {
         const d = appDefs[app]; if (!d) return;
-        const pill = document.createElement('div');
-        pill.className = 'app-pill';
-        pill.innerHTML = `<div class="pill-badge" style="background:${d.bg};">${d.letter}</div>${d.label}`;
-        s7pills.appendChild(pill);
+        const tag = document.createElement('div');
+        tag.className = 's7-app-tag';
+        tag.innerHTML = `<span class="s7-tag-badge">${d.letter}</span><span>${d.label}</span>`;
+        s7tags.appendChild(tag);
       });
-      s7row.style.display = 'flex';
+      s7topbar.style.display = 'block';
     } else {
-      s7row.style.display = 'none';
+      s7topbar.style.display = 'none';
     }
   }
 
