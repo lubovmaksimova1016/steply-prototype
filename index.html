@@ -328,9 +328,9 @@ body {
 .eq-divider { height: 1px; background: var(--blue-eq); flex-shrink: 0; }
 
 /* Zone 2 — equalizer */
-.eq-zone2 { height: 100px; flex-shrink: 0; padding: 0 20px; display: flex; align-items: center; }
-.eq-bars { display: flex; align-items: center; gap: 5px; width: 100%; }
-.eq-bar { width: 3px; border-radius: 0; background: var(--blue-eq); margin: 0 1.5px; animation-name: eq-bounce; animation-timing-function: ease-in-out; animation-iteration-count: infinite; transform-origin: center; }
+.eq-zone2 { height: 100px; flex-shrink: 0; padding: 0; display: flex; align-items: center; }
+.eq-bars { display: flex; align-items: center; justify-content: space-between; gap: 0; width: 100%; }
+.eq-bar { width: 1.5px; border-radius: 0; background: var(--blue-eq); margin: 0; animation-name: eq-bounce; animation-timing-function: ease-in-out; animation-iteration-count: infinite; transform-origin: center; }
 @keyframes eq-bounce { 0%,100%{ transform: scaleY(1); } 50%{ transform: scaleY(0.15); } }
 
 /* Zone 3 — controls */
@@ -412,27 +412,42 @@ body {
 }
 .task-del:hover, .task-del:active { background: #6394ED; color: #fff; border-color: #6394ED; }
 
-.chat-bottom { background: #F6F4F1; padding: 8px 20px 28px; flex-shrink: 0; }
+.chat-bottom { background: #F6F4F1; padding: 0; flex-shrink: 0; }
 
-.add-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-.add-input {
-  flex: 1; background: #fff; border: 1.5px solid #D4E0F7;
-  border-radius: 0; padding: 11px 14px;
-  font-family: "Helvetica Neue", Arial, sans-serif; font-size: 13px; color: #6394ED;
-  outline: none; transition: border-color 0.15s;
+.add-row {
+  display: flex; gap: 0; align-items: stretch; margin-bottom: 0;
+  border-top: 1.5px solid #6394ED;
 }
-.add-input:focus { border-color: #6394ED; }
+.add-input {
+  flex: 1; background: #F6F4F1; border: none;
+  border-right: 1.5px solid #6394ED;
+  border-radius: 0; padding: 14px 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif; font-size: 16px; color: #6394ED;
+  outline: none;
+}
 .add-input::placeholder { color: #8AAADE; }
 .add-btn {
-  background: #6394ED; color: #fff; border: none;
-  border-radius: 0; padding: 11px 16px;
-  font-family: "Helvetica Neue", Arial, sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;
+  background: #D4E0F7; color: #6394ED; border: none;
+  border-radius: 0; padding: 14px 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer;
+  flex-shrink: 0;
 }
-.two-btns { display: flex; gap: 8px; }
-.two-btns .btn-ghost, .two-btns .btn-primary { flex: 1; }
+.two-btns { display: flex; gap: 1.5px; background: #6394ED; }
+.two-btns .btn-ghost, .two-btns .btn-primary {
+  flex: 1; height: 72px; border: none; border-radius: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 500; padding: 0; width: auto;
+}
 
-#s4-plan-bottom { display: none; flex-direction: column; gap: 8px; }
-#s4-done-bottom { display: none; flex-direction: column; gap: 8px; }
+#s4-plan-bottom { display: none; flex-direction: column; gap: 0; }
+#s4-done-bottom { display: none; flex-direction: column; gap: 0; }
+#s4-plan-bottom .btn-primary, #s4-plan-bottom .btn-ghost,
+#s4-done-bottom .btn-primary {
+  height: 72px; border: none; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 500;
+}
+.warning-wrap { padding: 10px 20px 0; }
 
 .focus-summary-card {
   background: #fff; border: 1.5px solid #D4E0F7;
@@ -746,30 +761,76 @@ body {
     <!-- Zone 2: Equalizer bars -->
     <div class="eq-zone2">
       <div class="eq-bars">
-        <div class="eq-bar" style="height:16px;animation-duration:0.70s;animation-delay:0.00s"></div>
-        <div class="eq-bar" style="height:28px;animation-duration:0.73s;animation-delay:0.03s"></div>
-        <div class="eq-bar" style="height:42px;animation-duration:0.76s;animation-delay:0.05s"></div>
-        <div class="eq-bar" style="height:36px;animation-duration:0.79s;animation-delay:0.08s"></div>
-        <div class="eq-bar" style="height:48px;animation-duration:0.82s;animation-delay:0.10s"></div>
-        <div class="eq-bar" style="height:22px;animation-duration:0.85s;animation-delay:0.13s"></div>
-        <div class="eq-bar" style="height:38px;animation-duration:0.88s;animation-delay:0.16s"></div>
-        <div class="eq-bar" style="height:46px;animation-duration:0.91s;animation-delay:0.18s"></div>
-        <div class="eq-bar" style="height:20px;animation-duration:0.94s;animation-delay:0.21s"></div>
-        <div class="eq-bar" style="height:44px;animation-duration:0.97s;animation-delay:0.23s"></div>
-        <div class="eq-bar" style="height:32px;animation-duration:1.00s;animation-delay:0.26s"></div>
-        <div class="eq-bar" style="height:48px;animation-duration:1.03s;animation-delay:0.29s"></div>
-        <div class="eq-bar" style="height:18px;animation-duration:1.06s;animation-delay:0.31s"></div>
-        <div class="eq-bar" style="height:40px;animation-duration:1.09s;animation-delay:0.34s"></div>
-        <div class="eq-bar" style="height:30px;animation-duration:1.12s;animation-delay:0.36s"></div>
-        <div class="eq-bar" style="height:46px;animation-duration:1.15s;animation-delay:0.39s"></div>
-        <div class="eq-bar" style="height:24px;animation-duration:1.18s;animation-delay:0.42s"></div>
-        <div class="eq-bar" style="height:42px;animation-duration:1.21s;animation-delay:0.44s"></div>
-        <div class="eq-bar" style="height:36px;animation-duration:1.24s;animation-delay:0.47s"></div>
-        <div class="eq-bar" style="height:48px;animation-duration:1.27s;animation-delay:0.49s"></div>
-        <div class="eq-bar" style="height:20px;animation-duration:1.30s;animation-delay:0.52s"></div>
-        <div class="eq-bar" style="height:34px;animation-duration:1.33s;animation-delay:0.55s"></div>
-        <div class="eq-bar" style="height:44px;animation-duration:1.36s;animation-delay:0.57s"></div>
-        <div class="eq-bar" style="height:18px;animation-duration:1.40s;animation-delay:0.60s"></div>
+        <div class="eq-bar" style="height:12px;animation-duration:0.70s;animation-delay:0.00s"></div>
+        <div class="eq-bar" style="height:28px;animation-duration:0.72s;animation-delay:0.01s"></div>
+        <div class="eq-bar" style="height:18px;animation-duration:0.74s;animation-delay:0.02s"></div>
+        <div class="eq-bar" style="height:44px;animation-duration:0.76s;animation-delay:0.03s"></div>
+        <div class="eq-bar" style="height:8px;animation-duration:0.78s;animation-delay:0.04s"></div>
+        <div class="eq-bar" style="height:60px;animation-duration:0.80s;animation-delay:0.05s"></div>
+        <div class="eq-bar" style="height:24px;animation-duration:0.82s;animation-delay:0.06s"></div>
+        <div class="eq-bar" style="height:72px;animation-duration:0.84s;animation-delay:0.07s"></div>
+        <div class="eq-bar" style="height:16px;animation-duration:0.86s;animation-delay:0.08s"></div>
+        <div class="eq-bar" style="height:50px;animation-duration:0.88s;animation-delay:0.09s"></div>
+        <div class="eq-bar" style="height:32px;animation-duration:0.90s;animation-delay:0.10s"></div>
+        <div class="eq-bar" style="height:80px;animation-duration:0.92s;animation-delay:0.11s"></div>
+        <div class="eq-bar" style="height:20px;animation-duration:0.94s;animation-delay:0.12s"></div>
+        <div class="eq-bar" style="height:42px;animation-duration:0.96s;animation-delay:0.13s"></div>
+        <div class="eq-bar" style="height:10px;animation-duration:0.98s;animation-delay:0.14s"></div>
+        <div class="eq-bar" style="height:64px;animation-duration:1.00s;animation-delay:0.15s"></div>
+        <div class="eq-bar" style="height:36px;animation-duration:1.02s;animation-delay:0.16s"></div>
+        <div class="eq-bar" style="height:76px;animation-duration:1.04s;animation-delay:0.17s"></div>
+        <div class="eq-bar" style="height:22px;animation-duration:1.06s;animation-delay:0.18s"></div>
+        <div class="eq-bar" style="height:48px;animation-duration:1.08s;animation-delay:0.19s"></div>
+        <div class="eq-bar" style="height:14px;animation-duration:1.10s;animation-delay:0.20s"></div>
+        <div class="eq-bar" style="height:56px;animation-duration:1.12s;animation-delay:0.21s"></div>
+        <div class="eq-bar" style="height:38px;animation-duration:1.14s;animation-delay:0.22s"></div>
+        <div class="eq-bar" style="height:78px;animation-duration:1.16s;animation-delay:0.23s"></div>
+        <div class="eq-bar" style="height:18px;animation-duration:1.18s;animation-delay:0.24s"></div>
+        <div class="eq-bar" style="height:46px;animation-duration:1.20s;animation-delay:0.25s"></div>
+        <div class="eq-bar" style="height:12px;animation-duration:1.22s;animation-delay:0.26s"></div>
+        <div class="eq-bar" style="height:68px;animation-duration:1.24s;animation-delay:0.27s"></div>
+        <div class="eq-bar" style="height:28px;animation-duration:1.26s;animation-delay:0.28s"></div>
+        <div class="eq-bar" style="height:52px;animation-duration:1.28s;animation-delay:0.29s"></div>
+        <div class="eq-bar" style="height:8px;animation-duration:1.30s;animation-delay:0.30s"></div>
+        <div class="eq-bar" style="height:72px;animation-duration:1.32s;animation-delay:0.31s"></div>
+        <div class="eq-bar" style="height:24px;animation-duration:1.34s;animation-delay:0.32s"></div>
+        <div class="eq-bar" style="height:40px;animation-duration:1.36s;animation-delay:0.33s"></div>
+        <div class="eq-bar" style="height:16px;animation-duration:1.38s;animation-delay:0.34s"></div>
+        <div class="eq-bar" style="height:58px;animation-duration:1.40s;animation-delay:0.35s"></div>
+        <div class="eq-bar" style="height:34px;animation-duration:1.38s;animation-delay:0.36s"></div>
+        <div class="eq-bar" style="height:76px;animation-duration:1.36s;animation-delay:0.37s"></div>
+        <div class="eq-bar" style="height:20px;animation-duration:1.34s;animation-delay:0.38s"></div>
+        <div class="eq-bar" style="height:44px;animation-duration:1.32s;animation-delay:0.39s"></div>
+        <div class="eq-bar" style="height:10px;animation-duration:1.30s;animation-delay:0.40s"></div>
+        <div class="eq-bar" style="height:62px;animation-duration:1.28s;animation-delay:0.41s"></div>
+        <div class="eq-bar" style="height:30px;animation-duration:1.26s;animation-delay:0.42s"></div>
+        <div class="eq-bar" style="height:50px;animation-duration:1.24s;animation-delay:0.43s"></div>
+        <div class="eq-bar" style="height:16px;animation-duration:1.22s;animation-delay:0.44s"></div>
+        <div class="eq-bar" style="height:56px;animation-duration:1.20s;animation-delay:0.45s"></div>
+        <div class="eq-bar" style="height:38px;animation-duration:1.18s;animation-delay:0.46s"></div>
+        <div class="eq-bar" style="height:78px;animation-duration:1.16s;animation-delay:0.47s"></div>
+        <div class="eq-bar" style="height:22px;animation-duration:1.14s;animation-delay:0.48s"></div>
+        <div class="eq-bar" style="height:46px;animation-duration:1.12s;animation-delay:0.49s"></div>
+        <div class="eq-bar" style="height:12px;animation-duration:1.10s;animation-delay:0.50s"></div>
+        <div class="eq-bar" style="height:68px;animation-duration:1.08s;animation-delay:0.51s"></div>
+        <div class="eq-bar" style="height:26px;animation-duration:1.06s;animation-delay:0.52s"></div>
+        <div class="eq-bar" style="height:42px;animation-duration:1.04s;animation-delay:0.53s"></div>
+        <div class="eq-bar" style="height:8px;animation-duration:1.02s;animation-delay:0.54s"></div>
+        <div class="eq-bar" style="height:62px;animation-duration:1.00s;animation-delay:0.55s"></div>
+        <div class="eq-bar" style="height:32px;animation-duration:0.98s;animation-delay:0.56s"></div>
+        <div class="eq-bar" style="height:76px;animation-duration:0.96s;animation-delay:0.57s"></div>
+        <div class="eq-bar" style="height:20px;animation-duration:0.94s;animation-delay:0.58s"></div>
+        <div class="eq-bar" style="height:44px;animation-duration:0.92s;animation-delay:0.59s"></div>
+        <div class="eq-bar" style="height:14px;animation-duration:0.90s;animation-delay:0.60s"></div>
+        <div class="eq-bar" style="height:58px;animation-duration:0.88s;animation-delay:0.01s"></div>
+        <div class="eq-bar" style="height:36px;animation-duration:0.86s;animation-delay:0.02s"></div>
+        <div class="eq-bar" style="height:80px;animation-duration:0.84s;animation-delay:0.03s"></div>
+        <div class="eq-bar" style="height:22px;animation-duration:0.82s;animation-delay:0.04s"></div>
+        <div class="eq-bar" style="height:48px;animation-duration:0.80s;animation-delay:0.05s"></div>
+        <div class="eq-bar" style="height:16px;animation-duration:0.78s;animation-delay:0.06s"></div>
+        <div class="eq-bar" style="height:60px;animation-duration:0.76s;animation-delay:0.07s"></div>
+        <div class="eq-bar" style="height:36px;animation-duration:0.74s;animation-delay:0.08s"></div>
+        <div class="eq-bar" style="height:50px;animation-duration:0.72s;animation-delay:0.09s"></div>
       </div>
     </div>
     <!-- Divider -->
@@ -820,20 +881,22 @@ body {
           <button class="add-btn" onclick="addTask()">Add</button>
         </div>
         <div class="two-btns">
-          <button class="btn-ghost" onclick="goTo('s2')">← Back</button>
-          <button class="btn-primary" onclick="confirmTasks()">That's Everything →</button>
+          <button class="btn-ghost" onclick="goTo('s2')">Back</button>
+          <button class="btn-primary" onclick="confirmTasks()">That's All</button>
         </div>
       </div>
       <!-- Plan action state -->
       <div id="s4-plan-bottom">
-        <div class="warning-msg" id="plan-warning">Today has more than 3 tasks — drag something to tomorrow so the day stays manageable</div>
-        <button class="btn-primary" onclick="syncPlan()">Looks Good — Sync It</button>
-        <button class="btn-ghost" onclick="adjustPlan()">Actually, Let Me Adjust</button>
+        <div class="warning-wrap"><div class="warning-msg" id="plan-warning">Today has more than 3 tasks — drag something to tomorrow so the day stays manageable</div></div>
+        <div class="two-btns" style="border-top:1.5px solid #6394ED;">
+          <button class="btn-ghost" onclick="adjustPlan()">Adjust</button>
+          <button class="btn-primary" onclick="syncPlan()">Sync It</button>
+        </div>
       </div>
       <!-- Done state -->
       <div id="s4-done-bottom">
-        <p class="sync-note" id="inline-sync-note">Synced to your apps</p>
-        <button class="btn-primary" onclick="goTo('s7')">Done For Now</button>
+        <p class="sync-note" id="inline-sync-note" style="padding:12px 20px 0;text-align:center;">Synced to your apps</p>
+        <button class="btn-primary" onclick="goTo('s7')" style="height:72px;border:none;font-size:20px;font-weight:500;display:flex;align-items:center;justify-content:center;">Done For Now</button>
       </div>
     </div>
   </div>
