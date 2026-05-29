@@ -93,7 +93,7 @@ body {
 }
 .connected-label {
   font-size: 9px; font-weight: 600; letter-spacing: 0.8px;
-  text-transform: uppercase; color: #aaa; white-space: nowrap;
+  text-transform: uppercase; color: #8AAADE; white-space: nowrap;
 }
 .connected-pills-wrap { display: flex; gap: 6px; flex-wrap: nowrap; overflow-x: auto; }
 .app-pill {
@@ -101,7 +101,7 @@ body {
   padding: 3px 8px 3px 4px; height: 26px;
   background: #fff; border: 1px solid rgba(0,0,0,0.1);
   border-radius: 20px; font-size: 11px; font-weight: 600;
-  color: #0A0A12; white-space: nowrap;
+  color: #6394ED; white-space: nowrap;
 }
 .pill-badge {
   width: 18px; height: 18px; border-radius: 50%;
@@ -123,9 +123,9 @@ body {
 
 .mic-btn {
   width: 64px; height: 64px; border-radius: 50%;
-  background: linear-gradient(135deg, #7B7EE8, #5558C8);
+  background: #6394ED;
   border: none; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; box-shadow: 0 4px 20px rgba(107,110,204,0.4);
+  cursor: pointer; box-shadow: 0 4px 20px rgba(99,148,237,0.4);
   transition: box-shadow 0.2s, transform 0.15s;
   -webkit-tap-highlight-color: transparent; flex-shrink: 0;
 }
@@ -133,10 +133,10 @@ body {
 .mic-btn i { font-size: 26px; color: #fff; }
 .mic-btn.pulsing { animation: micPulse 1.4s ease-in-out infinite; }
 @keyframes micPulse {
-  0%,100% { box-shadow: 0 4px 20px rgba(107,110,204,0.4); }
-  50% { box-shadow: 0 4px 32px rgba(107,110,204,0.75), 0 0 0 10px rgba(107,110,204,0.12); }
+  0%,100% { box-shadow: 0 4px 20px rgba(99,148,237,0.4); }
+  50% { box-shadow: 0 4px 32px rgba(99,148,237,0.75), 0 0 0 10px rgba(99,148,237,0.12); }
 }
-.mic-hint { font-size: 12px; color: #888; margin-top: 10px; }
+.mic-hint { font-size: 12px; color: #8AAADE; margin-top: 10px; }
 
 /* ══ SCREEN 1 — ONBOARDING ══ */
 #s1 { background: #F6F4F1; padding: 0; }
@@ -314,7 +314,7 @@ body {
   padding: 5px 13px; font-size: 11px; font-weight: 600; color: var(--blue-eq);
 }
 .eq-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue-eq); flex-shrink: 0; }
-.eq-transcript { font-size: 18px; font-weight: 400; line-height: 1.7; color: #0a0a0a; margin-top: 16px; }
+.eq-transcript { font-size: 18px; font-weight: 400; line-height: 1.7; color: #6394ED; margin-top: 16px; }
 
 /* Cursor (kept — referenced by JS) */
 .cursor {
@@ -502,7 +502,7 @@ body {
 }
 .lock-btn:active { transform: scale(0.85); }
 
-.lock-hint { text-align: center; font-size: 12px; font-style: italic; color: #aaa; margin: 2px 0 10px; width: 100%; }
+.lock-hint { text-align: center; font-size: 12px; font-style: italic; color: #8AAADE; margin: 2px 0 10px; width: 100%; }
 
 .featured-card {
   background: #EEF2FC; border: 1.5px solid #6394ED;
@@ -910,9 +910,9 @@ body {
         </div>
         <div class="history-section">
           <div class="history-date">Yesterday · May 11</div>
-          <div class="history-task"><span style="width:8px;height:8px;background:#0A0A12;border-radius:50%;flex-shrink:0;display:inline-block;"></span> Finish client proposal</div>
-          <div class="history-task"><span style="width:8px;height:8px;border:2px solid #ccc;border-radius:50%;flex-shrink:0;display:inline-block;"></span> Team check-in call</div>
-          <div class="history-task"><span style="width:8px;height:8px;border:2px solid #ccc;border-radius:50%;flex-shrink:0;display:inline-block;"></span> Send weekly report</div>
+          <div class="history-task"><span style="width:8px;height:8px;background:#6394ED;border-radius:50%;flex-shrink:0;display:inline-block;"></span> Finish client proposal</div>
+          <div class="history-task"><span style="width:8px;height:8px;border:2px solid #D4E0F7;border-radius:50%;flex-shrink:0;display:inline-block;"></span> Team check-in call</div>
+          <div class="history-task"><span style="width:8px;height:8px;border:2px solid #D4E0F7;border-radius:50%;flex-shrink:0;display:inline-block;"></span> Send weekly report</div>
         </div>
       </div>
     </div>
@@ -983,7 +983,7 @@ function goToS2() {
 
 function buildConnectedApps() {
   const appDefs = {
-    notion: { label: 'Notion', bg: '#0A0A12', letter: 'N' },
+    notion: { label: 'Notion', bg: '#6394ED', letter: 'N' },
     todoist: { label: 'Todoist', bg: '#db4035', letter: 'T' },
     gcal: { label: 'Google Calendar', bg: '#4285f4', letter: 'G' },
   };
@@ -1355,7 +1355,7 @@ function buildS7Focus(tasks) {
       </div>`;
     el.appendChild(row);
     const hr = document.createElement('div'); hr.className = 'history-task';
-    hr.innerHTML = `<span style="width:8px;height:8px;${t.first ? 'background:#0A0A12;' : 'border:2px solid #ccc;'}border-radius:50%;flex-shrink:0;display:inline-block;margin-right:2px;"></span>${t.title}`;
+    hr.innerHTML = `<span style="width:8px;height:8px;${t.first ? 'background:#6394ED;' : 'border:2px solid #D4E0F7;'}border-radius:50%;flex-shrink:0;display:inline-block;margin-right:2px;"></span>${t.title}`;
     histEl.appendChild(hr);
   });
 }
