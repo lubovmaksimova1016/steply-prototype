@@ -976,16 +976,16 @@ body {
   <!-- ══ SCREEN 7: HOME RETURN ══ -->
   <div class="screen" id="s7">
 
-    <!-- Connected app tags (hidden when no real apps) -->
-    <div class="s7-topbar" id="s7-topbar" style="display:none;">
-      <div class="s7-app-tags" id="s7-app-tags"></div>
-      <div class="s7-topbar-divider"></div>
+    <!-- Connected app tags — same component as first-visit -->
+    <div class="s2-topbar" id="s7-topbar" style="display:none;">
+      <div class="s2-app-tags" id="s7-app-tags"></div>
+      <div class="s2-divider" style="margin-top:12px;"></div>
     </div>
 
-    <!-- Heading -->
-    <div class="s7-heading">
-      <h1 class="s7-h1">Welcome back, Luba.</h1>
-      <p class="s7-sub">Pick up where you left off, or start fresh</p>
+    <!-- Heading — same classes as first-visit -->
+    <div class="s2-heading">
+      <h1 class="s2-h1">Welcome back, Luba.</h1>
+      <p class="s2-date" id="s7-date">Thursday, May 29</p>
     </div>
 
     <!-- Scrollable section: focus block + achievement card -->
@@ -1017,10 +1017,10 @@ body {
       </div>
     </div>
 
-    <!-- 2×2 mode grid (full-bleed) -->
-    <div class="s7-divider"></div>
-    <div class="s7-grid-wrap">
-      <div class="s7-grid" id="s7-chips">
+    <!-- 2×2 mode grid — same component as first-visit -->
+    <div class="s2-divider"></div>
+    <div class="s2-grid-wrap">
+      <div class="s2-grid" id="s7-chips">
         <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s7')">Too much on my plate</div>
         <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s7')">Pick one task for me</div>
         <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s7')">My day went sideways</div>
@@ -1028,11 +1028,11 @@ body {
       </div>
     </div>
 
-    <!-- Full-width mic button -->
-    <div class="s7-divider"></div>
-    <div class="s7-mic-bottom">
-      <span class="s7-mic-hint">Tap to record</span>
-      <button class="s7-mic-btn" onclick="goToS3FromMic()"><i class="ti ti-microphone"></i></button>
+    <!-- Mic button — same component as first-visit -->
+    <div class="s2-divider"></div>
+    <div class="s2-bottom">
+      <span class="s2-mic-hint">Tap to record</span>
+      <button class="s2-mic-btn" onclick="goToS3FromMic()"><i class="ti ti-microphone"></i></button>
     </div>
 
     <!-- History Overlay -->
@@ -1147,7 +1147,7 @@ function buildConnectedApps() {
     }
   }
 
-  // s7: new tag format matching first-visit style
+  // s7: identical tag component to first-visit (s2)
   const s7topbar = document.getElementById('s7-topbar');
   const s7tags = document.getElementById('s7-app-tags');
   if (s7tags) {
@@ -1156,8 +1156,8 @@ function buildConnectedApps() {
       realApps.forEach(app => {
         const d = appDefs[app]; if (!d) return;
         const tag = document.createElement('div');
-        tag.className = 's7-app-tag';
-        tag.innerHTML = `<span class="s7-tag-badge">${d.letter}</span><span>${d.label}</span>`;
+        tag.className = 's2-app-tag';
+        tag.textContent = d.letter + ' ' + d.label;
         s7tags.appendChild(tag);
       });
       s7topbar.style.display = 'block';
@@ -1481,6 +1481,12 @@ function buildDoneInline() {
 /* ── S7: HOME RETURN ── */
 function buildS7Focus(tasks) {
   buildConnectedApps();
+  // Update date label to match first-visit date style
+  const s7dateEl = document.getElementById('s7-date');
+  if (s7dateEl) {
+    const now = new Date();
+    s7dateEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  }
   const el = document.getElementById('s7-focus-tasks'); el.innerHTML = '';
   const histEl = document.getElementById('history-today'); histEl.innerHTML = '';
   tasks.forEach(t => {
