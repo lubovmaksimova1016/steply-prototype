@@ -324,7 +324,7 @@ body {
 .eq-label { font-size: 10px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: var(--blue-eq); margin-bottom: 12px; }
 .eq-badge {
   display: inline-flex; align-items: center; gap: 7px;
-  border: 1px solid #D4E0F7; border-radius: 20px;
+  border: 1px solid #D4E0F7; border-radius: 0;
   padding: 4px 12px; font-size: 11px; font-weight: 400; color: #8AAADE;
 }
 .eq-dot { width: 7px; height: 7px; border-radius: 50%; background: #8AAADE; flex-shrink: 0; }
@@ -371,7 +371,7 @@ body {
 }
 .chat-mode-pill {
   display: inline-flex; align-items: center; gap: 6px;
-  background: transparent; border-radius: 20px;
+  background: transparent; border-radius: 0;
   border: 1px solid #D4E0F7;
   padding: 4px 12px;
   font-size: 11px; font-weight: 400; color: #8AAADE;
@@ -393,13 +393,32 @@ body {
 }
 .bubble-bot {
   background: #EEF2FC; border: 1.5px solid #D4E0F7;
-  border-radius: 0px 14px 14px 14px;
+  border-radius: 0px 18px 18px 18px;
   align-self: flex-start; color: #6394ED;
+}
+.bubble-bot::before {
+  content: '';
+  position: absolute;
+  bottom: -10px; left: -1px;
+  width: 0; height: 0;
+  border-top: 10px solid #EEF2FC;
+  border-right: 10px solid transparent;
+  border-left: 0;
+  filter: drop-shadow(-1.5px 1px 0px #D4E0F7);
 }
 .bubble-user {
   background: #6394ED; color: #fff; border: none;
-  border-radius: 14px 0px 14px 14px;
+  border-radius: 18px 0px 18px 18px;
   align-self: flex-end; padding: 14px 18px;
+}
+.bubble-user::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; right: -1px;
+  width: 0; height: 0;
+  border-top: 10px solid #6394ED;
+  border-left: 10px solid transparent;
+  border-right: 0;
 }
 
 .task-list-label {
@@ -439,7 +458,8 @@ body {
 }
 .add-input::placeholder { color: #8AAADE; }
 .add-btn {
-  background: #D4E0F7; color: #6394ED; border: 2px solid #6394ED;
+  background: #D4E0F7; color: #6394ED;
+  border: 2px solid #6394ED; border-top: none;
   border-radius: 0; padding: 14px 20px;
   font-family: "Helvetica Neue", Arial, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer;
   flex-shrink: 0;
