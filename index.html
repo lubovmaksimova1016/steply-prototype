@@ -66,7 +66,8 @@ body {
 
 .btn-primary {
   background: #6394ED; color: #fff;
-  border: none; border-radius: 0;
+  border-top: 1px solid #D4E0F7; border-right: none; border-bottom: none; border-left: none;
+  border-radius: 0;
   padding: 14px 20px;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 20px; font-weight: 500;
@@ -78,12 +79,12 @@ body {
 
 .btn-ghost {
   background: #F6F4F1; color: #6394ED;
-  border: 1.5px solid #6394ED;
+  border-top: 1px solid #D4E0F7; border-right: 1px solid #D4E0F7; border-bottom: none; border-left: none;
   border-radius: 0; padding: 14px 20px;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 20px; font-weight: 500;
   cursor: pointer; width: 100%;
-  transition: border-color 0.15s, transform 0.1s;
+  transition: transform 0.1s;
 }
 .btn-ghost:active { transform: scale(0.98); }
 
@@ -222,8 +223,8 @@ body {
 #letsgo-btn {
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-weight: 400; font-size: 20px;
-  color: #FFFFFF; border: none; border-radius: 0;
-  width: 100%; padding: 20px 0 20px 20px;
+  color: #FFFFFF; border-top: 1px solid #D4E0F7; border-right: none; border-bottom: none; border-left: none;
+  border-radius: 0; width: 100%; padding: 20px 0 20px 20px;
   cursor: pointer; display: block; text-align: left;
   transition: background 0.15s;
 }
@@ -444,21 +445,18 @@ body {
   font-family: "Helvetica Neue", Arial, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer;
   flex-shrink: 0;
 }
-.two-btns { display: flex; gap: 1.5px; background: #6394ED; }
+.two-btns { display: flex; gap: 0; background: transparent; }
 .two-btns .btn-ghost, .two-btns .btn-primary {
-  flex: 1; height: 72px; border: none; border-radius: 0;
+  flex: 1; height: 72px; border-radius: 0;
   display: flex; align-items: center; justify-content: center;
   font-size: 20px; font-weight: 500; padding: 0; width: auto;
 }
 
-#s4 .two-btns { gap: 0; background: transparent; }
-#s4 .two-btns .btn-primary { border: 2px solid #6394ED; background: #6394ED; color: #fff; }
-#s4 .two-btns .btn-ghost { border: 2px solid #6394ED; background: #F6F4F1; color: #6394ED; }
 #s4-plan-bottom { display: none; flex-direction: column; gap: 0; }
 #s4-done-bottom { display: none; flex-direction: column; gap: 0; }
 #s4-plan-bottom .btn-primary, #s4-plan-bottom .btn-ghost,
 #s4-done-bottom .btn-primary {
-  height: 72px; border: 2px solid #6394ED; padding: 0;
+  height: 72px; padding: 0;
   display: flex; align-items: center; justify-content: center;
   font-size: 20px; font-weight: 500;
 }
@@ -573,7 +571,7 @@ body {
 
 /* ══ SCREEN 0 — WELCOME ══ */
 #s0 { background: transparent; padding: 0; }
-.s0-top { background: #F6F4F1; padding: 32px 20px 20px; flex-shrink: 0; border-bottom: 3px solid #6394ED; }
+.s0-top { background: #F6F4F1; padding: 32px 20px 20px; flex-shrink: 0; border-bottom: 1px solid #D4E0F7; }
 .s0-heading {
   font-family: 'Bricolage Grotesque', "Helvetica Neue", Arial, sans-serif;
   font-weight: 600; font-size: 115px; letter-spacing: -6px;
@@ -590,7 +588,8 @@ body {
 .s0-btn {
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-weight: 400; font-size: 24px; letter-spacing: 0px;
-  color: #FFFFFF; background: #6394ED; border: none;
+  color: #FFFFFF; background: #6394ED;
+  border-top: 1px solid #D4E0F7; border-right: none; border-bottom: none; border-left: none;
   border-radius: 0; width: 100%; padding: 20px 0 20px 12px;
   cursor: pointer; display: block; text-align: left;
 }
@@ -997,7 +996,7 @@ body {
       <!-- Plan action state -->
       <div id="s4-plan-bottom">
         <div class="warning-wrap"><div class="warning-msg" id="plan-warning">Today has more than 3 tasks — drag something to tomorrow so the day stays manageable</div></div>
-        <div class="two-btns" style="border-top:1.5px solid #6394ED;">
+        <div class="two-btns">
           <button class="btn-ghost" onclick="adjustPlan()">Adjust</button>
           <button class="btn-primary" onclick="syncPlan()">Sync It</button>
         </div>
@@ -1005,7 +1004,7 @@ body {
       <!-- Done state -->
       <div id="s4-done-bottom">
         <p class="sync-note" id="inline-sync-note" style="padding:12px 20px 0;text-align:center;">Synced to your apps</p>
-        <button class="btn-primary" onclick="goTo('s7')" style="height:72px;border:none;font-size:20px;font-weight:500;display:flex;align-items:center;justify-content:center;">Done For Now</button>
+        <button class="btn-primary" onclick="goTo('s7')" style="height:72px;border-top:1px solid #D4E0F7;border-right:none;border-bottom:none;border-left:none;font-size:20px;font-weight:500;display:flex;align-items:center;justify-content:center;">Done For Now</button>
       </div>
     </div>
   </div>
