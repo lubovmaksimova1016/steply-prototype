@@ -372,11 +372,11 @@ body {
 .chat-mode-pill {
   display: inline-flex; align-items: center; gap: 6px;
   background: transparent; border-radius: 0;
-  border: 1.5px solid #6394ED;
+  border: 1px solid #D4E0F7;
   padding: 5px 13px;
-  font-size: 11px; font-weight: 600; color: #6394ED;
+  font-size: 11px; font-weight: 400; color: #6394ED;
 }
-.chat-mode-dot { width: 7px; height: 7px; border-radius: 50%; background: #6394ED; flex-shrink: 0; }
+.chat-mode-dot { width: 7px; height: 7px; border-radius: 50%; background: #8AAADE; flex-shrink: 0; }
 
 .chat-area {
   flex: 1; overflow-y: auto;
@@ -389,14 +389,31 @@ body {
 .bubble {
   max-width: 100%; padding: 16px 18px;
   border-radius: 0; font-size: 15px; line-height: 1.5;
+  position: relative;
 }
 .bubble-bot {
   background: #EEF2FC; border: 1.5px solid #D4E0F7;
   align-self: flex-start; color: #6394ED;
 }
+.bubble-bot::before {
+  content: '';
+  position: absolute;
+  bottom: -10px; left: 0;
+  width: 10px; height: 10px;
+  background: #EEF2FC;
+  border-left: 1.5px solid #D4E0F7;
+  border-bottom: 1.5px solid #D4E0F7;
+}
 .bubble-user {
   background: #6394ED; color: #fff;
   align-self: flex-end; padding: 14px 18px;
+}
+.bubble-user::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; right: 0;
+  width: 10px; height: 10px;
+  background: #6394ED;
 }
 
 .task-list-label {
@@ -416,8 +433,8 @@ body {
 .task-del {
   background: transparent; border: none;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; font-size: 14px; color: #8AAADE;
-  flex-shrink: 0; padding: 0; line-height: 1;
+  cursor: pointer; font-size: 18px; color: #8AAADE;
+  flex-shrink: 0; padding: 4px 8px; line-height: 1;
 }
 .task-del:hover, .task-del:active { color: #6394ED; }
 
@@ -429,14 +446,14 @@ body {
 }
 .add-input {
   flex: 1; background: #F6F4F1; border: none;
-  border-right: 1.5px solid #6394ED;
+  border-right: 1.5px solid #D4E0F7;
   border-radius: 0; padding: 14px 20px;
   font-family: "Helvetica Neue", Arial, sans-serif; font-size: 16px; color: #6394ED;
   outline: none;
 }
 .add-input::placeholder { color: #8AAADE; }
 .add-btn {
-  background: #D4E0F7; color: #6394ED; border: none;
+  background: #D4E0F7; color: #6394ED; border: 2px solid #6394ED;
   border-radius: 0; padding: 14px 20px;
   font-family: "Helvetica Neue", Arial, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer;
   flex-shrink: 0;
@@ -448,13 +465,14 @@ body {
   font-size: 20px; font-weight: 500; padding: 0; width: auto;
 }
 
-#s4 .two-btns .btn-primary { border-top: 2px solid #6394ED; }
-#s4 .two-btns .btn-ghost { border-top: 1.5px solid #6394ED; }
+#s4 .two-btns { gap: 0; background: transparent; }
+#s4 .two-btns .btn-primary { border: 2px solid #6394ED; background: #6394ED; color: #fff; }
+#s4 .two-btns .btn-ghost { border: 2px solid #6394ED; background: #F6F4F1; color: #6394ED; }
 #s4-plan-bottom { display: none; flex-direction: column; gap: 0; }
 #s4-done-bottom { display: none; flex-direction: column; gap: 0; }
 #s4-plan-bottom .btn-primary, #s4-plan-bottom .btn-ghost,
 #s4-done-bottom .btn-primary {
-  height: 72px; border: none; padding: 0;
+  height: 72px; border: 2px solid #6394ED; padding: 0;
   display: flex; align-items: center; justify-content: center;
   font-size: 20px; font-weight: 500;
 }
@@ -495,7 +513,7 @@ body {
 }
 
 .plan-card {
-  background: #fff; border: 1.5px solid #D4E0F7;
+  background: #fff; border: 1px solid #D4E0F7;
   border-radius: 0; padding: 12px 14px;
   display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
   cursor: grab;
@@ -968,11 +986,11 @@ body {
         <span id="s4-intro-bubble">I pulled tasks from your apps and voice note</span>
         <div class="task-list-label">Tasks I picked up</div>
         <div id="task-list">
-          <div class="task-row" data-task="3 client meetings"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">3 client meetings</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
-          <div class="task-row" data-task="send contract"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">send contract</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
-          <div class="task-row" data-task="follow up 2 leads"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">follow up 2 leads</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
-          <div class="task-row" data-task="prep for tomorrow's viewing"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">prep for tomorrow's viewing</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
-          <div class="task-row" data-task="reply to manager"><i class="ti ti-grip-vertical task-grip"></i><span class="task-label">reply to manager</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="3 client meetings"><span class="task-label">3 client meetings</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="send contract"><span class="task-label">send contract</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="follow up 2 leads"><span class="task-label">follow up 2 leads</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="prep for tomorrow's viewing"><span class="task-label">prep for tomorrow's viewing</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="reply to manager"><span class="task-label">reply to manager</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
         </div>
         <div style="margin-top: 14px; font-size: 15px; line-height: 1.5; color: #8AAADE;">Anything missing? Add it below — then confirm when ready</div>
       </div>
@@ -1290,7 +1308,7 @@ function buildTaskList() {
     if (state.deletedTasks.has(t)) return;
     const row = document.createElement('div');
     row.className = 'task-row'; row.dataset.task = t;
-    row.innerHTML = `<i class="ti ti-grip-vertical task-grip"></i><span class="task-label">${t}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
+    row.innerHTML = `<span class="task-label">${t}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
     list.appendChild(row);
   });
 }
@@ -1312,7 +1330,7 @@ function addTask() {
   const list = document.getElementById('task-list');
   const row = document.createElement('div');
   row.className = 'task-row'; row.dataset.task = taskName;
-  row.innerHTML = `<i class="ti ti-grip-vertical task-grip"></i><span class="task-label">${taskName}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
+  row.innerHTML = `<span class="task-label">${taskName}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
   list.appendChild(row);
 
   const chat = document.getElementById('s4-chat');
@@ -1344,12 +1362,16 @@ function buildPlanInline() {
   const chat = document.getElementById('s4-chat');
   const isSingle = state.activeMode === 'pick one task for me';
 
-  const botMsg = document.createElement('div');
-  botMsg.className = 'bubble bubble-bot plan-bot-msg';
-  botMsg.textContent = isSingle
+  /* Single bubble contains intro text + plan content */
+  const planBubble = document.createElement('div');
+  planBubble.className = 'bubble bubble-bot plan-bot-msg';
+
+  const msgText = document.createElement('p');
+  msgText.style.cssText = 'margin-bottom:14px;';
+  msgText.textContent = isSingle
     ? "You've got 40 minutes. One thing matters right now:"
     : "Here's what fits today. I'd keep it to 3 tasks max — that's what actually gets done. Drag to reprioritize, tap the lock to fix a task in place";
-  chat.appendChild(botMsg);
+  planBubble.appendChild(msgText);
 
   const planDiv = document.createElement('div');
   planDiv.id = 'inline-plan';
@@ -1388,7 +1410,8 @@ function buildPlanInline() {
       <div id="tomorrow-zone"></div>`;
   }
 
-  chat.appendChild(planDiv);
+  planBubble.appendChild(planDiv);
+  chat.appendChild(planBubble);
   if (!isSingle) renderPlanCards();
 
   chat.scrollTop = chat.scrollHeight;
