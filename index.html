@@ -324,10 +324,10 @@ body {
 .eq-label { font-size: 10px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: var(--blue-eq); margin-bottom: 12px; }
 .eq-badge {
   display: inline-flex; align-items: center; gap: 7px;
-  border: 1.5px solid var(--blue-eq); border-radius: 0;
-  padding: 5px 13px; font-size: 11px; font-weight: 600; color: var(--blue-eq);
+  border: 1px solid #D4E0F7; border-radius: 20px;
+  padding: 4px 12px; font-size: 11px; font-weight: 400; color: #8AAADE;
 }
-.eq-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue-eq); flex-shrink: 0; }
+.eq-dot { width: 7px; height: 7px; border-radius: 50%; background: #8AAADE; flex-shrink: 0; }
 .eq-transcript { font-size: 18px; font-weight: 400; line-height: 1.7; color: #6394ED; margin-top: 16px; }
 
 /* Cursor (kept — referenced by JS) */
@@ -371,10 +371,10 @@ body {
 }
 .chat-mode-pill {
   display: inline-flex; align-items: center; gap: 6px;
-  background: transparent; border-radius: 0;
+  background: transparent; border-radius: 20px;
   border: 1px solid #D4E0F7;
-  padding: 5px 13px;
-  font-size: 11px; font-weight: 400; color: #6394ED;
+  padding: 4px 12px;
+  font-size: 11px; font-weight: 400; color: #8AAADE;
 }
 .chat-mode-dot { width: 7px; height: 7px; border-radius: 50%; background: #8AAADE; flex-shrink: 0; }
 
@@ -388,32 +388,18 @@ body {
 
 .bubble {
   max-width: 100%; padding: 16px 18px;
-  border-radius: 0; font-size: 15px; line-height: 1.5;
+  font-size: 15px; line-height: 1.5;
   position: relative;
 }
 .bubble-bot {
   background: #EEF2FC; border: 1.5px solid #D4E0F7;
+  border-radius: 0px 14px 14px 14px;
   align-self: flex-start; color: #6394ED;
 }
-.bubble-bot::before {
-  content: '';
-  position: absolute;
-  bottom: -10px; left: 0;
-  width: 10px; height: 10px;
-  background: #EEF2FC;
-  border-left: 1.5px solid #D4E0F7;
-  border-bottom: 1.5px solid #D4E0F7;
-}
 .bubble-user {
-  background: #6394ED; color: #fff;
+  background: #6394ED; color: #fff; border: none;
+  border-radius: 14px 0px 14px 14px;
   align-self: flex-end; padding: 14px 18px;
-}
-.bubble-user::after {
-  content: '';
-  position: absolute;
-  bottom: -10px; right: 0;
-  width: 10px; height: 10px;
-  background: #6394ED;
 }
 
 .task-list-label {
