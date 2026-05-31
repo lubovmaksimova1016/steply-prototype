@@ -865,7 +865,7 @@ body {
   <div class="screen" id="s3">
     <!-- Zone 1: Transcription -->
     <div class="eq-zone1">
-      <div class="eq-label">steply listening</div>
+      <div class="eq-label">Steply listening</div>
       <div class="eq-badge">
         <span class="eq-dot"></span>
         <span id="s3-mode-label">too much on my plate</span>
@@ -1066,7 +1066,7 @@ body {
     </div>
 
     <!-- Section label -->
-    <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:#8AAADE;text-align:center;padding:14px 0;width:100%;border-top:none;flex-shrink:0;">Start New Session</div>
+    <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:#8AAADE;text-align:center;padding:14px 0;width:100%;border-top:none;flex-shrink:0;">Start new session</div>
 
     <!-- 2×2 mode grid — same component as first-visit -->
     <div class="s2-divider"></div>
@@ -1373,7 +1373,7 @@ function buildPlanInline() {
   if (isSingle) {
     planDiv.innerHTML = `
       <div class="featured-card">
-        <div class="featured-label">Do This Now</div>
+        <div class="featured-label">Do this now</div>
         <div class="featured-title">send the invoice</div>
         <div class="featured-meta">30 min · highest impact before your next client</div>
       </div>
@@ -1396,10 +1396,10 @@ function buildPlanInline() {
       else state.tomorrowTasks.push({ id: t, title: t, meta: '', locked: false });
     });
     planDiv.innerHTML = `
-      <div class="plan-section-label" id="today-label">today</div>
+      <div class="plan-section-label" id="today-label">Today</div>
       <div id="today-zone"></div>
       <p class="lock-hint">Tap <img src="lockericon.svg" style="width:11px;height:14px;vertical-align:middle;opacity:0.5;"> to lock a task in place</p>
-      <div class="plan-section-label">tomorrow <span class="section-badge" id="tomorrow-badge">0</span></div>
+      <div class="plan-section-label">Tomorrow <span class="section-badge" id="tomorrow-badge">0</span></div>
       <div id="tomorrow-zone"></div>`;
   }
 
@@ -1463,7 +1463,7 @@ function toggleLock(taskId, zoneId) {
 
 function updateTodayLabel() {
   const label = document.getElementById('today-label');
-  if (label) label.innerHTML = `today <span class="section-badge">${state.todayTasks.length}</span>`;
+  if (label) label.innerHTML = `Today <span class="section-badge">${state.todayTasks.length}</span>`;
 }
 
 let dragSrc = null, dragSrcZone = null;
