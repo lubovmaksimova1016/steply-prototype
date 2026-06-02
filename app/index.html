@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steply</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/42dot-sans@5.2.9/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/42dot-sans@5.2.9/700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/42dot-sans@5.2.9/800.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: #F6F4F1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.phone {
+  width: 390px;
+  height: 844px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.06);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  transform-origin: center center;
+}
+
+@media (max-width: 430px) {
+  body { align-items: flex-start; }
+  .phone { width: 100vw; height: 100vh; border-radius: 0; box-shadow: none; transform: none !important; }
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  overflow: hidden;
+}
+.screen.active { display: flex; }
+.screen.visible { opacity: 1; }
+
+/* ── SHARED COMPONENTS ── */
+.tag-logo {
+  font-family: '42dot Sans', sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.4px;
+  text-transform: uppercase; color: #6394ED; display: block;
+}
+.home-h1 {
+  font-family: '42dot Sans', sans-serif;
+  font-size: 24px; font-weight: 800; line-height: 1.2;
+  color: #6394ED; margin-bottom: 6px;
+}
+.home-subtitle { font-size: 14px; color: #8AAADE; }
+
+.btn-primary {
+  background: #6394ED; color: #fff;
+  border-top: 2px solid #6394ED; border-right: none; border-bottom: none; border-left: none;
+  border-radius: 0;
+  padding: 14px 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 20px; font-weight: 500;
+  cursor: pointer; width: 100%;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-primary:not(:disabled):active { transform: scale(0.98); }
+
+.btn-ghost {
+  background: #F6F4F1; color: #6394ED;
+  border-top: 2px solid #6394ED; border-right: 1px solid #D4E0F7; border-bottom: none; border-left: none;
+  border-radius: 0; padding: 14px 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 20px; font-weight: 500;
+  cursor: pointer; width: 100%;
+  transition: transform 0.1s;
+}
+.btn-ghost:active { transform: scale(0.98); }
+
+.connected-apps-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px; flex-wrap: nowrap;
+}
+.connected-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 0;
+  text-transform: none; color: #8AAADE; white-space: nowrap;
+}
+.connected-pills-wrap { display: flex; gap: 6px; flex-wrap: nowrap; overflow-x: auto; }
+.app-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 8px 3px 4px; height: 26px;
+  background: #fff; border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 20px; font-size: 11px; font-weight: 600;
+  color: #6394ED; white-space: nowrap;
+}
+.pill-badge {
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: #fff;
+}
+
+.mode-chips { display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex; align-items: center;
+  padding: 6px 13px;
+  border: 1.5px solid #D4E0F7; border-radius: 0;
+  font-size: 12px; font-weight: 500; color: #8AAADE;
+  cursor: pointer; background: #F6F4F1; white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.chip.selected { border-color: #6394ED; color: #6394ED; }
+
+.mic-btn {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: #6394ED;
+  border: none; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 4px 20px rgba(99,148,237,0.4);
+  transition: box-shadow 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent; flex-shrink: 0;
+}
+.mic-btn:active { transform: scale(0.94); }
+.mic-btn i { font-size: 26px; color: #fff; }
+.mic-btn.pulsing { animation: micPulse 1.4s ease-in-out infinite; }
+@keyframes micPulse {
+  0%,100% { box-shadow: 0 4px 20px rgba(99,148,237,0.4); }
+  50% { box-shadow: 0 4px 32px rgba(99,148,237,0.75), 0 0 0 10px rgba(99,148,237,0.12); }
+}
+.mic-hint { font-size: 12px; color: #8AAADE; margin-top: 10px; }
+
+/* ══ SCREEN 1 — ONBOARDING ══ */
+#s1 { background: #F6F4F1; padding: 0; }
+.s1-top { background: #F6F4F1; padding: 28px 20px 16px; flex-shrink: 0; }
+.s1-tag {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600; font-size: 12px; letter-spacing: 0;
+  color: #8AAADE; text-transform: none;
+}
+.s1-h1 {
+  font-family: '42dot Sans', sans-serif;
+  font-weight: 800; font-size: 32px; color: #6394ED;
+  line-height: 1.15; margin-top: 8px;
+}
+.s1-sub {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 15px; color: #6394ED; margin-top: 6px;
+}
+.s1-divider { height: 1.5px; background: #6394ED; width: 100%; flex-shrink: 0; display: block; }
+.s1-apps { background: #F6F4F1; flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+
+.app-card {
+  display: flex; align-items: stretch;
+  border-bottom: 1.5px solid #6394ED;
+  cursor: pointer; background: #F6F4F1;
+  user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.app-card.selected { background: #6394ED; }
+.app-card.disabled { opacity: 0.3; pointer-events: none; }
+
+.app-col-icon {
+  width: 64px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.app-col-divider {
+  width: 1.5px; background: #6394ED; align-self: stretch; flex-shrink: 0;
+}
+.app-card.selected .app-col-divider { background: rgba(255,255,255,0.3); }
+.app-col-info {
+  flex: 1; padding: 14px 16px; display: flex; flex-direction: column; justify-content: center;
+}
+.app-col-radio {
+  width: 56px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+.app-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: '42dot Sans', sans-serif;
+  font-weight: 800; font-size: 16px; color: #FFFFFF;
+}
+.icon-fresh { background: transparent; color: #6394ED; font-size: 22px; }
+.app-card.selected[data-app="fresh"] .icon-fresh { color: #F6F4F1; }
+.app-logo {
+  width: 36px; height: 36px; object-fit: contain; display: block;
+}
+
+.app-name {
+  font-family: '42dot Sans', sans-serif;
+  font-weight: 800; font-size: 16px; color: #6394ED;
+}
+.app-card.selected .app-name { color: #FFFFFF; }
+.app-desc {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 13px; color: #6394ED; margin-top: 2px;
+}
+.app-card.selected .app-desc { color: rgba(255,255,255,0.7); }
+
+.app-check {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid #6394ED; background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s;
+}
+.app-check-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #FFFFFF; display: none;
+}
+.app-card.selected .app-check { border-color: #FFFFFF; }
+.app-card.selected .app-check-dot { display: block; }
+
+.s1-cta { flex-shrink: 0; }
+#letsgo-btn {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 20px;
+  color: #FFFFFF; border-top: 2px solid #6394ED; border-right: none; border-bottom: none; border-left: none;
+  border-radius: 0; width: 100%; padding: 20px 0 20px 20px;
+  cursor: pointer; display: block; text-align: left;
+  transition: background 0.15s;
+}
+#letsgo-btn:disabled { background: #8AAADE; cursor: not-allowed; }
+#letsgo-btn:not(:disabled) { background: #6394ED; }
+
+/* ══ SCREEN 2 — HOME FIRST VISIT ══ */
+#s2 { background: #F6F4F1; padding: 0; }
+
+.s2-topbar { padding: 20px 20px 0; flex-shrink: 0; }
+.s2-app-tags { display: flex; flex-direction: row; gap: 8px; flex-wrap: wrap; }
+.s2-app-tag {
+  background: transparent;
+  border: 1px solid #D4E0F7;
+  border-radius: 0;
+  padding: 4px 12px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 11px; color: #8AAADE;
+}
+.s2-divider { height: 2px; background: #6394ED; width: 100%; flex-shrink: 0; }
+.s2-topbar .s2-divider { height: 1px; margin-left: -20px; margin-right: -20px; width: calc(100% + 40px); }
+
+.s2-heading { padding: 20px 20px 0; flex-shrink: 0; }
+.s2-spacer { flex: 1; background: #F6F4F1; }
+.s2-photo { flex-shrink: 0; height: 240px; overflow: hidden; background: #F6F4F1; }
+.s2-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; mix-blend-mode: multiply; }
+.s2-h1 {
+  font-family: '42dot Sans', sans-serif;
+  font-weight: 800; font-size: 32px; color: #6394ED; line-height: 1.15;
+}
+.s2-date {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 13px; color: #6394ED;
+  opacity: 0.6; margin-top: 6px;
+}
+
+.s2-grid-wrap { flex-shrink: 0; }
+.s2-grid {
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 80px 80px;
+  gap: 0; background: transparent;
+}
+.s2-grid .chip {
+  background: #EEF2FC; border: none; border-radius: 0;
+  padding: 0 16px 14px 16px; height: 80px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500; font-size: 13px; color: #6394ED;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  cursor: pointer; line-height: 1.3;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s;
+  position: relative;
+}
+.s2-grid .chip:nth-child(1) { border-right: 2px solid #6394ED; border-bottom: 2px solid #6394ED; }
+.s2-grid .chip:nth-child(2) { border-bottom: 2px solid #6394ED; }
+.s2-grid .chip:nth-child(3) { border-right: 2px solid #6394ED; }
+.s2-grid .chip.selected { background: #6394ED; color: #FFFFFF; }
+.chip-row {
+  display: flex; align-items: center;
+  justify-content: space-between; width: 100%;
+  white-space: normal;
+}
+.chip-arrow {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 16px;
+  color: #6394ED; opacity: 0.5;
+  flex-shrink: 0; margin-left: 8px;
+}
+.s2-grid .chip.selected .chip-arrow { color: #fff; }
+
+.s2-bottom {
+  padding: 16px 20px 24px; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center;
+}
+.s2-mic-hint {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 13px; color: #6394ED; margin-bottom: 12px;
+}
+.s2-mic-btn {
+  width: 64px; height: 64px; border-radius: 0;
+  background: #6394ED; border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.s2-mic-btn i { font-size: 28px; color: #fff; }
+
+/* ══ DESIGN SYSTEM TOKENS ══ */
+:root {
+  --blue:       #6394ED;
+  --blue-eq:    #6394ED;
+  --blue-light: #8AAADE;
+  --blue-pale:  #D4E0F7;
+  --blue-bg:    #EEF2FC;
+  --dark:       #0A0F2E;
+  --cream:      #F6F4F1;
+}
+
+/* ══ SCREEN 3 — LISTENING ══ */
+#s3 { background: #F6F4F1; padding: 0; }
+
+/* Zone 1 — transcription */
+.eq-zone1 { flex: 1; overflow: hidden; padding: 44px 20px 20px; display: flex; flex-direction: column; }
+.eq-label { font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none; color: #8AAADE; margin-bottom: 12px; }
+.eq-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid #D4E0F7; border-radius: 0;
+  padding: 4px 12px; font-size: 11px; font-weight: 400; color: #8AAADE;
+}
+.eq-dot { width: 6px; height: 6px; border-radius: 50%; background: #8AAADE; flex-shrink: 0; }
+.eq-transcript { font-size: 18px; font-weight: 400; line-height: 1.7; color: #6394ED; margin-top: 16px; }
+
+/* Cursor (kept — referenced by JS) */
+.cursor {
+  display: inline-block; width: 2px; height: 1.1em;
+  background: var(--blue-eq); vertical-align: text-bottom; margin-left: 2px;
+  animation: blink 0.9s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* Zone divider */
+.eq-divider { height: 2px; background: var(--blue-eq); flex-shrink: 0; }
+.eq-divider--top { height: 1px; }
+
+/* Zone 2 — equalizer */
+.eq-zone2 { height: 100px; flex-shrink: 0; padding: 0; display: flex; align-items: center; }
+.eq-bars { display: flex; align-items: center; justify-content: space-between; gap: 0; width: 100%; }
+.eq-bar { width: 1.5px; border-radius: 0; background: var(--blue-eq); margin: 0; animation-name: eq-bounce; animation-timing-function: ease-in-out; animation-iteration-count: infinite; transform-origin: center; }
+@keyframes eq-bounce { 0%,100%{ transform: scaleY(1); } 50%{ transform: scaleY(0.15); } }
+
+/* Zone 3 — controls */
+.eq-zone3 { flex-shrink: 0; padding: 0; display: flex; gap: 2px; background: var(--blue-eq); }
+.eq-btn-restart, .eq-btn-stop {
+  flex: 1; height: 72px; border-radius: 0; border: none; cursor: pointer;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end;
+  padding: 16px; gap: 4px;
+}
+.eq-btn-restart { background: #F6F4F1; }
+.eq-btn-stop { background: var(--blue-eq); }
+.eq-btn-icon { font-size: 20px; line-height: 1; }
+.eq-btn-restart .eq-btn-icon, .eq-btn-restart .eq-btn-label { color: #6394ED; }
+.eq-btn-stop .eq-btn-icon, .eq-btn-stop .eq-btn-label { color: #fff; }
+.eq-btn-label { font-size: 20px; font-weight: 500; letter-spacing: 0; }
+
+/* ══ SCREEN 4 — UNIFIED CHAT (Confirm + Plan) ══ */
+#s4 { background: #F6F4F1; }
+
+.chat-topbar {
+  padding: 32px 20px 10px;
+  background: #F6F4F1; flex-shrink: 0;
+  display: flex; align-items: center; gap: 10px;
+}
+.chat-mode-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; border-radius: 0;
+  border: 1px solid #D4E0F7;
+  padding: 4px 12px;
+  font-size: 11px; font-weight: 400; color: #8AAADE;
+}
+.chat-mode-dot { width: 6px; height: 6px; border-radius: 50%; background: #8AAADE; flex-shrink: 0; }
+
+.chat-area {
+  flex: 1; overflow-y: auto;
+  padding: 10px 20px 10px;
+  display: flex; flex-direction: column; gap: 10px;
+  scrollbar-width: none;
+}
+.chat-area::-webkit-scrollbar { display: none; }
+
+.bubble {
+  max-width: 100%; padding: 16px 18px;
+  font-size: 15px; line-height: 1.5;
+}
+.bubble-bot {
+  background: #EEF2FC; border: 1.5px solid #D4E0F7;
+  border-radius: 4px 18px 18px 18px;
+  align-self: flex-start; color: #6394ED; position: static;
+}
+.bubble-user {
+  background: #6394ED; color: #fff; border: none;
+  border-radius: 18px 4px 18px 18px;
+  align-self: flex-end; padding: 14px 18px; position: static;
+}
+
+.task-list-label {
+  font-family: "Helvetica Neue", Arial, sans-serif; font-size: 12px; font-weight: 600;
+  text-transform: none; letter-spacing: 0; color: #8AAADE;
+  margin-top: 14px; margin-bottom: 8px;
+}
+.task-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 0; border-bottom: 1px solid #D4E0F7;
+  transition: opacity 0.2s, max-height 0.25s; overflow: hidden; max-height: 48px;
+}
+.task-row:last-child { border-bottom: none; }
+.task-row.removing { opacity: 0; max-height: 0; padding: 0; border-bottom: none; pointer-events: none; }
+.task-grip { color: #8AAADE; font-size: 14px; flex-shrink: 0; }
+.task-label { flex: 1; font-size: 15px; color: #6394ED; }
+.task-del {
+  background: transparent; border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px; color: #8AAADE;
+  flex-shrink: 0; padding: 4px 8px; line-height: 1;
+}
+.task-del:hover, .task-del:active { color: #6394ED; }
+
+.chat-bottom { background: #F6F4F1; padding: 0; flex-shrink: 0; }
+
+.add-row {
+  display: flex; gap: 0; align-items: stretch; margin-bottom: 0;
+  border-top: 2px solid #6394ED;
+}
+.add-input {
+  flex: 1; background: #F6F4F1; border: none;
+  border-right: 1.5px solid #D4E0F7;
+  border-radius: 0; padding: 14px 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif; font-size: 16px; color: #6394ED;
+  outline: none;
+}
+.add-input::placeholder { color: #8AAADE; }
+.add-btn {
+  background: #D4E0F7; color: #6394ED;
+  border: none;
+  border-radius: 0; padding: 14px 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer;
+  flex-shrink: 0;
+}
+.two-btns { display: flex; gap: 0; background: transparent; }
+.two-btns .btn-ghost, .two-btns .btn-primary {
+  flex: 1; height: 72px; border-radius: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 500; padding: 0; width: auto;
+}
+
+#s4-plan-bottom { display: none; flex-direction: column; gap: 0; }
+#s4-done-bottom { display: none; flex-direction: column; gap: 0; }
+#s4-plan-bottom .btn-primary, #s4-plan-bottom .btn-ghost,
+#s4-done-bottom .btn-primary {
+  height: 72px; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 500;
+}
+.warning-wrap { padding: 10px 20px 0; }
+
+.focus-summary-card {
+  background: #fff; border: 1.5px solid #D4E0F7;
+  border-radius: 0; padding: 12px 16px;
+  width: 100%; align-self: flex-start;
+}
+.focus-summary-header {
+  font-size: 12px; font-weight: 600; letter-spacing: 0;
+  text-transform: none; color: #8AAADE; margin-bottom: 10px;
+}
+
+.warning-msg {
+  background: #EEF2FC; border: 1px solid #D4E0F7;
+  border-radius: 0; padding: 10px 14px;
+  font-size: 13px; color: #6394ED; display: none;
+}
+.warning-msg.visible { display: block; }
+.warning-msg.shake { animation: shake 0.4s ease; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+}
+
+/* ── INLINE PLAN (inside chat) ── */
+.plan-section-label {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0;
+  text-transform: none; color: #8AAADE; margin: 12px 0 8px; width: 100%;
+}
+.plan-section-label::after { content: ''; flex: 1; height: 1px; background: #D4E0F7; }
+.section-badge {
+  background: #6394ED; color: #fff; border-radius: 0;
+  padding: 2px 8px; font-size: 10px; font-weight: 600;
+}
+
+.plan-card {
+  background: #fff; border: 1px solid #D4E0F7;
+  border-radius: 0; padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+  cursor: grab;
+  transition: opacity 0.15s, border-color 0.15s;
+  user-select: none; width: 100%;
+}
+.plan-card:active { cursor: grabbing; }
+.plan-card.locked { cursor: default; }
+.plan-card.dragging { opacity: 0.35; }
+.plan-card.drag-over { border-color: #6394ED; border-style: dashed; }
+.plan-card.dimmed { opacity: 0.5; }
+
+.grip { display: flex; flex-direction: column; gap: 3px; flex-shrink: 0; width: 14px; }
+.grip span { display: block; width: 14px; height: 2px; background: #D4E0F7; border-radius: 0; }
+.plan-card.locked .grip span { background: transparent; }
+
+.plan-num {
+  width: 22px; height: 22px; border-radius: 0;
+  background: #6394ED; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.plan-info { flex: 1; min-width: 0; }
+.plan-title { font-size: 13px; font-weight: 600; color: #6394ED; }
+.plan-meta { font-size: 11px; color: #8AAADE; margin-top: 2px; }
+
+.lock-btn {
+  background: none; border: none;
+  cursor: pointer; padding: 4px; flex-shrink: 0; transition: transform 0.15s, opacity 0.15s;
+}
+.lock-btn:active { transform: scale(0.85); }
+.lock-icon { width: 13px; height: 17px; display: block; }
+
+.lock-hint { text-align: center; font-size: 12px; font-style: italic; color: #8AAADE; margin: 2px 0 10px; width: 100%; }
+
+.featured-card {
+  background: #EEF2FC; border: 1.5px solid #6394ED;
+  border-radius: 0; padding: 18px; margin-bottom: 10px; width: 100%;
+}
+.featured-label { font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none; color: #8AAADE; margin-bottom: 8px; }
+.featured-title { font-size: 20px; font-weight: 700; color: #6394ED; margin-bottom: 6px; }
+.featured-meta { font-size: 12px; color: #8AAADE; }
+
+.remaining-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 0; border-bottom: 1px solid #D4E0F7; width: 100%;
+}
+.remaining-row:last-child { border-bottom: none; }
+.remaining-label { font-size: 13px; color: #8AAADE; }
+.status-tag {
+  font-size: 11px; font-weight: 400; background: transparent;
+  border: 1px solid #D4E0F7; border-radius: 0; padding: 4px 12px; color: #8AAADE;
+}
+
+/* ══ SCREEN 6 — DONE ══ */
+#s6 { background: #F6F4F1; padding: 32px 20px 28px; }
+
+.s6-divider { height: 1px; background: #D4E0F7; margin: 16px 0 10px; }
+.focus-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 0;
+  text-transform: none; color: #8AAADE; margin-bottom: 12px;
+}
+.focus-row { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid #D4E0F7; }
+.focus-row:last-child { border-bottom: none; }
+.focus-dot-filled { width: 7px; height: 7px; border-radius: 50%; background: #6394ED; flex-shrink: 0; }
+.focus-dot-empty { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid #6394ED; flex-shrink: 0; }
+.focus-info { flex: 1; }
+.focus-title { font-size: 13px; font-weight: 500; color: #6394ED; }
+.focus-meta { font-size: 11px; color: #8AAADE; margin-top: 1px; }
+.sync-note { text-align: left; font-size: 11px; color: #8AAADE; margin-bottom: 14px; }
+
+/* ══ SCREEN 0 — WELCOME ══ */
+#s0 { background: #F6F4F1; padding: 0; overflow: hidden; }
+.s0-top { padding: 24px 20px 0; flex-shrink: 0; }
+.s0-heading {
+  font-family: '42dot Sans', sans-serif;
+  font-weight: 700; font-size: 115px; letter-spacing: -6px;
+  line-height: 1; color: #6394ED; text-align: left; margin-bottom: 0;
+}
+.s0-tagline {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 24px; letter-spacing: 0px;
+  line-height: 1; color: #6394ED; margin-top: 10px;
+}
+.s0-img { display: block; width: 100%; flex: 1; min-height: 0; object-fit: cover; object-position: top; margin-top: 24px; }
+.s0-bottom { background: transparent; padding: 0; flex-shrink: 0; }
+.s0-btn {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 24px; letter-spacing: 0px;
+  color: #FFFFFF; background: #6394ED;
+  border-top: 2px solid #6394ED; border-right: none; border-bottom: none; border-left: none;
+  border-radius: 0; width: 100%; padding: 20px 0 20px 12px;
+  cursor: pointer; display: block; text-align: left;
+}
+
+/* ══ ACHIEVEMENT CARD ══ */
+.streak-banner {
+  flex-shrink: 0;
+  height: 140px;
+  background: #F6F4F1;
+  border: 1px solid #D4E0F7;
+  box-shadow: none;
+  margin: 0 20px 12px;
+  position: relative;
+  overflow: hidden;
+}
+.streak-banner-text {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 55%;
+}
+.streak-banner-headline {
+  font-family: '42dot Sans', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #6394ED;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.streak-banner-body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #8AAADE;
+}
+.streak-banner-img {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+}
+
+/* ══ SCREEN 7 — HOME RETURN ══ */
+#s7 { background: #F6F4F1; padding: 0; }
+
+.s7-topbar { padding: 28px 20px 0; flex-shrink: 0; }
+.s7-app-tags { display: flex; flex-direction: row; gap: 8px; flex-wrap: wrap; }
+.s7-app-tag {
+  background: transparent; border: 1px solid #D4E0F7; border-radius: 0;
+  padding: 4px 12px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 11px; color: #8AAADE;
+}
+.s7-tag-badge {
+  background: #6394ED; color: #fff;
+  width: 16px; height: 16px; border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; flex-shrink: 0;
+}
+.s7-topbar-divider { height: 2px; background: #6394ED; margin-top: 12px; }
+
+.s7-heading { padding: 20px 20px 0; flex-shrink: 0; }
+.s7-h1 {
+  font-family: '42dot Sans', sans-serif;
+  font-weight: 800; font-size: 32px; color: #6394ED; line-height: 1.15;
+}
+.s7-sub {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500; font-size: 18px; color: #8AAADE;
+  line-height: 1.4; margin-top: 8px;
+}
+.s7-upper { flex: 1; overflow-y: auto; padding: 16px 0; scrollbar-width: none; }
+.s7-upper::-webkit-scrollbar { display: none; }
+
+.s7-divider { height: 1.5px; background: #6394ED; flex-shrink: 0; }
+.s7-grid-wrap { flex-shrink: 0; }
+.s7-grid {
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 88px 88px;
+  gap: 0; background: transparent;
+}
+.s7-grid .chip {
+  background: #EEF2FC; border: none; border-radius: 0;
+  padding: 18px 16px; height: 88px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500; font-size: 20px; color: #6394ED;
+  display: flex; align-items: flex-end; cursor: pointer;
+  white-space: normal; line-height: 1.3; text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s;
+}
+.s7-grid .chip:nth-child(1) { border-right: 2px solid #6394ED; border-bottom: 2px solid #6394ED; }
+.s7-grid .chip:nth-child(2) { border-bottom: 2px solid #6394ED; }
+.s7-grid .chip:nth-child(3) { border-right: 2px solid #6394ED; }
+.s7-grid .chip.selected { background: #6394ED; color: #fff; }
+
+.s7-mic-bottom { flex-shrink: 0; }
+.s7-mic-hint {
+  display: block; text-align: center; padding: 10px 20px 8px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400; font-size: 12px; color: #8AAADE;
+}
+.s7-mic-btn {
+  width: 100%; height: 64px; border-radius: 0;
+  background: #6394ED; border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.s7-mic-btn i { font-size: 24px; color: #fff; }
+
+.focus-block {
+  border: 1px solid #D4E0F7;
+  border-radius: 0; background: #ffffff;
+  margin: 0 20px 12px; padding: 16px 20px;
+}
+.focus-block-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.focus-block-title { font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none; color: #8AAADE; }
+.chevron { font-size: 16px; color: #6394ED; transition: transform 0.2s; }
+.chevron.open { transform: rotate(180deg); }
+
+.focus-block-body { padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+.focus-block-body.open { max-height: none; height: auto; overflow: visible; padding-top: 12px; }
+
+.history-link { display: block; font-size: 13px; color: #6394ED; margin-top: 10px; cursor: pointer; }
+.history-link:active { opacity: 0.7; }
+
+/* History overlay */
+.history-overlay {
+  position: absolute; inset: 0; background: #F6F4F1; z-index: 100;
+  transform: translateX(100%); transition: transform 0.25s ease;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.history-overlay.open { transform: translateX(0); }
+.history-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 48px 20px 16px; border-bottom: 1px solid #D4E0F7; flex-shrink: 0;
+}
+.back-btn {
+  background: none; border: none; font-size: 15px; font-weight: 500;
+  color: #6394ED; cursor: pointer; font-family: "Helvetica Neue", Arial, sans-serif;
+  display: flex; align-items: center; gap: 4px;
+}
+.history-title { font-size: 14px; font-weight: 700; color: #6394ED; }
+.history-scroll { flex: 1; overflow-y: auto; padding: 20px; scrollbar-width: none; }
+.history-scroll::-webkit-scrollbar { display: none; }
+.history-date { font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none; color: #8AAADE; margin-bottom: 12px; }
+.history-task { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #D4E0F7; font-size: 13px; color: #6394ED; }
+.history-task:last-child { border-bottom: none; }
+.history-section { margin-bottom: 24px; }
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+
+  <!-- ══ SCREEN 0: WELCOME ══ -->
+  <div class="screen" id="s0">
+    <div class="s0-top">
+      <div class="s0-heading">Steply</div>
+      <p class="s0-tagline">Just talk. We'll figure out what actually matters today</p>
+    </div>
+    <img class="s0-img" src="mainimage.png" alt="">
+    <div class="s0-bottom">
+      <button class="s0-btn" onclick="goTo('s1')">Get Started</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 1: ONBOARDING ══ -->
+  <div class="screen" id="s1">
+    <div class="s1-top">
+      <span class="s1-tag">Steply</span>
+      <div class="s1-h1">Choose your planning apps</div>
+      <p class="s1-sub">We'll read your tasks and get a picture of your day</p>
+    </div>
+    <div class="s1-divider"></div>
+    <div class="s1-apps">
+      <div class="app-card" data-app="notion" onclick="toggleApp(this)">
+        <div class="app-col-icon"><img class="app-logo" src="Notion-logo.svg" alt="Notion"></div>
+        <div class="app-col-divider"></div>
+        <div class="app-col-info">
+          <div class="app-name">Notion</div>
+          <div class="app-desc">Docs &amp; notes</div>
+        </div>
+        <div class="app-col-divider"></div>
+        <div class="app-col-radio"><div class="app-check"><div class="app-check-dot"></div></div></div>
+      </div>
+      <div class="app-card" data-app="todoist" onclick="toggleApp(this)">
+        <div class="app-col-icon"><img class="app-logo" src="todoist.svg" alt="Todoist"></div>
+        <div class="app-col-divider"></div>
+        <div class="app-col-info">
+          <div class="app-name">Todoist</div>
+          <div class="app-desc">Tasks &amp; projects</div>
+        </div>
+        <div class="app-col-divider"></div>
+        <div class="app-col-radio"><div class="app-check"><div class="app-check-dot"></div></div></div>
+      </div>
+      <div class="app-card" data-app="gcal" onclick="toggleApp(this)">
+        <div class="app-col-icon"><img class="app-logo" src="Google_Calendar_icon_(2020).svg" alt="Google Calendar"></div>
+        <div class="app-col-divider"></div>
+        <div class="app-col-info">
+          <div class="app-name">Google Calendar</div>
+          <div class="app-desc">Schedule &amp; time blocks</div>
+        </div>
+        <div class="app-col-divider"></div>
+        <div class="app-col-radio"><div class="app-check"><div class="app-check-dot"></div></div></div>
+      </div>
+      <div class="app-card" data-app="fresh" onclick="toggleApp(this)">
+        <div class="app-col-icon"><div class="app-icon icon-fresh">✦</div></div>
+        <div class="app-col-divider"></div>
+        <div class="app-col-info">
+          <div class="app-name">I don't use any apps</div>
+          <div class="app-desc">Start fresh — just tell me what's on your mind</div>
+        </div>
+        <div class="app-col-divider"></div>
+        <div class="app-col-radio"><div class="app-check"><div class="app-check-dot"></div></div></div>
+      </div>
+    </div>
+    <div class="s1-cta">
+      <button id="letsgo-btn" disabled onclick="goToS2()">Let's Go</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 2: HOME FIRST VISIT ══ -->
+  <div class="screen" id="s2">
+    <!-- Connected apps tags (hidden if no real apps selected) -->
+    <div class="s2-topbar" id="s2-topbar" style="display:none;">
+      <div class="s2-app-tags" id="s2-app-tags"></div>
+      <div class="s2-divider" style="margin-top:12px;"></div>
+    </div>
+    <!-- Heading + date -->
+    <div class="s2-heading">
+      <h1 class="s2-h1">Hey, Luba. What's on your plate today?</h1>
+      <p class="s2-date">Thursday, May 28</p>
+    </div>
+    <!-- Spacer pushes image to bottom -->
+    <div class="s2-spacer"></div>
+    <!-- Photo fixed height, pinned above grid -->
+    <div class="s2-photo">
+      <img src="sticky-notes.png" alt="">
+    </div>
+    <div class="s2-divider"></div>
+    <!-- Mode grid -->
+    <div class="s2-grid-wrap">
+      <div class="s2-grid" id="s2-chips">
+        <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s2')"><div class="chip-row"><span>Too much on my plate</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s2')"><div class="chip-row"><span>Pick one task for me</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s2')"><div class="chip-row"><span>My day went sideways</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s2')"><div class="chip-row"><span>Help me plan tomorrow</span><span class="chip-arrow">→</span></div></div>
+      </div>
+    </div>
+    <div class="s2-divider"></div>
+    <!-- Bottom mic -->
+    <div class="s2-bottom">
+      <span class="s2-mic-hint">...or just tap to record</span>
+      <button class="s2-mic-btn" onclick="goToS3FromMic()"><i class="ti ti-microphone"></i></button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 3: LISTENING ══ -->
+  <div class="screen" id="s3">
+    <!-- Zone 1: Transcription -->
+    <div class="eq-zone1">
+      <div class="eq-label">Steply listening</div>
+      <div class="eq-badge">
+        <span class="eq-dot"></span>
+        <span id="s3-mode-label">too much on my plate</span>
+      </div>
+      <p class="eq-transcript" id="transcript-text"><span class="cursor"></span></p>
+    </div>
+    <!-- Divider -->
+    <div class="eq-divider eq-divider--top"></div>
+    <!-- Zone 2: Equalizer bars -->
+    <div class="eq-zone2">
+      <div class="eq-bars">
+        <div class="eq-bar" style="height:12px;animation-duration:0.70s;animation-delay:0.00s"></div>
+        <div class="eq-bar" style="height:28px;animation-duration:0.72s;animation-delay:0.01s"></div>
+        <div class="eq-bar" style="height:18px;animation-duration:0.74s;animation-delay:0.02s"></div>
+        <div class="eq-bar" style="height:44px;animation-duration:0.76s;animation-delay:0.03s"></div>
+        <div class="eq-bar" style="height:8px;animation-duration:0.78s;animation-delay:0.04s"></div>
+        <div class="eq-bar" style="height:60px;animation-duration:0.80s;animation-delay:0.05s"></div>
+        <div class="eq-bar" style="height:24px;animation-duration:0.82s;animation-delay:0.06s"></div>
+        <div class="eq-bar" style="height:72px;animation-duration:0.84s;animation-delay:0.07s"></div>
+        <div class="eq-bar" style="height:16px;animation-duration:0.86s;animation-delay:0.08s"></div>
+        <div class="eq-bar" style="height:50px;animation-duration:0.88s;animation-delay:0.09s"></div>
+        <div class="eq-bar" style="height:32px;animation-duration:0.90s;animation-delay:0.10s"></div>
+        <div class="eq-bar" style="height:80px;animation-duration:0.92s;animation-delay:0.11s"></div>
+        <div class="eq-bar" style="height:20px;animation-duration:0.94s;animation-delay:0.12s"></div>
+        <div class="eq-bar" style="height:42px;animation-duration:0.96s;animation-delay:0.13s"></div>
+        <div class="eq-bar" style="height:10px;animation-duration:0.98s;animation-delay:0.14s"></div>
+        <div class="eq-bar" style="height:64px;animation-duration:1.00s;animation-delay:0.15s"></div>
+        <div class="eq-bar" style="height:36px;animation-duration:1.02s;animation-delay:0.16s"></div>
+        <div class="eq-bar" style="height:76px;animation-duration:1.04s;animation-delay:0.17s"></div>
+        <div class="eq-bar" style="height:22px;animation-duration:1.06s;animation-delay:0.18s"></div>
+        <div class="eq-bar" style="height:48px;animation-duration:1.08s;animation-delay:0.19s"></div>
+        <div class="eq-bar" style="height:14px;animation-duration:1.10s;animation-delay:0.20s"></div>
+        <div class="eq-bar" style="height:56px;animation-duration:1.12s;animation-delay:0.21s"></div>
+        <div class="eq-bar" style="height:38px;animation-duration:1.14s;animation-delay:0.22s"></div>
+        <div class="eq-bar" style="height:78px;animation-duration:1.16s;animation-delay:0.23s"></div>
+        <div class="eq-bar" style="height:18px;animation-duration:1.18s;animation-delay:0.24s"></div>
+        <div class="eq-bar" style="height:46px;animation-duration:1.20s;animation-delay:0.25s"></div>
+        <div class="eq-bar" style="height:12px;animation-duration:1.22s;animation-delay:0.26s"></div>
+        <div class="eq-bar" style="height:68px;animation-duration:1.24s;animation-delay:0.27s"></div>
+        <div class="eq-bar" style="height:28px;animation-duration:1.26s;animation-delay:0.28s"></div>
+        <div class="eq-bar" style="height:52px;animation-duration:1.28s;animation-delay:0.29s"></div>
+        <div class="eq-bar" style="height:8px;animation-duration:1.30s;animation-delay:0.30s"></div>
+        <div class="eq-bar" style="height:72px;animation-duration:1.32s;animation-delay:0.31s"></div>
+        <div class="eq-bar" style="height:24px;animation-duration:1.34s;animation-delay:0.32s"></div>
+        <div class="eq-bar" style="height:40px;animation-duration:1.36s;animation-delay:0.33s"></div>
+        <div class="eq-bar" style="height:16px;animation-duration:1.38s;animation-delay:0.34s"></div>
+        <div class="eq-bar" style="height:58px;animation-duration:1.40s;animation-delay:0.35s"></div>
+        <div class="eq-bar" style="height:34px;animation-duration:1.38s;animation-delay:0.36s"></div>
+        <div class="eq-bar" style="height:76px;animation-duration:1.36s;animation-delay:0.37s"></div>
+        <div class="eq-bar" style="height:20px;animation-duration:1.34s;animation-delay:0.38s"></div>
+        <div class="eq-bar" style="height:44px;animation-duration:1.32s;animation-delay:0.39s"></div>
+        <div class="eq-bar" style="height:10px;animation-duration:1.30s;animation-delay:0.40s"></div>
+        <div class="eq-bar" style="height:62px;animation-duration:1.28s;animation-delay:0.41s"></div>
+        <div class="eq-bar" style="height:30px;animation-duration:1.26s;animation-delay:0.42s"></div>
+        <div class="eq-bar" style="height:50px;animation-duration:1.24s;animation-delay:0.43s"></div>
+        <div class="eq-bar" style="height:16px;animation-duration:1.22s;animation-delay:0.44s"></div>
+        <div class="eq-bar" style="height:56px;animation-duration:1.20s;animation-delay:0.45s"></div>
+        <div class="eq-bar" style="height:38px;animation-duration:1.18s;animation-delay:0.46s"></div>
+        <div class="eq-bar" style="height:78px;animation-duration:1.16s;animation-delay:0.47s"></div>
+        <div class="eq-bar" style="height:22px;animation-duration:1.14s;animation-delay:0.48s"></div>
+        <div class="eq-bar" style="height:46px;animation-duration:1.12s;animation-delay:0.49s"></div>
+        <div class="eq-bar" style="height:12px;animation-duration:1.10s;animation-delay:0.50s"></div>
+        <div class="eq-bar" style="height:68px;animation-duration:1.08s;animation-delay:0.51s"></div>
+        <div class="eq-bar" style="height:26px;animation-duration:1.06s;animation-delay:0.52s"></div>
+        <div class="eq-bar" style="height:42px;animation-duration:1.04s;animation-delay:0.53s"></div>
+        <div class="eq-bar" style="height:8px;animation-duration:1.02s;animation-delay:0.54s"></div>
+        <div class="eq-bar" style="height:62px;animation-duration:1.00s;animation-delay:0.55s"></div>
+        <div class="eq-bar" style="height:32px;animation-duration:0.98s;animation-delay:0.56s"></div>
+        <div class="eq-bar" style="height:76px;animation-duration:0.96s;animation-delay:0.57s"></div>
+        <div class="eq-bar" style="height:20px;animation-duration:0.94s;animation-delay:0.58s"></div>
+        <div class="eq-bar" style="height:44px;animation-duration:0.92s;animation-delay:0.59s"></div>
+        <div class="eq-bar" style="height:14px;animation-duration:0.90s;animation-delay:0.60s"></div>
+        <div class="eq-bar" style="height:58px;animation-duration:0.88s;animation-delay:0.01s"></div>
+        <div class="eq-bar" style="height:36px;animation-duration:0.86s;animation-delay:0.02s"></div>
+        <div class="eq-bar" style="height:80px;animation-duration:0.84s;animation-delay:0.03s"></div>
+        <div class="eq-bar" style="height:22px;animation-duration:0.82s;animation-delay:0.04s"></div>
+        <div class="eq-bar" style="height:48px;animation-duration:0.80s;animation-delay:0.05s"></div>
+        <div class="eq-bar" style="height:16px;animation-duration:0.78s;animation-delay:0.06s"></div>
+        <div class="eq-bar" style="height:60px;animation-duration:0.76s;animation-delay:0.07s"></div>
+        <div class="eq-bar" style="height:36px;animation-duration:0.74s;animation-delay:0.08s"></div>
+        <div class="eq-bar" style="height:50px;animation-duration:0.72s;animation-delay:0.09s"></div>
+      </div>
+    </div>
+    <!-- Divider -->
+    <div class="eq-divider"></div>
+    <!-- Zone 3: Controls -->
+    <div class="eq-zone3">
+      <button class="eq-btn-restart" onclick="restartTranscript()">
+        <span class="eq-btn-icon">↺</span>
+        <span class="eq-btn-label">restart</span>
+      </button>
+      <button class="eq-btn-stop" onclick="stopRecording()">
+        <span class="eq-btn-icon">⏸</span>
+        <span class="eq-btn-label">tap to stop</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 4: UNIFIED CHAT ══ -->
+  <div class="screen" id="s4">
+    <div class="chat-topbar">
+      <span class="tag-logo">steply</span>
+      <div class="chat-mode-pill">
+        <span class="chat-mode-dot"></span>
+        <span id="chat-mode-label">too much on my plate</span>
+      </div>
+    </div>
+
+    <div class="chat-area" id="s4-chat">
+      <div class="bubble bubble-bot" id="s4-task-card">
+        <span id="s4-intro-bubble">I pulled tasks from your apps and voice note</span>
+        <div class="task-list-label">Tasks I picked up</div>
+        <div id="task-list">
+          <div class="task-row" data-task="3 client meetings"><span class="task-label">3 client meetings</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="send contract"><span class="task-label">send contract</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="follow up 2 leads"><span class="task-label">follow up 2 leads</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="prep for tomorrow's viewing"><span class="task-label">prep for tomorrow's viewing</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+          <div class="task-row" data-task="reply to manager"><span class="task-label">reply to manager</span><button class="task-del" onclick="deleteTask(this)">×</button></div>
+        </div>
+        <div style="margin-top: 14px; font-size: 15px; line-height: 1.5; color: #8AAADE;">Anything missing? Add it below — then confirm when ready</div>
+      </div>
+    </div>
+
+    <div class="chat-bottom">
+      <!-- Task input state -->
+      <div id="s4-task-bottom">
+        <div class="add-row">
+          <input class="add-input" id="add-input" type="text" placeholder="Add a task...">
+          <button class="add-btn" onclick="addTask()">Add</button>
+        </div>
+        <div class="two-btns">
+          <button class="btn-ghost" onclick="goTo('s2')">Back</button>
+          <button class="btn-primary" onclick="confirmTasks()">That's All</button>
+        </div>
+      </div>
+      <!-- Plan action state -->
+      <div id="s4-plan-bottom">
+        <div class="warning-wrap"><div class="warning-msg" id="plan-warning">Today has more than 3 tasks — drag something to tomorrow so the day stays manageable</div></div>
+        <div class="two-btns">
+          <button class="btn-ghost" onclick="adjustPlan()">Adjust</button>
+          <button class="btn-primary" onclick="syncPlan()">Sync It</button>
+        </div>
+      </div>
+      <!-- Done state -->
+      <div id="s4-done-bottom">
+        <p class="sync-note" id="inline-sync-note" style="padding:12px 20px 0;text-align:center;">Synced to your apps</p>
+        <button class="btn-primary" onclick="goTo('s7')" style="height:72px;border-top:2px solid #6394ED;border-right:none;border-bottom:none;border-left:none;font-size:20px;font-weight:500;display:flex;align-items:center;justify-content:center;">Done For Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 6: DONE ══ -->
+  <div class="screen" id="s6">
+    <span class="tag-logo" style="margin-bottom:14px;">steply</span>
+    <div class="bubble bubble-bot" style="max-width:100%; background:rgba(255,255,255,0.9);">Done. You've got this.</div>
+    <div style="flex:1;"></div>
+    <p class="sync-note" id="s6-sync-note">Synced to your apps</p>
+    <button class="btn-primary" onclick="goTo('s7')">Done For Now</button>
+  </div>
+
+  <!-- ══ SCREEN 7: HOME RETURN ══ -->
+  <div class="screen" id="s7">
+
+    <!-- Connected app tags — same component as first-visit -->
+    <div class="s2-topbar" id="s7-topbar" style="display:none;">
+      <div class="s2-app-tags" id="s7-app-tags"></div>
+      <div class="s2-divider" style="margin-top:12px;"></div>
+    </div>
+
+    <!-- Heading — same classes as first-visit -->
+    <div class="s2-heading">
+      <h1 class="s2-h1">Welcome back, Luba.</h1>
+      <p class="s2-date" id="s7-date">Thursday, May 29</p>
+    </div>
+
+    <!-- Scrollable section: focus block + achievement card -->
+    <div class="s7-upper">
+      <div class="focus-block">
+        <div class="focus-block-header" onclick="toggleFocusBlock()">
+          <span class="focus-block-title">Your focus today</span>
+          <i class="ti ti-chevron-down chevron open" id="focus-chevron"></i>
+        </div>
+        <div class="focus-block-body open" id="focus-block-body">
+          <div id="s7-focus-tasks"></div>
+          <span class="history-link" onclick="openHistory()">View session history →</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Streak banner (full-bleed, between focus block and mode grid) -->
+    <div class="streak-banner">
+      <div class="streak-banner-text">
+        <div class="streak-banner-headline">1 Week Done!</div>
+        <p class="streak-banner-body">You prioritized 12 tasks and didn't let the chaos win. That's the whole point</p>
+      </div>
+      <img class="streak-banner-img" src="hill-figure.png" alt="">
+    </div>
+
+    <!-- Section label -->
+    <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:#8AAADE;text-align:center;padding:14px 0;width:100%;border-top:none;flex-shrink:0;">Start new session</div>
+
+    <!-- 2×2 mode grid — same component as first-visit -->
+    <div class="s2-divider"></div>
+    <div class="s2-grid-wrap">
+      <div class="s2-grid" id="s7-chips">
+        <div class="chip" data-mode="too much on my plate" onclick="selectMode(this,'s7')"><div class="chip-row"><span>Too much on my plate</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="pick one task for me" onclick="selectMode(this,'s7')"><div class="chip-row"><span>Pick one task for me</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="my day went sideways" onclick="selectMode(this,'s7')"><div class="chip-row"><span>My day went sideways</span><span class="chip-arrow">→</span></div></div>
+        <div class="chip" data-mode="help me plan tomorrow" onclick="selectMode(this,'s7')"><div class="chip-row"><span>Help me plan tomorrow</span><span class="chip-arrow">→</span></div></div>
+      </div>
+    </div>
+
+    <!-- Mic button — same component as first-visit -->
+    <div class="s2-divider"></div>
+    <div class="s2-bottom">
+      <span class="s2-mic-hint">...or just tap to record</span>
+      <button class="s2-mic-btn" onclick="goToS3FromMic()"><i class="ti ti-microphone"></i></button>
+    </div>
+
+    <!-- History Overlay -->
+    <div class="history-overlay" id="history-overlay">
+      <div class="history-header">
+        <button class="back-btn" onclick="closeHistory()"><i class="ti ti-arrow-left"></i> Back</button>
+        <span class="history-title">Session history</span>
+      </div>
+      <div class="history-scroll">
+        <div class="history-section">
+          <div class="history-date">Today · May 12</div>
+          <div id="history-today"></div>
+        </div>
+        <div class="history-section">
+          <div class="history-date">Yesterday · May 11</div>
+          <div class="history-task"><span style="width:8px;height:8px;background:#6394ED;border-radius:50%;flex-shrink:0;display:inline-block;"></span> Finish client proposal</div>
+          <div class="history-task"><span style="width:8px;height:8px;border:2px solid #D4E0F7;border-radius:50%;flex-shrink:0;display:inline-block;"></span> Team check-in call</div>
+          <div class="history-task"><span style="width:8px;height:8px;border:2px solid #D4E0F7;border-radius:50%;flex-shrink:0;display:inline-block;"></span> Send weekly report</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+const state = {
+  selectedApps: new Set(),
+  freshStart: false,
+  activeMode: 'too much on my plate',
+  todayTasks: [],
+  tomorrowTasks: [],
+  deletedTasks: new Set(),
+  transcriptTimer: null,
+  planBuilt: false,
+};
+
+const TRANSCRIPTS = {
+  'too much on my plate': "I've got 3 clients today, need to send a contract, follow up with two leads, prep for tomorrow's viewing, and my manager keeps calling... I don't even know where to start honestly",
+  'pick one task for me': "I have 40 minutes before my next client. I need to either call back Marina, send the invoice, or prep the brief — I can't do all three. what's actually the most important one right now",
+  'my day went sideways': "okay so the morning completely fell apart — first client was late, then I got an urgent call from a supplier, and now I have a pile of things I was supposed to do before lunch that I haven't touched. I need to figure out what's still salvageable today",
+  'help me plan tomorrow': "tomorrow I have two client calls in the morning, need to finish the deck, pick up some stuff on the way, and I also promised to send feedback on the contract by end of day. feels like a lot already and I haven't even thought about the gym",
+};
+
+/* ── TRANSITIONS ── */
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('visible'));
+  setTimeout(() => {
+    document.querySelectorAll('.screen').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
+    const next = document.getElementById(id);
+    next.style.display = 'flex';
+    next.classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => next.classList.add('visible')));
+  }, 200);
+}
+
+/* ── S1: ONBOARDING ── */
+function toggleApp(card) {
+  const app = card.dataset.app;
+  if (app === 'fresh') {
+    if (card.classList.contains('selected')) {
+      card.classList.remove('selected');
+      state.selectedApps.delete('fresh');
+      state.freshStart = false;
+      document.querySelectorAll('.app-card:not([data-app="fresh"])').forEach(c => c.classList.remove('disabled'));
+    } else {
+      card.classList.add('selected');
+      state.selectedApps.clear();
+      state.selectedApps.add('fresh');
+      state.freshStart = true;
+      document.querySelectorAll('.app-card:not([data-app="fresh"])').forEach(c => { c.classList.remove('selected'); c.classList.add('disabled'); });
+    }
+  } else {
+    if (state.freshStart) return;
+    card.classList.toggle('selected');
+    if (card.classList.contains('selected')) state.selectedApps.add(app);
+    else state.selectedApps.delete(app);
+  }
+  document.getElementById('letsgo-btn').disabled = state.selectedApps.size === 0;
+}
+
+function goToS2() {
+  buildConnectedApps();
+  goTo('s2');
+}
+
+function buildConnectedApps() {
+  const appDefs = {
+    notion: { label: 'Notion', bg: '#6394ED', letter: 'N' },
+    todoist: { label: 'Todoist', bg: '#db4035', letter: 'T' },
+    gcal: { label: 'Google Calendar', bg: '#4285f4', letter: 'G' },
+  };
+  const hasReal = [...state.selectedApps].some(a => a !== 'fresh');
+  const realApps = [...state.selectedApps].filter(a => a !== 'fresh');
+
+  // s2: flat app tags (new design)
+  const s2topbar = document.getElementById('s2-topbar');
+  const s2tags = document.getElementById('s2-app-tags');
+  if (s2tags) {
+    s2tags.innerHTML = '';
+    if (hasReal) {
+      realApps.forEach(app => {
+        const d = appDefs[app]; if (!d) return;
+        const tag = document.createElement('div');
+        tag.className = 's2-app-tag';
+        tag.textContent = d.letter + ' ' + d.label;
+        s2tags.appendChild(tag);
+      });
+      s2topbar.style.display = 'block';
+    } else {
+      s2topbar.style.display = 'none';
+    }
+  }
+
+  // s7: identical tag component to first-visit (s2)
+  const s7topbar = document.getElementById('s7-topbar');
+  const s7tags = document.getElementById('s7-app-tags');
+  if (s7tags) {
+    s7tags.innerHTML = '';
+    if (hasReal) {
+      realApps.forEach(app => {
+        const d = appDefs[app]; if (!d) return;
+        const tag = document.createElement('div');
+        tag.className = 's2-app-tag';
+        tag.textContent = d.letter + ' ' + d.label;
+        s7tags.appendChild(tag);
+      });
+      s7topbar.style.display = 'block';
+    } else {
+      s7topbar.style.display = 'none';
+    }
+  }
+
+  document.getElementById('s4-intro-bubble').textContent = state.freshStart
+    ? "Based on what you told me, here's what I picked up"
+    : "I pulled tasks from your apps and voice note";
+  document.getElementById('s6-sync-note').textContent = state.freshStart
+    ? 'Saved to steply · no external apps' : 'Synced to your apps';
+}
+
+/* ── CHIP SELECT ── */
+function selectMode(chip, screen) {
+  document.querySelectorAll('#' + screen + ' .chip').forEach(c => c.classList.remove('selected'));
+  chip.classList.add('selected');
+  state.activeMode = chip.dataset.mode;
+  if (screen === 's2' || screen === 's7') setTimeout(() => goToS3(), 150);
+}
+
+/* ── S3: LISTENING ── */
+function goToS3FromMic() { goToS3(); }
+
+function goToS3() {
+  document.getElementById('s3-mode-label').textContent = state.activeMode;
+  document.getElementById('transcript-text').innerHTML = '<span class="cursor"></span>';
+  goTo('s3');
+  setTimeout(startTranscript, 400);
+}
+
+function startTranscript() {
+  const text = TRANSCRIPTS[state.activeMode] || TRANSCRIPTS['too much on my plate'];
+  const words = text.split(' ');
+  const el = document.getElementById('transcript-text');
+  el.innerHTML = '<span class="cursor"></span>';
+  let i = 0;
+  state.transcriptTimer = setInterval(() => {
+    if (i >= words.length) { clearInterval(state.transcriptTimer); return; }
+    const cursor = el.querySelector('.cursor');
+    const span = document.createElement('span');
+    span.textContent = (i === 0 ? '' : ' ') + words[i];
+    el.insertBefore(span, cursor);
+    i++;
+  }, 110);
+}
+
+function restartTranscript() {
+  if (state.transcriptTimer) { clearInterval(state.transcriptTimer); state.transcriptTimer = null; }
+  document.getElementById('transcript-text').innerHTML = '<span class="cursor"></span>';
+  setTimeout(startTranscript, 100);
+}
+
+function stopRecording() {
+  if (state.transcriptTimer) { clearInterval(state.transcriptTimer); state.transcriptTimer = null; }
+  const cursor = document.querySelector('#transcript-text .cursor');
+  if (cursor) cursor.remove();
+
+  // Reset chat to fresh task-input state
+  state.planBuilt = false;
+  state.deletedTasks = new Set();
+  document.getElementById('chat-mode-label').textContent = state.activeMode;
+
+  // Remove all injected chat elements from previous session
+  document.querySelectorAll('#s4-chat .bubble-user, #s4-chat .plan-bot-msg, #s4-chat .bot-confirm, #s4-chat .done-bot-msg, #s4-chat #inline-plan, #s4-chat .focus-summary-card').forEach(el => el.remove());
+
+  buildTaskList();
+  document.getElementById('s4-task-bottom').style.display = 'block';
+  document.getElementById('s4-plan-bottom').style.display = 'none';
+  document.getElementById('s4-done-bottom').style.display = 'none';
+  document.getElementById('plan-warning').classList.remove('visible');
+  goTo('s4');
+}
+
+/* ── S4: TASK INPUT ── */
+const TASK_LISTS = {
+  'too much on my plate':  ['3 client meetings', 'send contract', 'follow up 2 leads', "prep for tomorrow's viewing", 'reply to manager'],
+  'pick one task for me':  ['call back Marina', 'send the invoice', 'prep the brief'],
+  'my day went sideways':  ['reschedule late client', 'follow up with supplier', 'finish morning task list', "check what's still salvageable today"],
+  'help me plan tomorrow': ['2 client calls (morning)', 'finish the deck', 'send contract feedback', 'pick up stuff on the way', 'block time for gym'],
+};
+
+function buildTaskList() {
+  const list = document.getElementById('task-list');
+  const allTasks = TASK_LISTS[state.activeMode] || TASK_LISTS['too much on my plate'];
+  list.innerHTML = '';
+  allTasks.forEach(t => {
+    if (state.deletedTasks.has(t)) return;
+    const row = document.createElement('div');
+    row.className = 'task-row'; row.dataset.task = t;
+    row.innerHTML = `<span class="task-label">${t}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
+    list.appendChild(row);
+  });
+}
+
+function deleteTask(btn) {
+  const row = btn.closest('.task-row');
+  state.deletedTasks.add(row.dataset.task);
+  row.classList.add('removing');
+  setTimeout(() => row.remove(), 280);
+}
+
+function addTask() {
+  const input = document.getElementById('add-input');
+  let raw = input.value.trim(); if (!raw) return;
+  raw = raw.replace(/^(oh i also need to|i also need to|i need to|i should|don't forget to|also|oh and|i forgot to)\s+/i, '');
+  const taskName = raw.charAt(0).toUpperCase() + raw.slice(1);
+  input.value = '';
+
+  const list = document.getElementById('task-list');
+  const row = document.createElement('div');
+  row.className = 'task-row'; row.dataset.task = taskName;
+  row.innerHTML = `<span class="task-label">${taskName}</span><button class="task-del" onclick="deleteTask(this)">×</button>`;
+  list.appendChild(row);
+
+  const chat = document.getElementById('s4-chat');
+  const existing = chat.querySelector('.bot-confirm');
+  if (existing) existing.remove();
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble bubble-bot bot-confirm';
+  bubble.textContent = `Got it — added as ${taskName}`;
+  chat.appendChild(bubble);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+document.getElementById('add-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+function confirmTasks() {
+  if (state.planBuilt) return;
+  const chat = document.getElementById('s4-chat');
+  const userBubble = document.createElement('div');
+  userBubble.className = 'bubble bubble-user';
+  userBubble.textContent = "That's Everything 👍";
+  chat.appendChild(userBubble);
+  chat.scrollTop = chat.scrollHeight;
+  setTimeout(buildPlanInline, 400);
+}
+
+/* ── S4→PLAN: INLINE BUILD ── */
+function buildPlanInline() {
+  state.planBuilt = true;
+  const chat = document.getElementById('s4-chat');
+  const isSingle = state.activeMode === 'pick one task for me';
+
+  /* Single bubble contains intro text + plan content */
+  const planBubble = document.createElement('div');
+  planBubble.className = 'bubble bubble-bot plan-bot-msg';
+
+  const msgText = document.createElement('p');
+  msgText.style.cssText = 'margin-bottom:14px;';
+  msgText.textContent = isSingle
+    ? "You've got 40 minutes. One thing matters right now:"
+    : "Here's what fits today. I'd keep it to 3 tasks max — that's what actually gets done. Drag to reprioritize, tap the lock to fix a task in place";
+  planBubble.appendChild(msgText);
+
+  const planDiv = document.createElement('div');
+  planDiv.id = 'inline-plan';
+  planDiv.style.cssText = 'width:100%;display:flex;flex-direction:column;';
+
+  if (isSingle) {
+    planDiv.innerHTML = `
+      <div class="featured-card">
+        <div class="featured-label">Do this now</div>
+        <div class="featured-title">send the invoice</div>
+        <div class="featured-meta">30 min · highest impact before your next client</div>
+      </div>
+      <div class="remaining-row"><span class="remaining-label">call back Marina</span><span class="status-tag">Later</span></div>
+      <div class="remaining-row"><span class="remaining-label">prep the brief</span><span class="status-tag">Later</span></div>`;
+    state.todayTasks = [{ id: 'invoice', title: 'send the invoice', meta: '30m · before next client', locked: false }];
+    state.tomorrowTasks = [];
+  } else {
+    const rows = document.querySelectorAll('#task-list .task-row');
+    const allTasks = [...rows].map(r => r.dataset.task);
+    const metaMap = {
+      '3 client meetings': { meta: '', locked: true },
+      'send contract': { meta: '30m · before 12pm', locked: false },
+      'follow up 2 leads': { meta: '20m · between meetings', locked: false },
+    };
+    state.todayTasks = []; state.tomorrowTasks = [];
+    allTasks.forEach((t, i) => {
+      const m = metaMap[t] || { meta: '', locked: false };
+      if (i < 3) state.todayTasks.push({ id: t, title: t, meta: m.meta, locked: m.locked });
+      else state.tomorrowTasks.push({ id: t, title: t, meta: '', locked: false });
+    });
+    planDiv.innerHTML = `
+      <div class="plan-section-label" id="today-label">Today</div>
+      <div id="today-zone"></div>
+      <p class="lock-hint">Tap <img src="lockericon.svg" style="width:11px;height:14px;vertical-align:middle;opacity:0.5;"> to lock a task in place</p>
+      <div class="plan-section-label">Tomorrow <span class="section-badge" id="tomorrow-badge">0</span></div>
+      <div id="tomorrow-zone"></div>`;
+  }
+
+  planBubble.appendChild(planDiv);
+  chat.appendChild(planBubble);
+  if (!isSingle) renderPlanCards();
+
+  chat.scrollTop = chat.scrollHeight;
+
+  document.getElementById('s4-task-bottom').style.display = 'none';
+  document.getElementById('s4-plan-bottom').style.display = 'flex';
+}
+
+function adjustPlan() {
+  state.planBuilt = false;
+  const planDiv = document.getElementById('inline-plan');
+  if (planDiv) planDiv.remove();
+  document.querySelectorAll('#s4-chat .plan-bot-msg, #s4-chat .bubble-user').forEach(el => el.remove());
+  document.getElementById('s4-task-bottom').style.display = 'block';
+  document.getElementById('s4-plan-bottom').style.display = 'none';
+  document.getElementById('plan-warning').classList.remove('visible');
+  const taskCard = document.getElementById('s4-task-card');
+  if (taskCard) taskCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── PLAN CARDS ── */
+function renderPlanCards() {
+  renderZone('today-zone', state.todayTasks, false);
+  renderZone('tomorrow-zone', state.tomorrowTasks, true);
+  const tb = document.getElementById('tomorrow-badge');
+  if (tb) tb.textContent = state.tomorrowTasks.length;
+  updateTodayLabel();
+}
+
+function renderZone(zoneId, tasks, dimmed) {
+  const zone = document.getElementById(zoneId); if (!zone) return;
+  zone.innerHTML = '';
+  tasks.forEach((task, idx) => {
+    const card = document.createElement('div');
+    card.className = 'plan-card' + (task.locked ? ' locked' : '') + (dimmed ? ' dimmed' : '');
+    card.dataset.id = task.id; card.dataset.zone = zoneId;
+    card.draggable = !task.locked;
+    card.innerHTML = `
+      <div class="grip">${task.locked ? '' : '<span></span><span></span><span></span>'}</div>
+      <div class="plan-num">${dimmed ? '·' : idx + 1}</div>
+      <div class="plan-info">
+        <div class="plan-title">${task.title}</div>
+        ${task.meta ? `<div class="plan-meta">${task.meta}</div>` : ''}
+      </div>
+      <button class="lock-btn" onclick="toggleLock('${task.id}','${zoneId}')"><img src="lockericon.svg" class="lock-icon" style="opacity:${task.locked ? '1' : '0.25'};"></button>`;
+    attachDrag(card, zoneId);
+    zone.appendChild(card);
+  });
+}
+
+function toggleLock(taskId, zoneId) {
+  const arr = zoneId === 'today-zone' ? state.todayTasks : state.tomorrowTasks;
+  const task = arr.find(t => t.id === taskId);
+  if (task) { task.locked = !task.locked; renderPlanCards(); }
+}
+
+function updateTodayLabel() {
+  const label = document.getElementById('today-label');
+  if (label) label.innerHTML = `Today <span class="section-badge">${state.todayTasks.length}</span>`;
+}
+
+let dragSrc = null, dragSrcZone = null;
+
+function attachDrag(card, zoneId) {
+  card.addEventListener('dragstart', e => {
+    dragSrc = card; dragSrcZone = zoneId;
+    setTimeout(() => card.classList.add('dragging'), 0);
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
+    document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('drag-over'));
+    dragSrc = null;
+  });
+  card.addEventListener('dragover', e => { e.preventDefault(); if (dragSrc && dragSrc !== card) card.classList.add('drag-over'); });
+  card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+  card.addEventListener('drop', e => {
+    e.preventDefault(); card.classList.remove('drag-over');
+    if (!dragSrc || dragSrc === card) return;
+    const srcArr = dragSrcZone === 'today-zone' ? state.todayTasks : state.tomorrowTasks;
+    const dstArr = zoneId === 'today-zone' ? state.todayTasks : state.tomorrowTasks;
+    const srcIdx = srcArr.findIndex(t => t.id === dragSrc.dataset.id);
+    const dstIdx = dstArr.findIndex(t => t.id === card.dataset.id);
+    if (srcIdx === -1) return;
+    const [moved] = srcArr.splice(srcIdx, 1);
+    moved.locked = false;
+    dstArr.splice(dstIdx === -1 ? dstArr.length : dstIdx, 0, moved);
+    renderPlanCards();
+  });
+}
+
+function syncPlan() {
+  if (state.activeMode !== 'pick one task for me' && state.todayTasks.length > 3) {
+    const warn = document.getElementById('plan-warning');
+    warn.classList.add('visible');
+    warn.classList.remove('shake');
+    requestAnimationFrame(() => requestAnimationFrame(() => warn.classList.add('shake')));
+    return;
+  }
+  buildDoneInline();
+}
+
+/* ── DONE INLINE (continues S4 chat) ── */
+function buildDoneInline() {
+  const tasks = state.activeMode === 'pick one task for me'
+    ? [{ title: 'send the invoice', meta: '→ 30m · before next client', first: true, locked: false }]
+    : state.todayTasks.map((t, i) => ({ title: t.title, meta: t.meta ? '→ ' + t.meta : '', first: i === 0, locked: t.locked }));
+
+  const chat = document.getElementById('s4-chat');
+
+  // Bot message
+  const botMsg = document.createElement('div');
+  botMsg.className = 'bubble bubble-bot done-bot-msg';
+  botMsg.textContent = "Done. You've got this";
+  chat.appendChild(botMsg);
+
+  chat.scrollTop = chat.scrollHeight;
+
+  // Sync note text
+  document.getElementById('inline-sync-note').textContent = state.freshStart
+    ? 'Saved to steply · no external apps' : 'Synced to your apps';
+
+  // Swap bottom
+  document.getElementById('s4-plan-bottom').style.display = 'none';
+  document.getElementById('s4-done-bottom').style.display = 'flex';
+
+  buildS7Focus(tasks);
+}
+
+/* ── S7: HOME RETURN ── */
+function buildS7Focus(tasks) {
+  buildConnectedApps();
+  // Update date label to match first-visit date style
+  const s7dateEl = document.getElementById('s7-date');
+  if (s7dateEl) {
+    const now = new Date();
+    s7dateEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  }
+  const el = document.getElementById('s7-focus-tasks'); el.innerHTML = '';
+  const histEl = document.getElementById('history-today'); histEl.innerHTML = '';
+  tasks.forEach((t, idx) => {
+    if (idx >= 2) return; // show max 2 tasks to prevent content cutoff
+    const row = document.createElement('div'); row.className = 'focus-row';
+    row.innerHTML = `
+      <div class="${t.first ? 'focus-dot-filled' : 'focus-dot-empty'}"></div>
+      <div class="focus-info">
+        <div class="focus-title">${t.title}${t.locked ? ' <img src="lockericon.svg" style="width:11px;height:14px;vertical-align:middle;">' : ''}</div>
+        ${t.meta ? `<div class="focus-meta">${t.meta}</div>` : ''}
+      </div>`;
+    el.appendChild(row);
+    const hr = document.createElement('div'); hr.className = 'history-task';
+    hr.innerHTML = `<span style="width:8px;height:8px;${t.first ? 'background:#6394ED;' : 'border:2px solid #D4E0F7;'}border-radius:50%;flex-shrink:0;display:inline-block;margin-right:2px;"></span>${t.title}`;
+    histEl.appendChild(hr);
+  });
+}
+
+function toggleFocusBlock() {
+  document.getElementById('focus-block-body').classList.toggle('open');
+  document.getElementById('focus-chevron').classList.toggle('open');
+}
+function openHistory() { document.getElementById('history-overlay').classList.add('open'); }
+function closeHistory() { document.getElementById('history-overlay').classList.remove('open'); }
+
+/* ── SCALE TO FIT VIEWPORT ── */
+function scalePhone() {
+  const phone = document.getElementById('phone');
+  const pad = 24;
+  const sx = (window.innerWidth - pad) / 390;
+  const sy = (window.innerHeight - pad) / 844;
+  const s = Math.min(1, sx, sy);
+  phone.style.transform = s < 1 ? `scale(${s.toFixed(4)})` : '';
+}
+scalePhone();
+window.addEventListener('resize', scalePhone);
+
+/* ── INIT ── */
+(function() {
+  const s0 = document.getElementById('s0');
+  s0.style.display = 'flex'; s0.classList.add('active');
+  requestAnimationFrame(() => requestAnimationFrame(() => s0.classList.add('visible')));
+})();
+</script>
+</body>
+</html>
