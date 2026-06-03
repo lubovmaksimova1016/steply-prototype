@@ -67,14 +67,6 @@ a { text-decoration: none; color: inherit; }
   min-height: 480px;
 }
 .hero { padding: 96px 40px 80px; }
-.hero-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--blue-light);
-  margin-bottom: 24px;
-}
 .hero-h1 {
   font-family: "42dot Sans", sans-serif;
   font-size: clamp(36px, 5vw, 72px);
@@ -146,18 +138,6 @@ a { text-decoration: none; color: inherit; }
   border-bottom: 1px solid var(--gray-2);
   background: var(--cream);
 }
-.section-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--blue-light);
-  margin-bottom: 48px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.section-label::after { content: ''; flex: 1; height: 1px; background: var(--blue-pale); }
 .h2 {
   font-family: "42dot Sans", sans-serif;
   font-size: clamp(28px, 3.5vw, 48px);
@@ -180,28 +160,31 @@ a { text-decoration: none; color: inherit; }
 /* ── PROBLEM: CHAOS TAGS ── */
 .chaos-tags-area {
   position: relative;
-  height: 400px;
+  height: 380px;
+  width: 100%;
   overflow: hidden;
+  background: var(--cream);
 }
 .chaos-tag {
   border: 1.5px solid var(--blue);
   border-radius: 100px;
   padding: 9px 18px;
   font-size: 14px;
+  font-weight: 500;
   color: var(--blue);
   background: var(--white);
   position: absolute;
   white-space: nowrap;
-  transition: top 0.55s cubic-bezier(0.4, 0, 1, 1), opacity 0.25s ease;
 }
 
 /* ── FOLDER ── */
 .folder-tab {
   width: 160px;
-  height: 32px;
+  height: 28px;
   background: var(--blue);
-  border-radius: 8px 8px 0 0;
-  margin-left: 40px;
+  border-radius: 10px 10px 0 0;
+  margin-left: 48px;
+  display: block;
 }
 .folder-body {
   width: calc(100% + 80px);
@@ -215,18 +198,17 @@ a { text-decoration: none; color: inherit; }
 .solution-section {
   background: var(--blue);
   border-bottom: none;
+  padding: 80px 40px;
 }
-.solution-section .section-label { color: rgba(255,255,255,0.6); }
-.solution-section .section-label::after { background: rgba(255,255,255,0.3); }
 .solution-box {
-  border: 2px solid var(--black);
-  padding: 48px;
-  max-width: 800px;
+  border: none;
+  padding: 0;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
 }
-.solution-section .solution-box { border: 2px solid #fff; }
-.solution-section .solution-box .h2 { color: #fff; }
-.solution-section .solution-box .body-text { color: rgba(255,255,255,0.75); }
-.solution-box .h2 { margin-bottom: 20px; }
+.solution-box .h2 { color: #fff; margin-bottom: 20px; }
+.solution-box .body-text { color: rgba(255,255,255,0.75); }
 
 /* ── FEATURES ── */
 .feat-grid {
@@ -321,7 +303,7 @@ footer {
   .section { padding: 64px 20px; }
   .section-sm { padding: 48px 20px; }
   .folder-body { margin-left: -20px; margin-right: -20px; width: calc(100% + 40px); }
-  .solution-box { padding: 28px 20px; }
+  .solution-section { padding: 60px 20px; }
   .feat-grid { grid-template-columns: 1fr; }
   .feat-screen { height: 160px; }
   .proto-section { padding: 64px 20px; }
@@ -340,7 +322,6 @@ footer {
 <!-- HERO -->
 <div class="hero-wrap">
   <section class="hero">
-    <div class="hero-label">AI planning assistant</div>
     <h1 class="hero-h1">Tell Steply what's<br>on your plate.<br>Get a plan that<br>fits your day.</h1>
     <p class="hero-sub">Voice-first AI for people who work on the go. No setup, no typing — just talk.</p>
     <div class="cta-row">
@@ -351,37 +332,33 @@ footer {
   <div class="hero-visual">[ app screenshot / illustration ]</div>
 </div>
 
-<!-- PROBLEM -->
+<!-- PROBLEM: chaos tags + folder -->
 <section class="section" id="problem" style="padding-bottom:0; border-bottom:none;">
-  <div class="section-label">You know this feeling</div>
 
-  <!-- Chaos tags -->
   <div class="chaos-tags-area">
-    <span class="chaos-tag" style="left:3%;top:10%;transform:rotate(-9deg)">call back client</span>
-    <span class="chaos-tag" style="left:18%;top:5%;transform:rotate(5deg)">send the invoice</span>
-    <span class="chaos-tag" style="left:38%;top:8%;transform:rotate(-4deg)">prep for tomorrow</span>
-    <span class="chaos-tag" style="left:55%;top:3%;transform:rotate(7deg)">follow up with leads</span>
-    <span class="chaos-tag" style="left:70%;top:9%;transform:rotate(-6deg)">reply to manager</span>
-    <span class="chaos-tag" style="left:82%;top:5%;transform:rotate(10deg)">reschedule client</span>
-    <span class="chaos-tag" style="left:8%;top:28%;transform:rotate(4deg)">pick up supplies</span>
-    <span class="chaos-tag" style="left:25%;top:25%;transform:rotate(-8deg)">confirm appointment</span>
-    <span class="chaos-tag" style="left:45%;top:22%;transform:rotate(6deg)">finish the brief</span>
-    <span class="chaos-tag" style="left:62%;top:27%;transform:rotate(-5deg)">check in with supplier</span>
-    <span class="chaos-tag" style="left:76%;top:24%;transform:rotate(9deg)">block time for gym</span>
-    <span class="chaos-tag" style="left:14%;top:46%;transform:rotate(-6deg)">send contract</span>
-    <span class="chaos-tag" style="left:33%;top:42%;transform:rotate(8deg)">update the deck</span>
-    <span class="chaos-tag" style="left:52%;top:48%;transform:rotate(-3deg)">respond to messages</span>
-    <span class="chaos-tag" style="left:68%;top:44%;transform:rotate(5deg)">plan tomorrow</span>
+    <span class="chaos-tag" style="left:3%;top:8%;transform:rotate(-9deg);z-index:2">call back client</span>
+    <span class="chaos-tag" style="left:20%;top:4%;transform:rotate(5deg);z-index:1">send the invoice</span>
+    <span class="chaos-tag" style="left:40%;top:6%;transform:rotate(-4deg);z-index:3">prep for tomorrow</span>
+    <span class="chaos-tag" style="left:58%;top:3%;transform:rotate(7deg);z-index:1">follow up with leads</span>
+    <span class="chaos-tag" style="left:72%;top:7%;transform:rotate(-6deg);z-index:2">reply to manager</span>
+    <span class="chaos-tag" style="left:84%;top:4%;transform:rotate(10deg);z-index:3">reschedule client</span>
+    <span class="chaos-tag" style="left:8%;top:26%;transform:rotate(4deg);z-index:1">pick up supplies</span>
+    <span class="chaos-tag" style="left:27%;top:23%;transform:rotate(-8deg);z-index:3">confirm appointment</span>
+    <span class="chaos-tag" style="left:47%;top:20%;transform:rotate(6deg);z-index:2">finish the brief</span>
+    <span class="chaos-tag" style="left:64%;top:25%;transform:rotate(-5deg);z-index:1">check in with supplier</span>
+    <span class="chaos-tag" style="left:78%;top:22%;transform:rotate(9deg);z-index:3">block time for gym</span>
+    <span class="chaos-tag" style="left:15%;top:44%;transform:rotate(-6deg);z-index:2">send contract</span>
+    <span class="chaos-tag" style="left:35%;top:40%;transform:rotate(8deg);z-index:1">update the deck</span>
+    <span class="chaos-tag" style="left:54%;top:46%;transform:rotate(-3deg);z-index:3">respond to messages</span>
+    <span class="chaos-tag" style="left:70%;top:42%;transform:rotate(5deg);z-index:2">plan tomorrow</span>
   </div>
 
-  <!-- Folder -->
   <div class="folder-tab"></div>
   <div class="folder-body"></div>
 </section>
 
-<!-- SOLUTION (blue background, flows from folder) -->
-<section class="section-sm solution-section">
-  <div class="section-label">The idea</div>
+<!-- SOLUTION: blue, centered, no box border -->
+<section class="solution-section">
   <div class="solution-box">
     <h2 class="h2">A navigator that doesn't say "wrong turn" — it just quietly recalculates.</h2>
     <p class="body-text">Steply looks at what you have, what's realistic, and tells you what actually matters right now. No planning sessions. No setup ritual. Just talk — and get clarity in seconds.</p>
@@ -390,7 +367,6 @@ footer {
 
 <!-- FEATURES -->
 <section class="section" id="how">
-  <div class="section-label">How it works</div>
   <h2 class="h2" style="margin-bottom:48px;">Four things that make it different</h2>
   <div class="feat-grid">
     <div class="feat-item">
@@ -434,30 +410,6 @@ footer {
   <div class="footer-logo">Steply</div>
   <div class="footer-note">Plans change. You don't have to start over.</div>
 </footer>
-
-<script>
-(function () {
-  var area = document.querySelector('.chaos-tags-area');
-  var tags = Array.prototype.slice.call(document.querySelectorAll('.chaos-tag'));
-  if (!area || !tags.length) return;
-
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        tags.forEach(function (tag, i) {
-          setTimeout(function () {
-            tag.style.top = '110%';
-            tag.style.opacity = '0';
-          }, i * 60);
-        });
-        observer.unobserve(area);
-      }
-    });
-  }, { threshold: 0.3 });
-
-  observer.observe(area);
-})();
-</script>
 
 </body>
 </html>
