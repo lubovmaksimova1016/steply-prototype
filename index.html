@@ -191,11 +191,12 @@ a { text-decoration: none; color: inherit; }
 .body-text { font-size: clamp(14px, 1.5vw, 16px); line-height: 1.7; color: var(--gray-3); }
 
 /* ── PROBLEM: CHAOS TAGS ── */
+#problem { position: relative; overflow: hidden; }
 .chaos-tags-area {
   position: relative;
   height: 280px;
   width: 100%;
-  overflow: visible !important;
+  overflow: visible;
   background: var(--cream);
   z-index: 0;
 }
@@ -214,7 +215,7 @@ a { text-decoration: none; color: inherit; }
 /* ── FOLDER ── */
 .folder-wrap {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 .folder-tab {
   width: 160px;
@@ -241,6 +242,8 @@ a { text-decoration: none; color: inherit; }
   background: var(--blue);
   border-bottom: none;
   padding: 80px 40px;
+  position: relative;
+  z-index: 4;
 }
 .solution-box {
   border: none;
@@ -532,58 +535,44 @@ footer {
   fadeEls.forEach(function (el) { fadeObserver.observe(el); });
 
 
-  /* ── CHANGE 2: Tags fall / return on scroll ── */
-  var tagsArea = document.querySelector('.chaos-tags-area');
+  /* ── CHANGE 2: Scroll-linked tags parallax waterfall ── */
+  var problemSection = document.getElementById('problem');
   var tags = [].slice.call(document.querySelectorAll('.chaos-tag'));
-  if (!tagsArea || !tags.length) return;
+  if (!problemSection || !tags.length) return;
 
-  // Track scroll direction
-  var lastScrollY = window.scrollY;
-  var scrollDir = 'down';
-  window.addEventListener('scroll', function () {
-    scrollDir = window.scrollY > lastScrollY ? 'down' : 'up';
-    lastScrollY = window.scrollY;
-  });
-
-  // Track whether tags have fallen
-  var tagsFallen = false;
-
-  function fallTags() {
-    tagsFallen = true;
-    tags.forEach(function (tag, i) {
-      setTimeout(function () {
-        tag.style.transition = 'transform 0.6s cubic-bezier(0.4,0,1,1)';
-        tag.style.transform = (tag.dataset.origRotate || '') + ' translateY(420px)';
-      }, i * 50);
-    });
-  }
-
-  function returnTags() {
-    tagsFallen = false;
-    tags.forEach(function (tag, i) {
-      setTimeout(function () {
-        tag.style.transition = 'transform 0.5s cubic-bezier(0,0,0.2,1)';
-        tag.style.transform = tag.dataset.origRotate || '';
-      }, (tags.length - i) * 40);
-    });
-  }
-
-  // Store original transform (rotation) before any animation
+  // Store original rotation before any animation; clear any transition
   tags.forEach(function (tag) {
     tag.dataset.origRotate = tag.style.transform || '';
+    tag.style.transition = 'none';
   });
 
-  var tagsObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        fallTags();
-      } else if (scrollDir === 'up' && tagsFallen) {
-        returnTags();
-      }
-    });
-  }, { threshold: 0.3 });
+  var ticking = false;
 
-  tagsObserver.observe(tagsArea);
+  function updateTags() {
+    var rect = problemSection.getBoundingClientRect();
+    var windowH = window.innerHeight;
+    var progress = Math.min(1, Math.max(0,
+      (windowH - rect.top) / (windowH + rect.height)
+    ));
+
+    tags.forEach(function (tag, i) {
+      var multiplier = 0.6 + (i * 0.15);
+      var fallY = progress * 500 * multiplier;
+      tag.style.transform = tag.dataset.origRotate + ' translateY(' + fallY + 'px)';
+    });
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      requestAnimationFrame(updateTags);
+      ticking = true;
+    }
+  });
+
+  // Run once on load in case section is already in view
+  updateTags();
 
 })();
 </script>
