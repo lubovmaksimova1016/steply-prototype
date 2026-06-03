@@ -20,17 +20,17 @@ body {
   background: var(--white);
   color: var(--black);
   font-family: "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
+  font-size: clamp(14px, 1.5vw, 16px);
   line-height: 1.6;
 }
 a { text-decoration: none; color: inherit; }
 
-/* NAV */
+/* ── NAV ── */
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 48px;
+  padding: 20px 40px;
   border-bottom: 1px solid var(--gray-2);
   position: sticky;
   top: 0;
@@ -39,7 +39,7 @@ a { text-decoration: none; color: inherit; }
 }
 .nav-logo {
   font-family: "42dot Sans", sans-serif;
-  font-size: 20px;
+  font-size: clamp(18px, 2vw, 22px);
   font-weight: 900;
   color: var(--black);
   letter-spacing: -0.5px;
@@ -55,11 +55,15 @@ a { text-decoration: none; color: inherit; }
 }
 .nav-cta:hover { opacity: .8; }
 
-/* HERO */
-.hero {
-  padding: 96px 48px 80px;
+/* ── HERO ── */
+.hero-wrap {
+  display: grid;
+  grid-template-columns: 55% 45%;
   border-bottom: 1px solid var(--gray-2);
-  max-width: 960px;
+  min-height: 480px;
+}
+.hero {
+  padding: 96px 40px 80px;
 }
 .hero-label {
   font-size: 11px;
@@ -71,7 +75,7 @@ a { text-decoration: none; color: inherit; }
 }
 .hero-h1 {
   font-family: "42dot Sans", sans-serif;
-  font-size: clamp(36px, 6vw, 72px);
+  font-size: clamp(36px, 5vw, 72px);
   font-weight: 900;
   line-height: 1.02;
   letter-spacing: -2px;
@@ -79,7 +83,7 @@ a { text-decoration: none; color: inherit; }
   margin-bottom: 24px;
 }
 .hero-sub {
-  font-size: 20px;
+  font-size: clamp(16px, 2vw, 20px);
   line-height: 1.5;
   color: var(--gray-3);
   margin-bottom: 40px;
@@ -115,13 +119,10 @@ a { text-decoration: none; color: inherit; }
 }
 .btn-secondary:hover { background: var(--gray-1); }
 
-/* HERO VISUAL */
+/* ── HERO VISUAL ── */
 .hero-visual {
-  width: 100%;
-  border-top: 1px solid var(--gray-2);
-  border-bottom: 1px solid var(--gray-2);
   background: var(--gray-1);
-  height: 420px;
+  border-left: 1px solid var(--gray-2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,11 +130,12 @@ a { text-decoration: none; color: inherit; }
   font-size: 13px;
   letter-spacing: 0.3px;
   overflow: hidden;
+  min-height: 480px;
 }
 
-/* SECTIONS */
-.section { padding: 96px 48px; border-bottom: 1px solid var(--gray-2); }
-.section-sm { padding: 64px 48px; border-bottom: 1px solid var(--gray-2); }
+/* ── SECTIONS ── */
+.section { padding: 96px 40px; border-bottom: 1px solid var(--gray-2); }
+.section-sm { padding: 64px 40px; border-bottom: 1px solid var(--gray-2); }
 .section-label {
   font-size: 11px;
   font-weight: 600;
@@ -148,7 +150,7 @@ a { text-decoration: none; color: inherit; }
 .section-label::after { content: ''; flex: 1; height: 1px; background: var(--gray-2); }
 .h2 {
   font-family: "42dot Sans", sans-serif;
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(28px, 3.5vw, 48px);
   font-weight: 900;
   line-height: 1.05;
   letter-spacing: -1px;
@@ -157,16 +159,16 @@ a { text-decoration: none; color: inherit; }
 }
 .h3 {
   font-family: "42dot Sans", sans-serif;
-  font-size: 22px;
+  font-size: clamp(18px, 2vw, 24px);
   font-weight: 800;
   line-height: 1.2;
   color: var(--black);
   margin-bottom: 10px;
 }
-.body-text { font-size: 15px; line-height: 1.7; color: var(--gray-3); }
+.body-text { font-size: clamp(14px, 1.5vw, 16px); line-height: 1.7; color: var(--gray-3); }
 
-/* PROBLEM */
-.problem-list { max-width: 720px; }
+/* ── PROBLEM ── */
+.problem-list { max-width: 800px; }
 .prob-item {
   display: flex;
   gap: 32px;
@@ -185,7 +187,7 @@ a { text-decoration: none; color: inherit; }
   width: 72px;
 }
 .prob-quote {
-  font-size: 19px;
+  font-size: clamp(16px, 1.8vw, 19px);
   font-weight: 500;
   line-height: 1.45;
   color: var(--black);
@@ -193,15 +195,15 @@ a { text-decoration: none; color: inherit; }
 }
 .prob-who { font-size: 13px; color: var(--gray-3); }
 
-/* SOLUTION */
+/* ── SOLUTION ── */
 .solution-box {
   border: 2px solid var(--black);
   padding: 48px;
-  max-width: 720px;
+  max-width: 800px;
 }
 .solution-box .h2 { margin-bottom: 20px; }
 
-/* FEATURES */
+/* ── FEATURES ── */
 .feat-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -224,7 +226,7 @@ a { text-decoration: none; color: inherit; }
 }
 .feat-screen {
   width: 100%;
-  height: 160px;
+  height: 200px;
   background: var(--gray-1);
   border: 1px solid var(--gray-2);
   margin-bottom: 20px;
@@ -236,9 +238,9 @@ a { text-decoration: none; color: inherit; }
   letter-spacing: 0.3px;
 }
 
-/* SCREENS PREVIEW */
+/* ── SCREENS PREVIEW ── */
 .screens-section { padding: 0; border-bottom: 1px solid var(--gray-2); }
-.screens-label { padding: 40px 48px 32px; }
+.screens-label { padding: 40px 40px 32px; }
 .screens-row {
   display: flex;
   gap: 0;
@@ -247,6 +249,7 @@ a { text-decoration: none; color: inherit; }
 .screen-frame {
   flex: 1;
   border-right: 1px solid var(--gray-2);
+  min-height: 200px;
 }
 .screen-frame:last-child { border-right: none; }
 .screen-top {
@@ -278,12 +281,13 @@ a { text-decoration: none; color: inherit; }
 .task-dot { width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid var(--black); flex-shrink: 0; }
 .task-dot.filled { background: var(--black); }
 
-/* PROTO CTA */
+/* ── PROTO CTA ── */
 .proto-section {
   background: var(--black);
-  padding: 96px 48px;
+  padding: 96px 40px;
   color: var(--white);
 }
+.proto-content { max-width: 640px; }
 .proto-h {
   font-family: "42dot Sans", sans-serif;
   font-size: clamp(36px, 5vw, 64px);
@@ -308,9 +312,9 @@ a { text-decoration: none; color: inherit; }
 }
 .btn-white:hover { opacity: .9; }
 
-/* CLOSURE */
+/* ── CLOSURE ── */
 .closure {
-  padding: 80px 48px;
+  padding: 80px 40px;
   border-bottom: 1px solid var(--gray-2);
   text-align: center;
 }
@@ -323,9 +327,9 @@ a { text-decoration: none; color: inherit; }
   font-style: italic;
 }
 
-/* FOOTER */
+/* ── FOOTER ── */
 footer {
-  padding: 28px 48px;
+  padding: 28px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -339,15 +343,41 @@ footer {
 }
 .footer-note { font-size: 12px; color: var(--gray-4); }
 
-@media (max-width: 640px) {
-  .nav { padding: 16px 24px; }
-  .hero, .section, .section-sm { padding-left: 24px; padding-right: 24px; }
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  /* Nav */
+  .nav { padding: 16px 20px; }
+
+  /* Hero: stack vertically */
+  .hero-wrap { grid-template-columns: 1fr; min-height: auto; }
+  .hero { padding: 60px 20px 40px; }
+  .hero-visual { border-left: none; border-top: 1px solid var(--gray-2); min-height: 300px; }
+
+  /* Sections */
+  .section { padding: 64px 20px; }
+  .section-sm { padding: 48px 20px; }
+
+  /* Solution */
+  .solution-box { padding: 28px 20px; }
+
+  /* Features: single column */
   .feat-grid { grid-template-columns: 1fr; }
+  .feat-screen { height: 160px; }
+
+  /* Screens preview: stack vertically */
+  .screens-label { padding: 32px 20px 24px; }
   .screens-row { flex-direction: column; }
   .screen-frame { border-right: none; border-bottom: 1px solid var(--gray-2); }
-  .proto-section { padding: 64px 24px; }
-  .closure { padding: 64px 24px; }
-  footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+  .screen-frame:last-child { border-bottom: none; }
+
+  /* Proto CTA */
+  .proto-section { padding: 64px 20px; }
+
+  /* Closure */
+  .closure { padding: 60px 20px; }
+
+  /* Footer: centered column */
+  footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
 }
 </style>
 </head>
@@ -359,18 +389,19 @@ footer {
   <a href="app/index.html" class="nav-cta">Try the prototype →</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-label">AI planning assistant</div>
-  <h1 class="hero-h1">Tell Steply what's<br>on your plate.<br>Get a plan that<br>fits your day.</h1>
-  <p class="hero-sub">Voice-first AI for people who work on the go. No setup, no typing — just talk.</p>
-  <div class="cta-row">
-    <a href="app/index.html" class="btn-primary">Try the prototype →</a>
-    <a href="#how" class="btn-secondary">See how it works ↓</a>
-  </div>
-</section>
-
-<div class="hero-visual">[ app screenshot / illustration ]</div>
+<!-- HERO: two-column wrapper -->
+<div class="hero-wrap">
+  <section class="hero">
+    <div class="hero-label">AI planning assistant</div>
+    <h1 class="hero-h1">Tell Steply what's<br>on your plate.<br>Get a plan that<br>fits your day.</h1>
+    <p class="hero-sub">Voice-first AI for people who work on the go. No setup, no typing — just talk.</p>
+    <div class="cta-row">
+      <a href="app/index.html" class="btn-primary">Try the prototype →</a>
+      <a href="#how" class="btn-secondary">See how it works ↓</a>
+    </div>
+  </section>
+  <div class="hero-visual">[ app screenshot / illustration ]</div>
+</div>
 
 <!-- PROBLEM -->
 <section class="section" id="problem">
@@ -476,9 +507,11 @@ footer {
 
 <!-- PROTO CTA -->
 <section class="proto-section">
-  <p class="proto-h">It's alive.<br>Go touch it.</p>
-  <p class="proto-sub">No sign up. No install. Just open and talk.</p>
-  <a href="app/index.html" class="btn-white">Open prototype →</a>
+  <div class="proto-content">
+    <p class="proto-h">It's alive.<br>Go touch it.</p>
+    <p class="proto-sub">No sign up. No install. Just open and talk.</p>
+    <a href="app/index.html" class="btn-white">Open prototype →</a>
+  </div>
 </section>
 
 <!-- CLOSURE -->
