@@ -160,10 +160,11 @@ a { text-decoration: none; color: inherit; }
 /* ── PROBLEM: CHAOS TAGS ── */
 .chaos-tags-area {
   position: relative;
-  height: 260px;
+  height: 280px;
   width: 100%;
-  overflow: visible;
+  overflow: visible !important;
   background: var(--cream);
+  z-index: 2;
 }
 .chaos-tag {
   border: 1.5px solid var(--blue);
@@ -178,6 +179,10 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ── FOLDER ── */
+.folder-wrap {
+  position: relative;
+  z-index: 1;
+}
 .folder-tab {
   width: 160px;
   height: 28px;
@@ -359,27 +364,29 @@ footer {
 
   <div class="chaos-tags-area">
     <!-- Row 1 -->
-    <span class="chaos-tag" style="left:2%;top:8%;transform:rotate(-9deg)">call back client</span>
-    <span class="chaos-tag" style="left:20%;top:5%;transform:rotate(5deg)">send the invoice</span>
-    <span class="chaos-tag" style="left:40%;top:7%;transform:rotate(-4deg)">prep for tomorrow</span>
+    <span class="chaos-tag" style="left:2%;top:6%;transform:rotate(-9deg)">call back client</span>
+    <span class="chaos-tag" style="left:20%;top:4%;transform:rotate(5deg)">send the invoice</span>
+    <span class="chaos-tag" style="left:40%;top:6%;transform:rotate(-4deg)">prep for tomorrow</span>
     <span class="chaos-tag" style="left:60%;top:4%;transform:rotate(7deg)">follow up with leads</span>
-    <span class="chaos-tag" style="left:78%;top:6%;transform:rotate(-6deg)">reschedule client</span>
+    <span class="chaos-tag" style="left:78%;top:5%;transform:rotate(-6deg)">reschedule client</span>
     <!-- Row 2 -->
-    <span class="chaos-tag" style="left:5%;top:35%;transform:rotate(4deg)">reply to manager</span>
-    <span class="chaos-tag" style="left:22%;top:32%;transform:rotate(-8deg)">pick up supplies</span>
-    <span class="chaos-tag" style="left:42%;top:34%;transform:rotate(6deg)">confirm appointment</span>
-    <span class="chaos-tag" style="left:62%;top:31%;transform:rotate(-5deg)">finish the brief</span>
-    <span class="chaos-tag" style="left:78%;top:33%;transform:rotate(9deg)">check in with supplier</span>
+    <span class="chaos-tag" style="left:5%;top:38%;transform:rotate(4deg)">reply to manager</span>
+    <span class="chaos-tag" style="left:23%;top:36%;transform:rotate(-8deg)">pick up supplies</span>
+    <span class="chaos-tag" style="left:42%;top:38%;transform:rotate(6deg)">confirm appointment</span>
+    <span class="chaos-tag" style="left:62%;top:36%;transform:rotate(-5deg)">finish the brief</span>
+    <span class="chaos-tag" style="left:78%;top:37%;transform:rotate(9deg)">check in with supplier</span>
     <!-- Row 3 — overlaps into folder -->
-    <span class="chaos-tag" style="left:5%;bottom:-16px;transform:rotate(-6deg);z-index:10">send contract</span>
-    <span class="chaos-tag" style="left:25%;bottom:-20px;transform:rotate(8deg);z-index:10">update the deck</span>
-    <span class="chaos-tag" style="left:45%;bottom:-14px;transform:rotate(-3deg);z-index:10">block time for gym</span>
-    <span class="chaos-tag" style="left:63%;bottom:-18px;transform:rotate(5deg);z-index:10">respond to messages</span>
-    <span class="chaos-tag" style="left:80%;bottom:-16px;transform:rotate(-7deg);z-index:10">plan tomorrow</span>
+    <span class="chaos-tag" style="position:absolute;left:2%;bottom:-22px;transform:rotate(-6deg);z-index:5!important">send contract</span>
+    <span class="chaos-tag" style="position:absolute;left:22%;bottom:-26px;transform:rotate(8deg);z-index:5!important">update the deck</span>
+    <span class="chaos-tag" style="position:absolute;left:42%;bottom:-20px;transform:rotate(-3deg);z-index:5!important">block time for gym</span>
+    <span class="chaos-tag" style="position:absolute;left:62%;bottom:-24px;transform:rotate(5deg);z-index:5!important">respond to messages</span>
+    <span class="chaos-tag" style="position:absolute;left:80%;bottom:-20px;transform:rotate(-7deg);z-index:5!important">plan tomorrow</span>
   </div>
 
-  <div class="folder-tab"></div>
-  <div class="folder-body"></div>
+  <div class="folder-wrap">
+    <div class="folder-tab"></div>
+    <div class="folder-body"></div>
+  </div>
 </section>
 
 <!-- SOLUTION: blue, centered, no box border -->
