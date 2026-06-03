@@ -62,33 +62,44 @@ a { text-decoration: none; color: inherit; }
 /* ── HERO ── */
 .hero-wrap {
   display: grid;
-  grid-template-columns: 55% 45%;
-  border-bottom: 1px solid var(--blue-pale);
-  min-height: 480px;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  border-bottom: 1px solid #D4E0F7;
 }
-.hero { padding: 96px 40px 80px; }
-.hero-h1 {
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #D4E0F7;
+  padding: 32px 40px;
+}
+.hero-headline {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
   font-family: "42dot Sans", sans-serif;
-  font-size: clamp(36px, 5vw, 72px);
+  font-size: clamp(52px, 6vw, 96px);
   font-weight: 900;
-  line-height: 1.02;
-  letter-spacing: -2px;
-  color: var(--blue);
-  margin-bottom: 24px;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  color: #6394ED;
+}
+.hero-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 .hero-sub {
-  font-size: clamp(16px, 2vw, 20px);
-  line-height: 1.5;
-  color: var(--blue-light);
-  margin-bottom: 40px;
-  max-width: 540px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #8AAADE;
+  max-width: 380px;
 }
-.cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.hero-btns { display: flex; gap: 8px; }
 .btn-primary {
-  background: var(--blue);
-  color: var(--white);
-  padding: 16px 32px;
-  font-size: 16px;
+  background: #6394ED;
+  color: #fff;
+  padding: 9px 18px;
+  font-size: 12px;
   font-weight: 500;
   font-family: "Helvetica Neue", Arial, sans-serif;
   border: none;
@@ -100,31 +111,47 @@ a { text-decoration: none; color: inherit; }
 .btn-primary:hover { opacity: .85; }
 .btn-secondary {
   background: transparent;
-  color: var(--blue);
-  padding: 16px 32px;
-  font-size: 16px;
+  color: #6394ED;
+  padding: 9px 18px;
+  font-size: 12px;
   font-weight: 500;
   font-family: "Helvetica Neue", Arial, sans-serif;
-  border: 1.5px solid var(--blue);
+  border: 1.5px solid #6394ED;
   border-radius: 0;
   cursor: pointer;
   display: inline-block;
   transition: background .15s;
 }
-.btn-secondary:hover { background: var(--blue-bg); }
-
-/* ── HERO VISUAL ── */
+.btn-secondary:hover { background: #EEF2FC; }
+.hero-right {
+  display: flex;
+  flex-direction: column;
+}
 .hero-visual {
-  background: var(--blue-bg);
-  border-left: 1px solid var(--blue-pale);
+  flex: 1;
+  background: #EEF2FC;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--blue-light);
-  font-size: 13px;
+  font-size: 12px;
+  color: #D4E0F7;
   letter-spacing: 0.3px;
   overflow: hidden;
-  min-height: 480px;
+}
+.hero-strip {
+  border-top: 1px solid #D4E0F7;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hero-strip-left { font-size: 11px; color: #8AAADE; }
+.hero-strip-right {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6394ED;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 /* ── SECTIONS ── */
@@ -320,9 +347,10 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .nav { padding: 16px 20px; }
-  .hero-wrap { grid-template-columns: 1fr; min-height: auto; }
-  .hero { padding: 60px 20px 40px; }
-  .hero-visual { border-left: none; border-top: 1px solid var(--blue-pale); min-height: 300px; }
+  .hero-wrap { grid-template-columns: 1fr; height: auto; }
+  .hero-left { min-height: 460px; padding: 32px 20px; }
+  .hero-visual { min-height: 280px; }
+  .hero-strip { display: none; }
   .section { padding: 64px 20px; }
   .section-sm { padding: 48px 20px; }
   .folder-body { margin-left: -20px; margin-right: -20px; width: calc(100% + 40px); }
@@ -348,15 +376,25 @@ footer {
 
 <!-- HERO -->
 <div class="hero-wrap">
-  <section class="hero">
-    <h1 class="hero-h1">Tell Steply what's<br>on your plate.<br>Get a plan that<br>fits your day.</h1>
-    <p class="hero-sub">Voice-first AI for people who work on the go. No setup, no typing — just talk.</p>
-    <div class="cta-row">
-      <a href="app/index.html" class="btn-primary">Try the prototype →</a>
-      <a href="#how" class="btn-secondary">See how it works ↓</a>
+  <!-- Left column -->
+  <div class="hero-left">
+    <div class="hero-headline">Tell Steply.<br>Get a plan.</div>
+    <div class="hero-bottom">
+      <p class="hero-sub">Voice-first AI for people who work on the go. No setup, no typing — just talk and get clarity in seconds.</p>
+      <div class="hero-btns">
+        <a href="app/index.html" class="btn-primary">Try the prototype</a>
+        <a href="#how" class="btn-secondary">See how it works</a>
+      </div>
     </div>
-  </section>
-  <div class="hero-visual">[ app screenshot / illustration ]</div>
+  </div>
+  <!-- Right column -->
+  <div class="hero-right">
+    <div class="hero-visual">[ app screenshot / illustration ]</div>
+    <div class="hero-strip">
+      <span class="hero-strip-left">Plans change. You don't have to start over.</span>
+      <span class="hero-strip-right">2026</span>
+    </div>
+  </div>
 </div>
 
 <!-- PROBLEM: chaos tags + folder -->
