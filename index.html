@@ -10,14 +10,18 @@
 :root {
   --black: #0a0a0a;
   --white: #ffffff;
-  --gray-1: #f5f5f5;
   --gray-2: #e0e0e0;
   --gray-3: #888;
-  --gray-4: #bbb;
+  --blue: #6394ED;
+  --blue-light: #8AAADE;
+  --blue-pale: #D4E0F7;
+  --blue-bg: #EEF2FC;
+  --cream: #F6F4F1;
+  --navy: #0A0F2E;
 }
 html { scroll-behavior: smooth; }
 body {
-  background: var(--white);
+  background: var(--cream);
   color: var(--black);
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(14px, 1.5vw, 16px);
@@ -31,21 +35,21 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   justify-content: space-between;
   padding: 20px 40px;
-  border-bottom: 1px solid var(--gray-2);
+  border-bottom: 1px solid var(--blue-pale);
   position: sticky;
   top: 0;
-  background: var(--white);
+  background: var(--cream);
   z-index: 100;
 }
 .nav-logo {
   font-family: "42dot Sans", sans-serif;
   font-size: clamp(18px, 2vw, 22px);
   font-weight: 900;
-  color: var(--black);
+  color: var(--blue);
   letter-spacing: -0.5px;
 }
 .nav-cta {
-  background: var(--black);
+  background: var(--blue);
   color: var(--white);
   padding: 10px 22px;
   font-size: 14px;
@@ -59,18 +63,16 @@ a { text-decoration: none; color: inherit; }
 .hero-wrap {
   display: grid;
   grid-template-columns: 55% 45%;
-  border-bottom: 1px solid var(--gray-2);
+  border-bottom: 1px solid var(--blue-pale);
   min-height: 480px;
 }
-.hero {
-  padding: 96px 40px 80px;
-}
+.hero { padding: 96px 40px 80px; }
 .hero-label {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--gray-3);
+  color: var(--blue-light);
   margin-bottom: 24px;
 }
 .hero-h1 {
@@ -79,19 +81,19 @@ a { text-decoration: none; color: inherit; }
   font-weight: 900;
   line-height: 1.02;
   letter-spacing: -2px;
-  color: var(--black);
+  color: var(--blue);
   margin-bottom: 24px;
 }
 .hero-sub {
   font-size: clamp(16px, 2vw, 20px);
   line-height: 1.5;
-  color: var(--gray-3);
+  color: var(--blue-light);
   margin-bottom: 40px;
   max-width: 540px;
 }
 .cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .btn-primary {
-  background: var(--black);
+  background: var(--blue);
   color: var(--white);
   padding: 16px 32px;
   font-size: 16px;
@@ -106,27 +108,27 @@ a { text-decoration: none; color: inherit; }
 .btn-primary:hover { opacity: .85; }
 .btn-secondary {
   background: transparent;
-  color: var(--black);
+  color: var(--blue);
   padding: 16px 32px;
   font-size: 16px;
   font-weight: 500;
   font-family: "Helvetica Neue", Arial, sans-serif;
-  border: 1.5px solid var(--black);
+  border: 1.5px solid var(--blue);
   border-radius: 0;
   cursor: pointer;
   display: inline-block;
   transition: background .15s;
 }
-.btn-secondary:hover { background: var(--gray-1); }
+.btn-secondary:hover { background: var(--blue-bg); }
 
 /* ── HERO VISUAL ── */
 .hero-visual {
-  background: var(--gray-1);
-  border-left: 1px solid var(--gray-2);
+  background: var(--blue-bg);
+  border-left: 1px solid var(--blue-pale);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gray-4);
+  color: var(--blue-light);
   font-size: 13px;
   letter-spacing: 0.3px;
   overflow: hidden;
@@ -134,20 +136,28 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ── SECTIONS ── */
-.section { padding: 96px 40px; border-bottom: 1px solid var(--gray-2); }
-.section-sm { padding: 64px 40px; border-bottom: 1px solid var(--gray-2); }
+.section {
+  padding: 96px 40px;
+  border-bottom: 1px solid var(--gray-2);
+  background: var(--cream);
+}
+.section-sm {
+  padding: 64px 40px;
+  border-bottom: 1px solid var(--gray-2);
+  background: var(--cream);
+}
 .section-label {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--gray-3);
+  color: var(--blue-light);
   margin-bottom: 48px;
   display: flex;
   align-items: center;
   gap: 16px;
 }
-.section-label::after { content: ''; flex: 1; height: 1px; background: var(--gray-2); }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--blue-pale); }
 .h2 {
   font-family: "42dot Sans", sans-serif;
   font-size: clamp(28px, 3.5vw, 48px);
@@ -162,128 +172,100 @@ a { text-decoration: none; color: inherit; }
   font-size: clamp(18px, 2vw, 24px);
   font-weight: 800;
   line-height: 1.2;
-  color: var(--black);
+  color: var(--blue);
   margin-bottom: 10px;
 }
 .body-text { font-size: clamp(14px, 1.5vw, 16px); line-height: 1.7; color: var(--gray-3); }
 
-/* ── PROBLEM ── */
-.problem-list { max-width: 800px; }
-.prob-item {
-  display: flex;
-  gap: 32px;
-  padding: 36px 0;
-  border-bottom: 1px solid var(--gray-2);
-  align-items: flex-start;
+/* ── PROBLEM: CHAOS TAGS ── */
+.chaos-tags-area {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
 }
-.prob-item:last-child { border-bottom: none; }
-.prob-num {
-  font-family: "42dot Sans", sans-serif;
-  font-size: 56px;
-  font-weight: 900;
-  color: var(--gray-2);
-  line-height: 1;
-  flex-shrink: 0;
-  width: 72px;
+.chaos-tag {
+  border: 1.5px solid var(--blue);
+  border-radius: 100px;
+  padding: 9px 18px;
+  font-size: 14px;
+  color: var(--blue);
+  background: var(--white);
+  position: absolute;
+  white-space: nowrap;
+  transition: top 0.55s cubic-bezier(0.4, 0, 1, 1), opacity 0.25s ease;
 }
-.prob-quote {
-  font-size: clamp(16px, 1.8vw, 19px);
-  font-weight: 500;
-  line-height: 1.45;
-  color: var(--black);
-  margin-bottom: 8px;
-}
-.prob-who { font-size: 13px; color: var(--gray-3); }
 
-/* ── SOLUTION ── */
+/* ── FOLDER ── */
+.folder-tab {
+  width: 160px;
+  height: 32px;
+  background: var(--blue);
+  border-radius: 8px 8px 0 0;
+  margin-left: 40px;
+}
+.folder-body {
+  width: calc(100% + 80px);
+  margin-left: -40px;
+  margin-right: -40px;
+  background: var(--blue);
+  min-height: 80px;
+}
+
+/* ── SOLUTION (blue) ── */
+.solution-section {
+  background: var(--blue);
+  border-bottom: none;
+}
+.solution-section .section-label { color: rgba(255,255,255,0.6); }
+.solution-section .section-label::after { background: rgba(255,255,255,0.3); }
 .solution-box {
   border: 2px solid var(--black);
   padding: 48px;
   max-width: 800px;
 }
+.solution-section .solution-box { border: 2px solid #fff; }
+.solution-section .solution-box .h2 { color: #fff; }
+.solution-section .solution-box .body-text { color: rgba(255,255,255,0.75); }
 .solution-box .h2 { margin-bottom: 20px; }
 
 /* ── FEATURES ── */
 .feat-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border-top: 2px solid var(--black);
-  border-left: 1px solid var(--gray-2);
+  border-top: 2px solid var(--blue);
+  border-left: 1px solid var(--blue-pale);
   max-width: 960px;
 }
 .feat-item {
   padding: 40px 36px;
-  border-right: 1px solid var(--gray-2);
-  border-bottom: 1px solid var(--gray-2);
+  border-right: 1px solid var(--blue-pale);
+  border-bottom: 1px solid var(--blue-pale);
 }
 .feat-num {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  color: var(--gray-4);
+  color: var(--blue-light);
   margin-bottom: 20px;
 }
 .feat-screen {
   width: 100%;
   height: 200px;
-  background: var(--gray-1);
-  border: 1px solid var(--gray-2);
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-pale);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
-  color: var(--gray-4);
+  color: var(--blue-light);
   letter-spacing: 0.3px;
 }
 
-/* ── SCREENS PREVIEW ── */
-.screens-section { padding: 0; border-bottom: 1px solid var(--gray-2); }
-.screens-label { padding: 40px 40px 32px; }
-.screens-row {
-  display: flex;
-  gap: 0;
-  border-top: 1px solid var(--gray-2);
-}
-.screen-frame {
-  flex: 1;
-  border-right: 1px solid var(--gray-2);
-  min-height: 200px;
-}
-.screen-frame:last-child { border-right: none; }
-.screen-top {
-  background: var(--black);
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.screen-top-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: var(--white);
-}
-.screen-body { padding: 20px; min-height: 180px; }
-.screen-tag {
-  display: inline-block;
-  border: 1px solid var(--gray-2);
-  padding: 3px 10px;
-  font-size: 10px;
-  color: var(--gray-3);
-  margin-bottom: 12px;
-  border-radius: 0;
-}
-.screen-body p { font-size: 13px; line-height: 1.6; color: var(--gray-3); margin-bottom: 6px; }
-.screen-body .task { font-size: 13px; color: var(--black); padding: 6px 0; border-bottom: 1px solid var(--gray-2); display: flex; align-items: center; gap: 8px; }
-.task-dot { width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid var(--black); flex-shrink: 0; }
-.task-dot.filled { background: var(--black); }
-
 /* ── PROTO CTA ── */
 .proto-section {
-  background: var(--black);
+  background: var(--navy);
   padding: 96px 40px;
   color: var(--white);
 }
@@ -294,12 +276,13 @@ a { text-decoration: none; color: inherit; }
   font-weight: 900;
   line-height: 1.02;
   letter-spacing: -1.5px;
+  color: var(--white);
   margin-bottom: 12px;
 }
-.proto-sub { font-size: 18px; color: var(--gray-3); margin-bottom: 36px; }
+.proto-sub { font-size: 18px; color: var(--blue-light); margin-bottom: 36px; }
 .btn-white {
-  background: var(--white);
-  color: var(--black);
+  background: var(--blue);
+  color: var(--white);
   padding: 16px 32px;
   font-size: 16px;
   font-weight: 600;
@@ -312,71 +295,36 @@ a { text-decoration: none; color: inherit; }
 }
 .btn-white:hover { opacity: .9; }
 
-/* ── CLOSURE ── */
-.closure {
-  padding: 80px 40px;
-  border-bottom: 1px solid var(--gray-2);
-  text-align: center;
-}
-.closure-text {
-  font-family: "42dot Sans", sans-serif;
-  font-size: clamp(24px, 3vw, 36px);
-  font-weight: 900;
-  color: var(--black);
-  letter-spacing: -0.5px;
-  font-style: italic;
-}
-
 /* ── FOOTER ── */
 footer {
   padding: 28px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--gray-2);
+  border-top: 1px solid var(--blue-pale);
+  background: var(--cream);
 }
 .footer-logo {
   font-family: "42dot Sans", sans-serif;
   font-size: 18px;
   font-weight: 900;
-  color: var(--black);
+  color: var(--blue);
 }
-.footer-note { font-size: 12px; color: var(--gray-4); }
+.footer-note { font-size: 12px; color: var(--blue-light); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
-  /* Nav */
   .nav { padding: 16px 20px; }
-
-  /* Hero: stack vertically */
   .hero-wrap { grid-template-columns: 1fr; min-height: auto; }
   .hero { padding: 60px 20px 40px; }
-  .hero-visual { border-left: none; border-top: 1px solid var(--gray-2); min-height: 300px; }
-
-  /* Sections */
+  .hero-visual { border-left: none; border-top: 1px solid var(--blue-pale); min-height: 300px; }
   .section { padding: 64px 20px; }
   .section-sm { padding: 48px 20px; }
-
-  /* Solution */
+  .folder-body { margin-left: -20px; margin-right: -20px; width: calc(100% + 40px); }
   .solution-box { padding: 28px 20px; }
-
-  /* Features: single column */
   .feat-grid { grid-template-columns: 1fr; }
   .feat-screen { height: 160px; }
-
-  /* Screens preview: stack vertically */
-  .screens-label { padding: 32px 20px 24px; }
-  .screens-row { flex-direction: column; }
-  .screen-frame { border-right: none; border-bottom: 1px solid var(--gray-2); }
-  .screen-frame:last-child { border-bottom: none; }
-
-  /* Proto CTA */
   .proto-section { padding: 64px 20px; }
-
-  /* Closure */
-  .closure { padding: 60px 20px; }
-
-  /* Footer: centered column */
   footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
 }
 </style>
@@ -389,7 +337,7 @@ footer {
   <a href="app/index.html" class="nav-cta">Try the prototype →</a>
 </nav>
 
-<!-- HERO: two-column wrapper -->
+<!-- HERO -->
 <div class="hero-wrap">
   <section class="hero">
     <div class="hero-label">AI planning assistant</div>
@@ -404,35 +352,35 @@ footer {
 </div>
 
 <!-- PROBLEM -->
-<section class="section" id="problem">
+<section class="section" id="problem" style="padding-bottom:0; border-bottom:none;">
   <div class="section-label">You know this feeling</div>
-  <div class="problem-list">
-    <div class="prob-item">
-      <div class="prob-num">01</div>
-      <div>
-        <p class="prob-quote">"40 minutes before my next client. I know exactly what needs to happen — I just can't figure out where to start."</p>
-        <p class="prob-who">Beauty master, between appointments</p>
-      </div>
-    </div>
-    <div class="prob-item">
-      <div class="prob-num">02</div>
-      <div>
-        <p class="prob-quote">"The morning fell apart. There's still time to salvage the day — but I don't know what's still worth doing."</p>
-        <p class="prob-who">Personal trainer, mid-session chaos</p>
-      </div>
-    </div>
-    <div class="prob-item">
-      <div class="prob-num">03</div>
-      <div>
-        <p class="prob-quote">"Too much on the list. One thing actually matters right now. I just need someone to tell me which one."</p>
-        <p class="prob-who">Realtor, back-to-back showings</p>
-      </div>
-    </div>
+
+  <!-- Chaos tags -->
+  <div class="chaos-tags-area">
+    <span class="chaos-tag" style="left:3%;top:10%;transform:rotate(-9deg)">call back client</span>
+    <span class="chaos-tag" style="left:18%;top:5%;transform:rotate(5deg)">send the invoice</span>
+    <span class="chaos-tag" style="left:38%;top:8%;transform:rotate(-4deg)">prep for tomorrow</span>
+    <span class="chaos-tag" style="left:55%;top:3%;transform:rotate(7deg)">follow up with leads</span>
+    <span class="chaos-tag" style="left:70%;top:9%;transform:rotate(-6deg)">reply to manager</span>
+    <span class="chaos-tag" style="left:82%;top:5%;transform:rotate(10deg)">reschedule client</span>
+    <span class="chaos-tag" style="left:8%;top:28%;transform:rotate(4deg)">pick up supplies</span>
+    <span class="chaos-tag" style="left:25%;top:25%;transform:rotate(-8deg)">confirm appointment</span>
+    <span class="chaos-tag" style="left:45%;top:22%;transform:rotate(6deg)">finish the brief</span>
+    <span class="chaos-tag" style="left:62%;top:27%;transform:rotate(-5deg)">check in with supplier</span>
+    <span class="chaos-tag" style="left:76%;top:24%;transform:rotate(9deg)">block time for gym</span>
+    <span class="chaos-tag" style="left:14%;top:46%;transform:rotate(-6deg)">send contract</span>
+    <span class="chaos-tag" style="left:33%;top:42%;transform:rotate(8deg)">update the deck</span>
+    <span class="chaos-tag" style="left:52%;top:48%;transform:rotate(-3deg)">respond to messages</span>
+    <span class="chaos-tag" style="left:68%;top:44%;transform:rotate(5deg)">plan tomorrow</span>
   </div>
+
+  <!-- Folder -->
+  <div class="folder-tab"></div>
+  <div class="folder-body"></div>
 </section>
 
-<!-- SOLUTION -->
-<section class="section-sm">
+<!-- SOLUTION (blue background, flows from folder) -->
+<section class="section-sm solution-section">
   <div class="section-label">The idea</div>
   <div class="solution-box">
     <h2 class="h2">A navigator that doesn't say "wrong turn" — it just quietly recalculates.</h2>
@@ -472,7 +420,6 @@ footer {
   </div>
 </section>
 
-
 <!-- PROTO CTA -->
 <section class="proto-section">
   <div class="proto-content">
@@ -482,12 +429,35 @@ footer {
   </div>
 </section>
 
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Steply</div>
   <div class="footer-note">Plans change. You don't have to start over.</div>
 </footer>
+
+<script>
+(function () {
+  var area = document.querySelector('.chaos-tags-area');
+  var tags = Array.prototype.slice.call(document.querySelectorAll('.chaos-tag'));
+  if (!area || !tags.length) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        tags.forEach(function (tag, i) {
+          setTimeout(function () {
+            tag.style.top = '110%';
+            tag.style.opacity = '0';
+          }, i * 60);
+        });
+        observer.unobserve(area);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(area);
+})();
+</script>
 
 </body>
 </html>
