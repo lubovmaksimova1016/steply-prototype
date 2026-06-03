@@ -185,6 +185,8 @@ a { text-decoration: none; color: inherit; }
   border-radius: 10px 10px 0 0;
   margin-left: 48px;
   display: block;
+  position: relative;
+  z-index: 1;
 }
 .folder-body {
   width: calc(100% + 80px);
@@ -192,6 +194,8 @@ a { text-decoration: none; color: inherit; }
   margin-right: -40px;
   background: var(--blue);
   min-height: 80px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── SOLUTION (blue) ── */
@@ -354,21 +358,24 @@ footer {
 <section class="section" id="problem" style="padding-bottom:0; border-bottom:none;">
 
   <div class="chaos-tags-area">
-    <span class="chaos-tag" style="left:3%;top:8%;transform:rotate(-9deg);z-index:2">call back client</span>
-    <span class="chaos-tag" style="left:20%;top:4%;transform:rotate(5deg);z-index:1">send the invoice</span>
-    <span class="chaos-tag" style="left:40%;top:6%;transform:rotate(-4deg);z-index:3">prep for tomorrow</span>
-    <span class="chaos-tag" style="left:58%;top:3%;transform:rotate(7deg);z-index:1">follow up with leads</span>
-    <span class="chaos-tag" style="left:72%;top:7%;transform:rotate(-6deg);z-index:2">reply to manager</span>
-    <span class="chaos-tag" style="left:84%;top:4%;transform:rotate(10deg);z-index:3">reschedule client</span>
-    <span class="chaos-tag" style="left:8%;top:26%;transform:rotate(4deg);z-index:1">pick up supplies</span>
-    <span class="chaos-tag" style="left:27%;top:23%;transform:rotate(-8deg);z-index:3">confirm appointment</span>
-    <span class="chaos-tag" style="left:47%;top:20%;transform:rotate(6deg);z-index:2">finish the brief</span>
-    <span class="chaos-tag" style="left:64%;top:25%;transform:rotate(-5deg);z-index:1">check in with supplier</span>
-    <span class="chaos-tag" style="left:78%;top:22%;transform:rotate(9deg);z-index:3">block time for gym</span>
-    <span class="chaos-tag" style="left:15%;top:44%;transform:rotate(-6deg);z-index:2">send contract</span>
-    <span class="chaos-tag" style="left:15%;bottom:-18px;transform:rotate(8deg);z-index:10">update the deck</span>
-    <span class="chaos-tag" style="left:38%;bottom:-22px;transform:rotate(-3deg);z-index:10">respond to messages</span>
-    <span class="chaos-tag" style="left:65%;bottom:-16px;transform:rotate(5deg);z-index:10">plan tomorrow</span>
+    <!-- Row 1 -->
+    <span class="chaos-tag" style="left:2%;top:8%;transform:rotate(-9deg)">call back client</span>
+    <span class="chaos-tag" style="left:20%;top:5%;transform:rotate(5deg)">send the invoice</span>
+    <span class="chaos-tag" style="left:40%;top:7%;transform:rotate(-4deg)">prep for tomorrow</span>
+    <span class="chaos-tag" style="left:60%;top:4%;transform:rotate(7deg)">follow up with leads</span>
+    <span class="chaos-tag" style="left:78%;top:6%;transform:rotate(-6deg)">reschedule client</span>
+    <!-- Row 2 -->
+    <span class="chaos-tag" style="left:5%;top:35%;transform:rotate(4deg)">reply to manager</span>
+    <span class="chaos-tag" style="left:22%;top:32%;transform:rotate(-8deg)">pick up supplies</span>
+    <span class="chaos-tag" style="left:42%;top:34%;transform:rotate(6deg)">confirm appointment</span>
+    <span class="chaos-tag" style="left:62%;top:31%;transform:rotate(-5deg)">finish the brief</span>
+    <span class="chaos-tag" style="left:78%;top:33%;transform:rotate(9deg)">check in with supplier</span>
+    <!-- Row 3 — overlaps into folder -->
+    <span class="chaos-tag" style="left:5%;bottom:-16px;transform:rotate(-6deg);z-index:10">send contract</span>
+    <span class="chaos-tag" style="left:25%;bottom:-20px;transform:rotate(8deg);z-index:10">update the deck</span>
+    <span class="chaos-tag" style="left:45%;bottom:-14px;transform:rotate(-3deg);z-index:10">block time for gym</span>
+    <span class="chaos-tag" style="left:63%;bottom:-18px;transform:rotate(5deg);z-index:10">respond to messages</span>
+    <span class="chaos-tag" style="left:80%;bottom:-16px;transform:rotate(-7deg);z-index:10">plan tomorrow</span>
   </div>
 
   <div class="folder-tab"></div>
