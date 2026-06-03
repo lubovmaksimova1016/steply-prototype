@@ -537,48 +537,49 @@ footer {
   var tags = [].slice.call(document.querySelectorAll('.chaos-tag'));
   if (!tagsArea || !tags.length) return;
 
-  // Store original positions before any animation
+  // Track scroll direction
+  var lastScrollY = window.scrollY;
+  var scrollDir = 'down';
+  window.addEventListener('scroll', function () {
+    scrollDir = window.scrollY > lastScrollY ? 'down' : 'up';
+    lastScrollY = window.scrollY;
+  });
+
+  // Track whether tags have fallen
+  var tagsFallen = false;
+
+  function fallTags() {
+    tagsFallen = true;
+    tags.forEach(function (tag, i) {
+      setTimeout(function () {
+        tag.style.transition = 'transform 0.6s cubic-bezier(0.4,0,1,1)';
+        tag.style.transform = (tag.dataset.origRotate || '') + ' translateY(420px)';
+      }, i * 50);
+    });
+  }
+
+  function returnTags() {
+    tagsFallen = false;
+    tags.forEach(function (tag, i) {
+      setTimeout(function () {
+        tag.style.transition = 'transform 0.5s cubic-bezier(0,0,0.2,1)';
+        tag.style.transform = tag.dataset.origRotate || '';
+      }, (tags.length - i) * 40);
+    });
+  }
+
+  // Store original transform (rotation) before any animation
   tags.forEach(function (tag) {
-    tag.dataset.origTop    = tag.style.top    || '';
-    tag.dataset.origBottom = tag.style.bottom || '';
-    tag.dataset.origLeft   = tag.style.left   || '';
     tag.dataset.origRotate = tag.style.transform || '';
   });
 
   var tagsObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-
       if (entry.isIntersecting) {
-        // Fall down
-        tags.forEach(function (tag, i) {
-          setTimeout(function () {
-            tag.style.transition = 'top 0.5s cubic-bezier(0.4,0,1,1), bottom 0.5s cubic-bezier(0.4,0,1,1), opacity 0.25s ease';
-            if (tag.dataset.origTop) {
-              tag.style.top = '110%';
-            } else {
-              tag.style.bottom = '-60px';
-            }
-            tag.style.opacity = '0';
-          }, i * 60);
-        });
-
-      } else {
-        // Return to original position (reverse stagger)
-        tags.forEach(function (tag, i) {
-          setTimeout(function () {
-            tag.style.transition = 'top 0.5s cubic-bezier(0,0,0.2,1), bottom 0.5s cubic-bezier(0,0,0.2,1), opacity 0.3s ease';
-            if (tag.dataset.origTop) {
-              tag.style.top    = tag.dataset.origTop;
-              tag.style.bottom = '';
-            } else {
-              tag.style.bottom = tag.dataset.origBottom;
-              tag.style.top    = '';
-            }
-            tag.style.opacity = '1';
-          }, (tags.length - i) * 40);
-        });
+        fallTags();
+      } else if (scrollDir === 'up' && tagsFallen) {
+        returnTags();
       }
-
     });
   }, { threshold: 0.3 });
 
