@@ -503,5 +503,89 @@ footer {
   <div class="footer-note">Plans change. You don't have to start over.</div>
 </footer>
 
+<script>
+(function () {
+
+  /* ── CHANGE 1: Fade-in on scroll ── */
+  var fadeEls = [].slice.call(document.querySelectorAll(
+    '.feat-block, .proto-section, footer'
+  ));
+
+  fadeEls.forEach(function (el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  });
+
+  var fadeObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      } else {
+        entry.target.style.opacity = '0';
+        entry.target.style.transform = 'translateY(24px)';
+      }
+    });
+  }, { threshold: 0.15 });
+
+  fadeEls.forEach(function (el) { fadeObserver.observe(el); });
+
+
+  /* ── CHANGE 2: Tags fall / return on scroll ── */
+  var tagsArea = document.querySelector('.chaos-tags-area');
+  var tags = [].slice.call(document.querySelectorAll('.chaos-tag'));
+  if (!tagsArea || !tags.length) return;
+
+  // Store original positions before any animation
+  tags.forEach(function (tag) {
+    tag.dataset.origTop    = tag.style.top    || '';
+    tag.dataset.origBottom = tag.style.bottom || '';
+    tag.dataset.origLeft   = tag.style.left   || '';
+    tag.dataset.origRotate = tag.style.transform || '';
+  });
+
+  var tagsObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+
+      if (entry.isIntersecting) {
+        // Fall down
+        tags.forEach(function (tag, i) {
+          setTimeout(function () {
+            tag.style.transition = 'top 0.5s cubic-bezier(0.4,0,1,1), bottom 0.5s cubic-bezier(0.4,0,1,1), opacity 0.25s ease';
+            if (tag.dataset.origTop) {
+              tag.style.top = '110%';
+            } else {
+              tag.style.bottom = '-60px';
+            }
+            tag.style.opacity = '0';
+          }, i * 60);
+        });
+
+      } else {
+        // Return to original position (reverse stagger)
+        tags.forEach(function (tag, i) {
+          setTimeout(function () {
+            tag.style.transition = 'top 0.5s cubic-bezier(0,0,0.2,1), bottom 0.5s cubic-bezier(0,0,0.2,1), opacity 0.3s ease';
+            if (tag.dataset.origTop) {
+              tag.style.top    = tag.dataset.origTop;
+              tag.style.bottom = '';
+            } else {
+              tag.style.bottom = tag.dataset.origBottom;
+              tag.style.top    = '';
+            }
+            tag.style.opacity = '1';
+          }, (tags.length - i) * 40);
+        });
+      }
+
+    });
+  }, { threshold: 0.3 });
+
+  tagsObserver.observe(tagsArea);
+
+})();
+</script>
+
 </body>
 </html>
