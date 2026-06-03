@@ -551,9 +551,10 @@ footer {
   function updateTags() {
     var rect = problemSection.getBoundingClientRect();
     var windowH = window.innerHeight;
-    var progress = Math.min(1, Math.max(0,
-      (windowH - rect.top) / (windowH + rect.height)
-    ));
+    var startPoint = windowH * 0.6;
+    var endPoint = -rect.height;
+    var rawProgress = (startPoint - rect.top) / (startPoint - endPoint);
+    var progress = Math.min(1, Math.max(0, rawProgress));
 
     tags.forEach(function (tag, i) {
       var multiplier = 0.6 + (i * 0.15);
