@@ -211,43 +211,53 @@ a { text-decoration: none; color: inherit; }
 .solution-box .body-text { color: rgba(255,255,255,0.75); }
 
 /* ── FEATURES ── */
-.feat-grid {
+#how { padding-bottom: 0; }
+.feat-blocks {
+  margin: 0 -40px;
+  border-top: 1px solid #D4E0F7;
+}
+.feat-block {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border-top: 2px solid var(--blue);
-  border-left: 1px solid var(--blue-pale);
-  max-width: 960px;
+  min-height: 400px;
+  border-bottom: 1px solid #D4E0F7;
 }
-.feat-item {
-  padding: 40px 36px;
-  border-right: 1px solid var(--blue-pale);
-  border-bottom: 1px solid var(--blue-pale);
-}
+.feat-text { padding: 48px; }
 .feat-num {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: var(--blue);
+  color: #8AAADE;
+  letter-spacing: 0.5px;
   margin-bottom: 20px;
 }
-.feat-screen {
-  width: 100%;
-  height: 200px;
-  background: var(--blue-bg);
-  border: 1px solid var(--blue-pale);
+.feat-block .h3 {
+  font-family: "42dot Sans", sans-serif;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: #6394ED;
+  line-height: 1.1;
   margin-bottom: 20px;
+}
+.feat-block .body-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #8AAADE;
+}
+.feat-visual {
+  background: #EEF2FC;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
-  color: var(--blue-light);
+  color: #D4E0F7;
   letter-spacing: 0.3px;
 }
+.feat-block--odd .feat-visual { border-left: 1px solid #D4E0F7; }
+.feat-block--even .feat-visual { border-right: 1px solid #D4E0F7; }
 
-/* Features section text overrides */
+/* Features h2 color */
 #how .h2 { color: var(--blue); }
-#how .body-text { color: var(--blue); }
 
 /* ── PROTO CTA ── */
 .proto-section {
@@ -308,8 +318,12 @@ footer {
   .section-sm { padding: 48px 20px; }
   .folder-body { margin-left: -20px; margin-right: -20px; width: calc(100% + 40px); }
   .solution-section { padding: 60px 20px; }
-  .feat-grid { grid-template-columns: 1fr; }
-  .feat-screen { height: 160px; }
+  .feat-blocks { margin: 0 -20px; }
+  .feat-block { grid-template-columns: 1fr; min-height: auto; }
+  .feat-visual { height: 220px; }
+  .feat-block--odd .feat-visual { border-left: none; border-top: 1px solid #D4E0F7; }
+  .feat-block--even .feat-visual { order: 2; border-right: none; border-top: 1px solid #D4E0F7; }
+  .feat-block--even .feat-text { order: 1; }
   .proto-section { padding: 64px 20px; }
   footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
 }
@@ -371,32 +385,49 @@ footer {
 
 <!-- FEATURES -->
 <section class="section" id="how">
-  <h2 class="h2" style="margin-bottom:48px;">Four things that make it different</h2>
-  <div class="feat-grid">
-    <div class="feat-item">
-      <div class="feat-num">01 — Just talk</div>
-      <div class="feat-screen">[ listening screen ]</div>
-      <h3 class="h3">Say it on the go</h3>
-      <p class="body-text">Between clients, in the car, after a call. Steply hears what's on your plate and turns it into a structured plan — no typing needed.</p>
+  <h2 class="h2" style="margin-bottom:0;">Four things that make it different</h2>
+  <div class="feat-blocks">
+
+    <!-- 01 — text left, visual right -->
+    <div class="feat-block feat-block--odd">
+      <div class="feat-text">
+        <div class="feat-num">01 —</div>
+        <h3 class="h3">Say it on the go</h3>
+        <p class="body-text">Between clients, in the car, after a call. Steply hears what's on your plate and turns it into a structured plan — no typing needed.</p>
+      </div>
+      <div class="feat-visual">[ listening screen ]</div>
     </div>
-    <div class="feat-item">
-      <div class="feat-num">02 — Priority out of chaos</div>
-      <div class="feat-screen">[ plan screen ]</div>
-      <h3 class="h3">Top 3 that actually fit</h3>
-      <p class="body-text">12 tasks, 4 hours left. Steply picks what realistically fits today — and moves everything else to tomorrow, not the trash.</p>
+
+    <!-- 02 — visual left, text right -->
+    <div class="feat-block feat-block--even">
+      <div class="feat-visual">[ plan screen ]</div>
+      <div class="feat-text">
+        <div class="feat-num">02 —</div>
+        <h3 class="h3">Top 3 that actually fit</h3>
+        <p class="body-text">12 tasks, 4 hours left. Steply picks what realistically fits today — and moves everything else to tomorrow, not the trash.</p>
+      </div>
     </div>
-    <div class="feat-item">
-      <div class="feat-num">03 — One thing right now</div>
-      <div class="feat-screen">[ single task screen ]</div>
-      <h3 class="h3">Can't decide? Don't.</h3>
-      <p class="body-text">Ask Steply to pick the single most important task. One answer, one reason — and you start moving.</p>
+
+    <!-- 03 — text left, visual right -->
+    <div class="feat-block feat-block--odd">
+      <div class="feat-text">
+        <div class="feat-num">03 —</div>
+        <h3 class="h3">Can't decide? Don't.</h3>
+        <p class="body-text">Ask Steply to pick the single most important task. One answer, one reason — and you start moving.</p>
+      </div>
+      <div class="feat-visual">[ single task screen ]</div>
     </div>
-    <div class="feat-item">
-      <div class="feat-num">04 — Knows your context</div>
-      <div class="feat-screen">[ onboarding screen ]</div>
-      <h3 class="h3">Connects to your apps</h3>
-      <p class="body-text">Notion, Todoist, Google Calendar — Steply reads what's already there. No re-entering anything. Or just start fresh by telling it what's on your mind.</p>
+
+    <!-- 04 — visual left, text right -->
+    <div class="feat-block feat-block--even">
+      <div class="feat-visual">[ onboarding screen ]</div>
+      <div class="feat-text">
+        <div class="feat-num">04 —</div>
+        <h3 class="h3">Connects to your apps</h3>
+        <p class="body-text">Notion, Todoist, Google Calendar — Steply reads what's already there. No re-entering anything. Or just start fresh by telling it what's on your mind.</p>
+      </div>
     </div>
+
   </div>
 </section>
 
