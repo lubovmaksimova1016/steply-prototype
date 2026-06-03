@@ -34,7 +34,7 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 40px;
+  padding: 12px 48px;
   border-bottom: 1px solid var(--blue-pale);
   position: sticky;
   top: 0;
@@ -63,17 +63,21 @@ a { text-decoration: none; color: inherit; }
 .hero-wrap {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 100vh;
+  height: calc(100vh - 48px);
   border-bottom: 1px solid #D4E0F7;
 }
 .hero-left {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border-right: 1px solid #D4E0F7;
   padding: 32px 40px;
+  min-height: 0;
+  overflow: hidden;
 }
 .hero-headline {
   flex: 1;
+  overflow: hidden;
   display: flex;
   align-items: flex-start;
   font-family: "42dot Sans", sans-serif;
@@ -87,6 +91,8 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   flex-direction: column;
   gap: 20px;
+  flex-shrink: 0;
+  padding-bottom: 32px;
 }
 .hero-sub {
   font-size: 13px;
@@ -371,7 +377,7 @@ footer {
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-logo">Steply</div>
-  <a href="app/index.html" class="nav-cta">Try the prototype →</a>
+  <a href="app/index.html" class="nav-cta">Try the prototype</a>
 </nav>
 
 <!-- HERO -->
