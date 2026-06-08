@@ -135,6 +135,7 @@ a { text-decoration: none; color: inherit; }
 }
 .hero-visual {
   flex: 1;
+  height: 100%;
   background: #EEF2FC;
   display: flex;
   align-items: center;
@@ -373,7 +374,6 @@ footer {
   footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
 }
 </style>
-<script type="module" src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"></script>
 </head>
 <body>
 
@@ -398,7 +398,7 @@ footer {
   </div>
   <!-- Right column -->
   <div class="hero-right">
-    <div class="hero-visual"><dotlottie-wc src="steply-hero.json" autoplay loop style="display:block; width:100%; max-width:380px; height:600px; margin:0 auto;"></dotlottie-wc></div>
+    <div class="hero-visual"><video autoplay muted loop playsinline style="display:block; width:100%; height:100%; object-fit:contain;" src="1Scene.mp4"></video></div>
     <div class="hero-strip">
       <span class="hero-strip-left">Plans change. You don't have to start over.</span>
       <span class="hero-strip-right">2026</span>
